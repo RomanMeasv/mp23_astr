@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mp23_astr/utilities/card_size.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,17 +9,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  static const double cardWidth = 360.0;
-  static const double cardHeight = 500.0;
   static const double textHeight = 80.0;
 
   @override
   Widget build(BuildContext context) {
+    double width = CardSizeHelper.getCardWidth(context);
+    double height = CardSizeHelper.getCardHeight(context);
+
     return Center(
       child: Card(
         child: SizedBox(
-          width: cardWidth,
-          height: cardHeight,
+          width: width,
+          height: height,
           child: Stack(
             children: [
               const SizedBox(
@@ -29,7 +31,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Positioned(
-                top: cardHeight - textHeight,
+                top: height - textHeight,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
