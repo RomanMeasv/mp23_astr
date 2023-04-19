@@ -1,53 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:mp23_astr/utilities/card_size.dart';
+import 'package:mp23_astr/widgets/carousel_card.dart';
+
+import '../models/list_entry.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  // In Flutter it complains when you use the new keyword??
+  final List<ListEntry> listEntries = [
+    ListEntry(
+      text: 'Item1',
+      image: const NetworkImage('https://picsum.photos/id/1/500'),
+    ),
+    ListEntry(
+      text: 'Item2',
+      image: const NetworkImage('https://picsum.photos/id/2/500'),
+    ),
+    ListEntry(
+      text: 'Item3',
+      image: const NetworkImage('https://picsum.photos/id/3/500'),
+    ),
+    ListEntry(
+      text: 'Item4',
+      image: const NetworkImage('https://picsum.photos/id/4/500'),
+    ),
+    ListEntry(
+      text: 'Item5',
+      image: const NetworkImage('https://picsum.photos/id/5/500'),
+    ),
+  ];
+
+  Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  static const double textHeight = 80.0;
-
   @override
   Widget build(BuildContext context) {
-    double width = CardSizeHelper.getCardWidth(context);
-    double height = CardSizeHelper.getCardHeight(context);
+    final PageController controller = PageController(initialPage: 1);
 
     return Center(
-      child: Card(
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: Stack(
-            children: [
-              const SizedBox(
-                height: double.infinity,
-                child: Image(
-                  image: AssetImage("lib/assets/image_placeholder.jpg"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: height - textHeight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Lorem Ipsum Lorem Ipsum"),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      child: PageView.builder(
+        controller: controller,
+        itemCount: widget.listEntries.length,
+        itemBuilder: (context, index) {
+          ListEntry listEntry = widget.listEntries[index];
+          return CarouselCard(entry: listEntry);
+        },
       ),
     );
   }
