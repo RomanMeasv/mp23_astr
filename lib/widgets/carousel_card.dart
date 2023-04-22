@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mp23_astr/models/entry_entity.dart';
 
-import '../models/list_entry.dart';
 import '../utilities/card_size.dart';
 
 class CarouselCard extends StatelessWidget {
   static const double _textHeight = 120.0;
-  final ListEntry entry;
+  final EntryEntity entry;
 
   const CarouselCard({super.key, required this.entry});
 
