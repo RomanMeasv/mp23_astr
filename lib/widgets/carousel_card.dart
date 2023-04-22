@@ -4,7 +4,7 @@ import '../models/list_entry.dart';
 import '../utilities/card_size.dart';
 
 class CarouselCard extends StatelessWidget {
-  static const double _textHeight = 80.0;
+  static const double _textHeight = 120.0;
   final ListEntry entry;
 
   const CarouselCard({super.key, required this.entry});
@@ -31,15 +31,18 @@ class CarouselCard extends StatelessWidget {
             ),
             Positioned(
               top: height - _textHeight,
+              bottom: 0,
+              left: 0,
+              right: 0,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(entry.text),
+                padding: const EdgeInsets.all(16.0),
+                // TODO: add some kind of shadow so the text is visible at all times
+                child: Text(
+                  entry.text,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24.0,
                   ),
                 ),
               ),

@@ -12,27 +12,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // In Flutter it complains when you use the new keyword??
   final List<ListEntry> listEntries = [
     ListEntry(
-      text: 'Item1',
-      image: const NetworkImage('https://picsum.photos/id/1/1920'),
+      text: 'Avocados',
+      image: const NetworkImage(
+          'https://cdb.arla.com/api/assets/arla-dk/d8295979-11ac-4722-be6b-f3638d5f3cf7/avocado.jpg?width=1280&height=640&mode=cropupsize&quality=90'),
     ),
     ListEntry(
-      text: 'Item2',
-      image: const NetworkImage('https://picsum.photos/id/2/1920'),
+      text: 'Bryndza',
+      image: const NetworkImage(
+          'https://www.halusky.co.uk/media/catalog/product/cache/edca9683ab123d4b6e97d40ddde16703/b/r/bryndza_thermised_100g.jpg'),
     ),
     ListEntry(
-      text: 'Item3',
-      image: const NetworkImage('https://picsum.photos/id/3/1920'),
+      text: 'Cereals',
+      image: const NetworkImage(
+          'https://www.eatthis.com/wp-content/uploads/sites/4/2022/09/cereal-aisle.jpg?quality=82&strip=1&w=640'),
     ),
     ListEntry(
-      text: 'Item4',
-      image: const NetworkImage('https://picsum.photos/id/4/1920'),
+      text: 'Pasta',
+      image: const NetworkImage(
+          'https://resources.chainbox.io/2/condi/public/pim/2767bcad-b47d-4fea-8478-3893ed2603c0/17707-1_default.jpg'),
     ),
     ListEntry(
-      text: 'Item5',
-      image: const NetworkImage('https://picsum.photos/id/5/1920'),
+      text: 'Coca Cola',
+      image: const NetworkImage(
+          'https://billigfadoel.dk/wp-content/uploads/2018/11/Coca-Cola-25-cl-glasflaske-30-stk-bestil-hos-Billigfadoel.jpg'),
     ),
   ];
 
