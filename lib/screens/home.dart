@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mp23_astr/widgets/carousel_background.dart';
 import 'package:mp23_astr/widgets/carousel_card.dart';
 
 import '../models/list_entry.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -46,9 +47,11 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index) {
           final ListEntry listEntry = listEntries[index];
           return Dismissible(
-            background: Container(
-              color: Colors.red,
-            ),
+            // dismissThresholds: Map.from(
+            //   {DismissDirection.up: 0.1},
+            // ),
+            movementDuration: const Duration(milliseconds: 300),
+            background: const CarouselBackground(),
             direction: DismissDirection.up,
             key: ObjectKey(listEntry),
             onDismissed: (_) => onEntryDismissed(index),

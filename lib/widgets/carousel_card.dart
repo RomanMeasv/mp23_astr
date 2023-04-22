@@ -4,7 +4,7 @@ import '../models/list_entry.dart';
 import '../utilities/card_size.dart';
 
 class CarouselCard extends StatelessWidget {
-  static const double textHeight = 80.0;
+  static const double _textHeight = 80.0;
   final ListEntry entry;
 
   const CarouselCard({super.key, required this.entry});
@@ -15,6 +15,7 @@ class CarouselCard extends StatelessWidget {
     double height = CardSizeHelper.getCardHeight(context);
 
     return Card(
+      margin: EdgeInsets.zero,
       // Sized Box is here for width and height constraints for the card (our main UI element)
       child: SizedBox(
         width: width,
@@ -29,7 +30,7 @@ class CarouselCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: height - textHeight,
+              top: height - _textHeight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
