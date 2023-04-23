@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:mp23_astr/models/entry_entity.dart';
 import 'package:mp23_astr/models/entry_model.dart';
@@ -9,22 +10,23 @@ import 'package:provider/provider.dart';
 import '../widgets/photo_deleter.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final List<CameraDescription> cameras;
+  const Home({super.key, required this.cameras});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final PageController deleteController = PageController();
-  final PageController takerController = PageController(initialPage: 1);
+  final PageController horizontalController = PageController();
+  final PageController verticalController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
     // display different pages based on platform
     final List<Widget> pages = PlatformHelper.isMobile == true
         ? List.from([
-            const PhotoTaker(),
+            PhotoTaker(cameras: widget.cameras),
             _buildCarousel(),
             const PhotoDeleter(),
           ])
@@ -34,7 +36,7 @@ class _HomeState extends State<Home> {
 
     return PageView(
       allowImplicitScrolling: true,
-      controller: takerController,
+      controller: verticalController,
       scrollDirection: Axis.vertical,
       children: pages,
     );
@@ -45,7 +47,7 @@ class _HomeState extends State<Home> {
       builder: (context, model, child) {
         return PageView.builder(
           allowImplicitScrolling: true, // loads images faster
-          controller: deleteController,
+          controller: horizontalController,
           itemCount: model.entires.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {

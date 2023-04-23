@@ -5,11 +5,10 @@ import 'package:mp23_astr/providers/mock_entry_provider.dart';
 import 'package:provider/provider.dart';
 import 'screens/home.dart';
 
-late List<CameraDescription> cameras;
-
-void main() async {
+late List<CameraDescription> _cameras;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras();
+  _cameras = await availableCameras();
   runApp(ChangeNotifierProvider(
     create: (context) => EntryModel(provider: MockEntryProvider()),
     child: const MainApp(),
@@ -23,8 +22,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: const Scaffold(
-        body: Home(),
+      home: Scaffold(
+        body: Home(cameras: _cameras),
       ),
     );
   }
