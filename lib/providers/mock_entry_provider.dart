@@ -45,4 +45,9 @@ class MockEntryProvider implements IEntryProvider {
   void delete(EntryEntity entity) {
     listEntries.remove(entity);
   }
+
+  @override
+  List<EntryEntity> fetch() {
+    return listEntries;
+  }
 }

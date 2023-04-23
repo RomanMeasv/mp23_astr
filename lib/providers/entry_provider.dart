@@ -12,4 +12,9 @@ class EntryProvider implements IEntryProvider {
   void delete(EntryEntity entity) {
     // TODO: implement delete
   }
+  
+  @override
+  List<EntryEntity> fetch() {
+    // TODO: implement fetch
+  }
 }
