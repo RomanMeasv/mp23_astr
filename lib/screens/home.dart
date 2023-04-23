@@ -7,7 +7,7 @@ import 'package:mp23_astr/widgets/carousel_card.dart';
 import 'package:mp23_astr/widgets/photo_taker.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/photo_deleter.dart';
+import '../widgets/photo_remover.dart';
 
 class Home extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
         ? List.from([
             PhotoTaker(cameras: widget.cameras),
             _buildCarousel(),
-            const PhotoDeleter(),
+            const PhotoRemover(),
           ])
         : List.from([
             _buildCarousel(),

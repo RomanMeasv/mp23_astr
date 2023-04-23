@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PhotoDeleter extends StatelessWidget {
+class PhotoRemover extends StatelessWidget {
   static const Color _mainColor = Colors.red;
   static const Color _secondaryColor = Colors.white;
   static const String _text = "Remove from list";
 
-  const PhotoDeleter({super.key});
+  const PhotoRemover({super.key});
 
   @override
   Widget build(BuildContext context) {
