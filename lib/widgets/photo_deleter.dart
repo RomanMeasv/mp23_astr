@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class CarouselBackground extends StatelessWidget {
+class PhotoDeleter extends StatelessWidget {
   static const Color _mainColor = Colors.red;
   static const Color _secondaryColor = Colors.white;
   static const String _text = "Remove from list";
 
-  const CarouselBackground({super.key});
+  const PhotoDeleter({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 80.0,
       color: _mainColor,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: const [
             Icon(
               Icons.delete,
