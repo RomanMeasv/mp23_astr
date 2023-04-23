@@ -10,8 +10,12 @@ import 'package:provider/provider.dart';
 import '../widgets/photo_remover.dart';
 
 class Home extends StatefulWidget {
-  final List<CameraDescription> cameras;
-  const Home({super.key, required this.cameras});
+  const Home({
+    super.key,
+    required this.camera,
+  });
+
+  final CameraDescription camera;
 
   @override
   State<Home> createState() => _HomeState();
@@ -19,21 +23,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final PageController horizontalController = PageController();
-  final PageController verticalController = PageController(initialPage: 1);
+  final PageController verticalController =
+      PageController(initialPage: 1); // start on carousel
 
   @override
   Widget build(BuildContext context) {
     // display different pages based on platform
     final List<Widget> pages = PlatformHelper.isMobile == true
         ? List.from([
-            PhotoTaker(cameras: widget.cameras),
+            PhotoTaker(camera: widget.camera),
             _buildCarousel(),
             const PhotoRemover(),
           ])
         : List.from([
             _buildCarousel(),
           ]);
-
+    
     return PageView(
       allowImplicitScrolling: true,
       controller: verticalController,
