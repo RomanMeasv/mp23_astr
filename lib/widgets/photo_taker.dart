@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class PhotoTaker extends StatefulWidget {
 class _PhotoTakerState extends State<PhotoTaker> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  XFile? image;
 
   @override
   void initState() {
@@ -36,6 +39,15 @@ class _PhotoTakerState extends State<PhotoTaker> {
 
   @override
   Widget build(BuildContext context) {
+    // if we don't have an image, we display the photo taker widget
+    if (image == null) {
+      return _buildPhotoTaker();
+    } else {
+      return _buildPhotoEditor();
+    }
+  }
+
+  Widget _buildPhotoTaker() {
     return Scaffold(
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
@@ -45,9 +57,10 @@ class _PhotoTakerState extends State<PhotoTaker> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the Future is complete, display the preview.
-            return SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: CameraPreview(_controller),
+            return _buildFullWidth(
+              CameraPreview(
+                _controller,
+              ),
             );
           } else {
             // Otherwise, display a loading indicator.
@@ -70,15 +83,11 @@ class _PhotoTakerState extends State<PhotoTaker> {
 
               // Attempt to take a picture and get the file `image`
               // where it was saved.
-              final image = await _controller.takePicture();
+              image = await _controller.takePicture();
 
               if (!mounted) return;
 
-              // await Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => Container(color: Colors.red),
-              //   ),
-              // );
+              setState(() {});
             } catch (e) {
               // If an error occurs, log the error to the console.
               print(e);
@@ -87,6 +96,24 @@ class _PhotoTakerState extends State<PhotoTaker> {
           child: const Icon(Icons.camera_alt),
         ),
       ),
+    );
+  }
+
+  Widget _buildPhotoEditor() {
+    File imageFile = File(image!.path);
+    return Scaffold(
+      body: _buildFullWidth(
+        Image.file(
+          imageFile,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFullWidth(Widget child) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: child,
     );
   }
 }
