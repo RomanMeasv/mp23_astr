@@ -23,7 +23,7 @@ class Mp23Astr extends StatelessWidget {
       defaultTransition: Transition.fade,
       initialBinding: ItemBinding(),
       getPages: AppPages.pages,
-      home: ItemPage(),
+      home: const ItemPage(),
     );
   }
 }

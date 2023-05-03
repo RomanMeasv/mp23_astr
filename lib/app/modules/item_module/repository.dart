@@ -1,7 +1,7 @@
 import '../../data/provider/item_provider.dart';
 
 class ItemRepository {
-  final ItemApi api;
+  final ItemProvider api;
 
   ItemRepository(this.api);
 

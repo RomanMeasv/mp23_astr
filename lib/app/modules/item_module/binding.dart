@@ -8,6 +8,6 @@ class ItemBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ItemController>(
-        () => ItemController(ItemRepository(ItemApi())));
+        () => ItemController(ItemRepository(ItemProvider())));
   }
 }
