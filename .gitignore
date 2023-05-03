@@ -342,3 +342,4 @@ crashlytics-build.properties
 fabric.properties
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#C,Java,Dart,Gradle,Kotlin,Flutter,AndroidStudio
+macos/Flutter/GeneratedPluginRegistrant.swift
