@@ -3,6 +3,16 @@ import 'package:get/get.dart';
 class RxUserModel {
   final uid = ''.obs;
   final email = ''.obs;
+
+  void update(UserModel userModel) {
+    uid.value = userModel.uid;
+    email.value = userModel.email;
+  }
+
+  void reset() {
+    uid.value = '';
+    email.value = '';
+  }
 }
 
 class UserModel {

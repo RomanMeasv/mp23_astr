@@ -9,10 +9,12 @@ environment:
 dependencies:
   firebase_core: ^2.10.0
   firebase_database: ^10.1.1
+  firebase_auth: ^4.4.2
   flutter:
     sdk: flutter
   get: ^4.6.5
   mockito: ^5.4.0
+  cloud_firestore: ^4.5.3
 
 dev_dependencies:
   flutter_test:
