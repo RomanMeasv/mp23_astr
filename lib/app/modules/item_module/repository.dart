@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import '../../data/provider/item_provider.dart';
 
 class ItemRepository {

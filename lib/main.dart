@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/item_module/binding.dart';
 import 'package:mp23_astr/app/modules/item_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
+import 'package:get/get.dart';
 
 import 'app/routes/pages.dart';
 import 'app/routes/routes.dart';
@@ -30,12 +30,12 @@ class Mp23Astr extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.USER,
+      //initialRoute: Routes.USER,
       theme: appThemeData,
       defaultTransition: Transition.fade,
       initialBinding: UserBinding(),
       getPages: AppPages.pages,
-      home: UserPage(),
+      home: ItemPage(),
     );
   }
 }
