@@ -1,0 +1,13 @@
+import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/user_module/repository.dart';
+
+import '../../data/provider/user_provider.dart';
+import '../auth_module/controller.dart';
+
+class UserBinding implements Bindings {
+@override
+void dependencies() {
+  Get.lazyPut<UserController>(() => UserController(
+     UserRepository(UserProvider())));
+  }
+}
