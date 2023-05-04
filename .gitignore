@@ -343,3 +343,9 @@ fabric.properties
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#C,Java,Dart,Gradle,Kotlin,Flutter,AndroidStudio
 macos/Flutter/GeneratedPluginRegistrant.swift
+linux/flutter/generated_plugin_registrant.cc
+linux/flutter/generated_plugin_registrant.h
+linux/flutter/generated_plugins.cmake
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+windows/flutter/generated_plugins.cmake
