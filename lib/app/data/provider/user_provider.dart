@@ -1,34 +1,16 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect/connect.dart';
-
-const baseUrl = 'http://gerador-nomes.herokuapp.com/nomes/10';
+import 'package:mp23_astr/app/data/model/user.dart';
 
 class UserProvider extends GetConnect {
-  getAll() {}
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  getId(id) {}
-
-  edit(obj) {}
-
-  add(obj) {}
-
-
-
-// // Get request
-// Future<Response> getUser(int id) => get('http://youapi/users/id');
-// // Post request
-// Future<Response> postUser(Map data) => post('http://youapi/users', body: data);
-// // Post request with File
-// Future<Response<CasesModel>> postCases(List<int> image) {
-//   final form = FormData({
-//     'file': MultipartFile(image, filename: 'avatar.png'),
-//     'otherFile': MultipartFile(image, filename: 'cover.png'),
-//   });
-//   return post('http://youapi/users/upload', form);
-// }
-// GetSocket userMessages() {
-//   return socket('https://yourapi/users/socket');
-// }
-
+  Future<UserModel> getUser(String uid) {
+    //TODO: Add try/catch
+    return firestore.collection('users').doc(uid).get().then((value) {
+      return UserModel.fromJson(value.data()!);
+    });
+  }
 }
