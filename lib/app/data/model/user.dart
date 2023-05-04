@@ -3,16 +3,7 @@ import 'package:get/get.dart';
 class RxUserModel {
   final uid = ''.obs;
   final email = ''.obs;
-
-  void update(UserModel userModel) {
-    uid.value = userModel.uid;
-    email.value = userModel.email;
-  }
-
-  void reset() {
-    uid.value = '';
-    email.value = '';
-  }
+  final shoppingListIds = <String>[].obs;
 }
 
 class UserModel {
@@ -27,14 +18,19 @@ class UserModel {
   set email(value) => rx.email.value = value;
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    this.uid = json['uid'];
-    this.email = json['email'];
+    uid = json['uid'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uid'] = this.uid;
-    data['email'] = this.email;
+    data['uid'] = uid;
+    data['email'] = email;
     return data;
+  }
+
+  reset() {
+    uid = "";
+    email = "";
   }
 }

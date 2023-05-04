@@ -11,4 +11,12 @@ class AuthRepository {
   Future<User?> signUp(String email, String password) {
     return api.signUp(email, password);
   }
+
+  Future<void> signOut() {
+    return api.signOut();
+  }
+
+  Future<User?> signIn(String email, String password) {
+    return api.signIn(email, password);
+  }
 }
