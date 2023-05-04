@@ -8,7 +8,7 @@ class ItemRepository {
   ItemRepository(this.api);
 
   getAll() {
-    return api.getAll();
+    return api.getAll("OfwoYr2jeCBDrp4FRAVc");
   }
 
   getId(id) {

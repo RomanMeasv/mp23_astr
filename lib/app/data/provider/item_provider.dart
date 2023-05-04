@@ -6,18 +6,20 @@ import 'package:mp23_astr/app/data/model/item.dart';
 class ItemProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> getAll() async {
+  Future<List<ItemModel>> getAll(shoppingListId) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection('/ShoppingList/OfwoYr2jeCBDrp4FRAVc/Item')
+          .collection('/ShoppingList/$shoppingListId/Item')
           .get();
-
-      var list = snapshot.docs.map((doc) {
-        print(doc.data());
-        return doc.data();
+      List<ItemModel> list = snapshot.docs.map((doc) {
+        // print(doc.data());
+        return ItemModel.fromJson(doc.data());
       }).toList();
+
+      return list;
     } catch (e) {
-      print(e);
+      print("Provider error (getAll): ${e}");
+      rethrow;
     }
   }
 

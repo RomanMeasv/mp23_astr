@@ -1,9 +1,18 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/item_module/repository.dart';
 
 class ItemController extends GetxController {
   final ItemRepository repository;
+
+  final _horizontalController = PageController();
+  final _verticalController =
+      PageController(initialPage: 1); // (1) starts on carousel
+
+  final _textController = TextEditingController();
+  Rx<Offset> _textPosition = Rx<Offset>(Offset.zero);
+  final Rx<String> _text = Rx<String>('');
 
   late CameraController _cameraController;
   late List<CameraDescription> _cameras;
@@ -44,21 +53,24 @@ class ItemController extends GetxController {
       final XFile? capturedFile = await _cameraController.takePicture();
       _capturedImage.value = capturedFile;
     } catch (e) {
-      print('Error capturing image: $e');
+      print('Error capturing image (captureImage): $e');
     }
   }
+
+  PageController get verticalController => _verticalController;
+  PageController get horizontalController => _horizontalController;
+
+  TextEditingController get textController => _textController;
+  Rx<Offset> get textPosition => _textPosition;
+  set textPosition(value) => _textPosition.value = value;
+  Rx<String> get text => _text;
+  set text(value) => _text.value = value;
 
   CameraController get cameraController => _cameraController;
   List<CameraDescription> get cameras => _cameras;
   Rx<CameraDescription?> get selectedCamera => _selectedCamera;
   Rx<bool> get isCameraReady => _isCameraReady;
   Rx<XFile?> get capturedImage => _capturedImage;
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    super.dispose();
-  }
 
   // final _obj = ''.obs;
   // set obj(value) => this._obj.value = value;
@@ -69,4 +81,13 @@ class ItemController extends GetxController {
   set items(value) => _items.value = value;
   get itemCount => items.length;
   item(index) => _items[index].value;
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _textController.dispose();
+    _verticalController.dispose();
+    _horizontalController.dispose();
+    super.dispose();
+  }
 }
