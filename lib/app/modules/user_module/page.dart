@@ -13,7 +13,9 @@ class UserPage extends GetView<UserController> {
       body: Column(
         children: [
           Text('UserPage is working!'),
-          Obx(() => Text('User: ${controller.user.email}')),
+          Obx(() => Text('UID: ${controller.user.uid}')),
+          Obx(() => Text('Email: ${controller.user.email}')),
+          Obx(() => Text('ShoppingListIds: ${controller.user.shoppingListIds}')),
           ElevatedButton(
             onPressed: () => controller.signUp("asd123@asd.com", "asd123"),
             child: Text("Sign up"),
