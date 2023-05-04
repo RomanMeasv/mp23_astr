@@ -7,17 +7,15 @@ environment:
   sdk: '>=2.19.4 <3.0.0'
 
 dependencies:
-  camera: ^0.10.4
+  camera: ^0.10.5
   cloud_firestore: ^4.5.3
   firebase_auth: ^4.4.2
   firebase_core: ^2.10.0
   firebase_database: ^10.1.1
-  firebase_auth: ^4.4.2
   flutter:
     sdk: flutter
   get: ^4.6.5
   mockito: ^5.4.0
-  cloud_firestore: ^4.5.3
 
 dev_dependencies:
   flutter_test:
