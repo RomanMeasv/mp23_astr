@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "46392923635",
+    "firebase_url": "https://mp23-astr-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "mp23-astr",
     "storage_bucket": "mp23-astr.appspot.com"
   },
