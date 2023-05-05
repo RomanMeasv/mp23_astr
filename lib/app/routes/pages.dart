@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/page.dart';
 import 'package:mp23_astr/app/modules/shopping_list_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/routes/routes.dart';
@@ -10,6 +11,6 @@ class AppPages {
     GetPage(name: Routes.ITEM, page: () => const ItemPage()),
     GetPage(name: Routes.SHOPPING_LIST, page: () => ShoppingListPage()),
     GetPage(name: Routes.USER, page: () => UserPage()),
-    GetPage(name: Routes.HOME, page: () => const HomePage()),
+    GetPage(name: Routes.SHOPPING_LIST_MENU, page: () => ShoppingListMenuPage()),
   ];
 }
