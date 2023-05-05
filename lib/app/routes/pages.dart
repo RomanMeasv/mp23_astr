@@ -10,5 +10,6 @@ class AppPages {
     GetPage(name: Routes.ITEM, page: () => const ItemPage()),
     GetPage(name: Routes.SHOPPING_LIST, page: () => ShoppingListPage()),
     GetPage(name: Routes.USER, page: () => UserPage()),
+    GetPage(name: Routes.HOME, page: () => const HomePage()),
   ];
 }
