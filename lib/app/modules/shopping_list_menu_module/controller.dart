@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
-import 'package:mp23_astr/app/modules/shopping_list_module/repository.dart';
-
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/repository.dart';
 class ShoppingListMenuController extends GetxController {
 
-final ShoppingListRepository repository;
+final ShoppingListMenuRepository repository;
 ShoppingListMenuController(this.repository);
 
   final _obj = ''.obs;
