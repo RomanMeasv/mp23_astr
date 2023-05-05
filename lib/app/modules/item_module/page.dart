@@ -14,12 +14,13 @@ class ItemPage extends GetView<ItemController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: PageView(
         allowImplicitScrolling: true,
         controller: controller.verticalController,
         scrollDirection: Axis.vertical,
         children: [
-          _buildPhotoPart(context),
+          _buildPhotoPart(),
           _buildCarousel(),
           //_buildPhotoRemover(),
         ],
@@ -27,11 +28,11 @@ class ItemPage extends GetView<ItemController> {
     );
   }
 
-  Widget _buildPhotoPart(context) {
+  Widget _buildPhotoPart() {
     return Obx(
       () => controller.capturedImage.value == null
-          ? _buildPhotoTaker(context)
-          : _buildPhotoEditor(context),
+          ? _buildPhotoTaker()
+          : _buildPhotoEditor(),
     );
   }
 
@@ -47,14 +48,18 @@ class ItemPage extends GetView<ItemController> {
     );
   }
 
-  Widget _buildPhotoTaker(context) {
+  Widget _buildPhotoTaker() {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         Obx(
           () => controller.isCameraReady.value
-              ? CameraPreview(controller.cameraController)
-              : const CircularProgressIndicator(),
+              ? SizedBox(
+                  width: Get.width,
+                  height: Get.height,
+                  child: CameraPreview(controller.cameraController),
+                )
+              : const Center(child: CircularProgressIndicator()),
         ),
         ElevatedButton(
           onPressed: () => controller.captureImage(),
@@ -64,43 +69,31 @@ class ItemPage extends GetView<ItemController> {
     );
   }
 
-  Widget _buildPhotoEditor(context) {
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Container(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                autofocus: true,
-                decoration: const InputDecoration(
-                  hintText: "Enter text",
-                  border: InputBorder.none,
-                ),
-                onSubmitted: (String value) {
-                  controller.text = value;
-                  Get.back();
-                },
-              ),
-            );
-          },
-        );
-      },
-      child: Stack(
-        children: [
-          Obx(
-            () => Image.file(
+  Widget _buildPhotoEditor() {
+    return Obx(
+      () => Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: FileImage(
               File(controller.capturedImage.value!.path),
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            child: Obx(
-              () => Text(controller.text.value),
+        ),
+        child: Center(
+          child: TextField(
+            autofocus: true,
+            scrollPhysics: const NeverScrollableScrollPhysics(),
+            controller: controller.textFieldController,
+            decoration: const InputDecoration(
+              hintText: "Type...",
+              border: InputBorder.none,
             ),
+            textAlign: TextAlign.center,
           ),
-        ],
+        ),
       ),
     );
   }

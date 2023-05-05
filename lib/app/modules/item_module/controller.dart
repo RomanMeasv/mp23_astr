@@ -10,9 +10,8 @@ class ItemController extends GetxController {
   final _verticalController =
       PageController(initialPage: 1); // (1) starts on carousel
 
-  final _textController = TextEditingController();
-  Rx<Offset> _textPosition = Rx<Offset>(Offset.zero);
-  final Rx<String> _text = Rx<String>('');
+  final _textFieldController = TextEditingController();
+  final Rx<bool> _isTextFieldVisible = Rx<bool>(false);
 
   late CameraController _cameraController;
   late List<CameraDescription> _cameras;
@@ -60,11 +59,9 @@ class ItemController extends GetxController {
   PageController get verticalController => _verticalController;
   PageController get horizontalController => _horizontalController;
 
-  TextEditingController get textController => _textController;
-  Rx<Offset> get textPosition => _textPosition;
-  set textPosition(value) => _textPosition.value = value;
-  Rx<String> get text => _text;
-  set text(value) => _text.value = value;
+  TextEditingController get textFieldController => _textFieldController;
+  get isTextFieldVisible => _isTextFieldVisible.value;
+  set isTextFieldVisible(value) => _isTextFieldVisible.value = value;
 
   CameraController get cameraController => _cameraController;
   List<CameraDescription> get cameras => _cameras;
@@ -85,7 +82,7 @@ class ItemController extends GetxController {
   @override
   void dispose() {
     _cameraController.dispose();
-    _textController.dispose();
+    _textFieldController.dispose();
     _verticalController.dispose();
     _horizontalController.dispose();
     super.dispose();
