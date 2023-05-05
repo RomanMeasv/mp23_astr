@@ -6,12 +6,10 @@ import 'package:mp23_astr/app/modules/item_module/repository.dart';
 class ItemController extends GetxController {
   final ItemRepository repository;
 
-  final _horizontalController = PageController();
-  final _verticalController =
-      PageController(initialPage: 1); // (1) starts on carousel
+  late PageController _horizontalController;
+  late PageController _verticalController;
 
-  final _textFieldController = TextEditingController();
-  final Rx<bool> _isTextFieldVisible = Rx<bool>(false);
+  late TextEditingController _textFieldController;
 
   late CameraController _cameraController;
   late List<CameraDescription> _cameras;
@@ -22,17 +20,22 @@ class ItemController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _selectedCamera = Rx<CameraDescription?>(null);
-    _isCameraReady = Rx<bool>(false);
-    _capturedImage = Rx<XFile?>(null);
+    _initializeControllers();
     _initializeCamera();
+    _retrieveItems();
   }
 
-  ItemController(this.repository) {
-    repository.getAll();
+  ItemController(this.repository);
+
+  _initializeControllers() {
+    _horizontalController = PageController();
+    _verticalController =
+        PageController(initialPage: 1); // (1) starts on carousel
+    _textFieldController = TextEditingController();
   }
 
   Future<void> _initializeCamera() async {
+    _resetCameraFields();
     _cameras = await availableCameras();
     if (_cameras.isNotEmpty) {
       _selectedCamera.value = _cameras[0];
@@ -43,6 +46,16 @@ class ItemController extends GetxController {
       await _cameraController.initialize();
       _isCameraReady.value = true;
     }
+  }
+
+  _resetCameraFields() {
+    _selectedCamera = Rx<CameraDescription?>(null);
+    _isCameraReady = Rx<bool>(false);
+    _capturedImage = Rx<XFile?>(null);
+  }
+
+  _retrieveItems() {
+    repository.getAll();
   }
 
   Future<void> captureImage() async {
@@ -60,8 +73,6 @@ class ItemController extends GetxController {
   PageController get horizontalController => _horizontalController;
 
   TextEditingController get textFieldController => _textFieldController;
-  get isTextFieldVisible => _isTextFieldVisible.value;
-  set isTextFieldVisible(value) => _isTextFieldVisible.value = value;
 
   CameraController get cameraController => _cameraController;
   List<CameraDescription> get cameras => _cameras;
@@ -69,15 +80,17 @@ class ItemController extends GetxController {
   Rx<bool> get isCameraReady => _isCameraReady;
   Rx<XFile?> get capturedImage => _capturedImage;
 
-  // final _obj = ''.obs;
-  // set obj(value) => this._obj.value = value;
-  // get obj => this._obj.value;
-
   final _items = RxList.empty();
   get items => _items.value;
   set items(value) => _items.value = value;
   get itemCount => items.length;
   item(index) => _items[index].value;
+
+  saveItem() {
+    String text = _textFieldController.text;
+    XFile? image = _capturedImage.value;
+    repository.addItem(text, image);
+  }
 
   @override
   void dispose() {

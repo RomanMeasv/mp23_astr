@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class RxItemModel {
-  final id = 1.obs;
+  final id = 'id'.obs;
   final text = 'some text'.obs;
   final imageUrl =
       'https://www.eatthis.com/wp-content/uploads/sites/4/2022/09/cereal-aisle.jpg?quality=82&strip=1&w=640'
@@ -29,7 +29,7 @@ class ItemModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['text'] = this.text;
     data['imageUrl'] = this.imageUrl;
     return data;

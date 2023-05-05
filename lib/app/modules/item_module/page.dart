@@ -82,17 +82,27 @@ class ItemPage extends GetView<ItemController> {
             ),
           ),
         ),
-        child: Center(
-          child: TextField(
-            autofocus: true,
-            scrollPhysics: const NeverScrollableScrollPhysics(),
-            controller: controller.textFieldController,
-            decoration: const InputDecoration(
-              hintText: "Type...",
-              border: InputBorder.none,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextField(
+              //autofocus: true,
+              scrollPhysics: const NeverScrollableScrollPhysics(),
+              controller: controller.textFieldController,
+              decoration: const InputDecoration(
+                hintText: "Type...",
+                border: InputBorder.none,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
+            ElevatedButton.icon(
+              onPressed: () {
+                controller.saveItem();
+              },
+              icon: const Icon(Icons.save_rounded),
+              label: Text("Save"),
+            ),
+          ],
         ),
       ),
     );

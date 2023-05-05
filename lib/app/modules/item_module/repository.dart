@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 
 import '../../data/provider/item_provider.dart';
 
@@ -7,12 +7,21 @@ class ItemRepository {
 
   ItemRepository(this.api);
 
-  getAll() {
-    return api.getAll("OfwoYr2jeCBDrp4FRAVc");
+  getAll() async {
+    List<ItemModel> allItems = await api.getAll("OfwoYr2jeCBDrp4FRAVc");
+    return allItems;
   }
 
-  getId(id) {
-    return api.getId(id);
+  addItem(text, image) async {
+    String? imageUrl = await api.uploadImage(image);
+    if (imageUrl == null) throw Exception("Image not uploaded");
+
+    ItemModel item = ItemModel(text: text, imageUrl: imageUrl);
+    ItemModel createdItem = await api.addItem("OfwoYr2jeCBDrp4FRAVc", item);
+  }
+
+  getById(id) {
+    return api.getById("OfwoYr2jeCBDrp4FRAVc", id);
   }
 
   delete(id) {
@@ -21,9 +30,5 @@ class ItemRepository {
 
   edit(obj) {
     return api.edit(obj);
-  }
-
-  add(obj) {
-    return api.add(obj);
   }
 }
