@@ -1,4 +1,3 @@
-
 import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
 class ShoppingListMenuRepository {
