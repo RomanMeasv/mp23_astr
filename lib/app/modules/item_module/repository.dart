@@ -8,7 +8,7 @@ class ItemRepository {
   ItemRepository(this.api);
 
   getAll() async {
-    List<ItemModel> allItems = await api.getAll("OfwoYr2jeCBDrp4FRAVc");
+    List<ItemModel> allItems = await api.getAll("W1FcrBpQwEAvDm41Pz4X");
     return allItems;
   }
 
@@ -17,11 +17,11 @@ class ItemRepository {
     if (imageUrl == null) throw Exception("Image not uploaded");
 
     ItemModel item = ItemModel(text: text, imageUrl: imageUrl);
-    ItemModel createdItem = await api.addItem("OfwoYr2jeCBDrp4FRAVc", item);
+    ItemModel createdItem = await api.addItem("W1FcrBpQwEAvDm41Pz4X", item);
   }
 
   getById(id) {
-    return api.getById("OfwoYr2jeCBDrp4FRAVc", id);
+    return api.getById("W1FcrBpQwEAvDm41Pz4X", id);
   }
 
   delete(id) {

@@ -30,7 +30,7 @@ class Mp23Astr extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      //initialRoute: Routes.USER,
+      // initialRoute: Routes.ITEM,
       theme: appThemeData,
       defaultTransition: Transition.fade,
       initialBinding: ItemBinding(),

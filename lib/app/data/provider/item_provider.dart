@@ -19,10 +19,12 @@ class ItemProvider extends GetConnect {
           .get();
 
       List<ItemModel> list = snapshot.docs.map((doc) {
+        print(doc.data());
         return ItemModel.fromJson(doc.data());
       }).toList();
 
       print("Data retrieved successfully");
+      print(list);
       return list;
     } catch (e) {
       print("Provider error (getAll): $e");

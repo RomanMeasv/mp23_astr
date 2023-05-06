@@ -87,6 +87,7 @@ class ItemController extends GetxController {
   item(index) => _items[index].value;
 
   saveItem() {
+    print(repository.getAll());
     String text = _textFieldController.text;
     XFile? image = _capturedImage.value;
     repository.addItem(text, image);
