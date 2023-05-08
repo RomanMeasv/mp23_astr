@@ -1,28 +1,36 @@
 import 'package:get/get.dart';
+
 class RxShoppingListMenuModel {
-
-  final id = 0.obs;
-  final nome = 'nome'.obs;
+  final date = '0'.obs;
+  final name = 'name'.obs;
 }
+
 class ShoppingListMenuModel {
-  ShoppingListMenuModel({ id, nome });
-
-final rx = RxShoppingListMenuModel();
-
-get nome => rx.nome.value;
-set nome(value) => rx.nome.value = value;
-
-get id => rx.id.value;
-set id(value) => rx.id.value = value;
-
-  ShoppingListMenuModel.fromJson(Map<String, dynamic> json){
-      this.id = json['id'];
-      this.nome = json['nome'];
+  ShoppingListMenuModel({name, date}) {
+    rx.name.value = name;
+    rx.date.value = date;
   }
 
-  Map<String, dynamic> toJson(){
+  final rx = RxShoppingListMenuModel();
+
+  get name => rx.name.value;
+  set name(value) => rx.name.value = value;
+
+  get date => rx.date.value;
+  set date(value) => rx.date.value = value;
+
+  ShoppingListMenuModel.fromJson(Map<String, dynamic> json) {
+    print("JSON:");
+    print(json);
+
+    this.date = json['date'];
+    this.name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nome'] = this.nome;
+    data['name'] = this.name;
+    data['date'] = this.date;
     return data;
   }
 }
