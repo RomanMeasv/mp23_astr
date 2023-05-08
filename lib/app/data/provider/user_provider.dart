@@ -14,4 +14,10 @@ class UserProvider extends GetConnect {
       return userModel;
     });
   }
+
+  Future<void> assignShoppingList(String shoppingListId) {
+    return firestore.collection('users').doc('uid').update({
+      'shoppingListIds': FieldValue.arrayUnion([shoppingListId])
+    });
+  }
 }

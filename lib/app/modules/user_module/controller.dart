@@ -77,11 +77,18 @@ class UserController extends GetxController {
     await authRepository.signIn(email, password);
   }
 
+  // Methods below are not used in the page respective to this module but are used in other modules
+
   void signOut() async {
     await authRepository.signOut();
   }
 
   void signInWithGoogle() async {
     await authRepository.signInWithGoogle();
+  }
+
+  void assignShoppingList(String shoppingListId) async {
+    await repository.assignShoppingList(shoppingListId);
+    rxUserModel.shoppingListIds.add(shoppingListId);
   }
 }

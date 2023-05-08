@@ -10,4 +10,8 @@ class UserRepository {
   Future<UserModel> getUser(String uid) {
     return api.getUser(uid);
   }
+
+  Future<void> assignShoppingList(String shoppingListId) {
+    return api.assignShoppingList(shoppingListId);
+  }
 }
