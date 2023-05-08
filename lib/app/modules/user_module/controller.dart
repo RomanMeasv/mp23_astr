@@ -38,7 +38,7 @@ class UserController extends GetxController {
       rxUserModel.uid = userModel.uid;
       rxUserModel.email = userModel.email;
       rxUserModel.shoppingListIds = userModel.shoppingListIds;
-      
+
       //Navigate to the ShoppingListPage, if the user is logged in
       Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
     }
@@ -72,10 +72,14 @@ class UserController extends GetxController {
 
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
+    //Navigate to the ShoppingListPage, if the user is logged in
+    Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
   }
 
   void signIn(String email, String password) async {
     await authRepository.signIn(email, password);
+    //Navigate to the ShoppingListPage, if the user is logged in
+    Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
   }
 
   // Methods below are not used in the page respective to this module but are used in other modules
@@ -89,7 +93,7 @@ class UserController extends GetxController {
   }
 
   void assignShoppingList(String shoppingListId) async {
-    await repository.assignShoppingList(shoppingListId);
+    await repository.assignShoppingList(user.uid, shoppingListId);
     rxUserModel.shoppingListIds.add(shoppingListId);
   }
 }

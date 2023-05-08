@@ -11,7 +11,7 @@ class UserRepository {
     return api.getUser(uid);
   }
 
-  Future<void> assignShoppingList(String shoppingListId) {
-    return api.assignShoppingList(shoppingListId);
+  Future<void> assignShoppingList(String uid, String shoppingListId) {
+    return api.assignShoppingList(uid, shoppingListId);
   }
 }
