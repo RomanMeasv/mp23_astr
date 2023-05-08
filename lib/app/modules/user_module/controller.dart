@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/shopping_list_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
 
 import '../../data/model/user.dart';
+import '../shopping_list_module/binding.dart';
 
 class UserController extends GetxController {
   final UserRepository repository;
@@ -38,10 +40,22 @@ class UserController extends GetxController {
 
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
+    if (rxUserModel.uid != "") {
+      Get.offAll(() => ShoppingListPage(), binding: ShoppingListBinding());
+    }
+    else {
+      Get.snackbar("Error", "Sign up failed");
+    }
   }
 
   void signIn(String email, String password) async {
     await authRepository.signIn(email, password);
+    if (rxUserModel.uid != "") {
+      Get.offAll(() => ShoppingListPage(), binding: ShoppingListBinding());
+    }
+    else {
+      Get.snackbar("Error", "Sign in failed");
+    }
   }
 
   void signOut() async {
