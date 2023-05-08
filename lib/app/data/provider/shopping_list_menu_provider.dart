@@ -26,7 +26,6 @@ class ShoppingListMenuProvider extends GetConnect {
   Future<ShoppingListMenuModel> addShoppingList(
       ShoppingListMenuModel shoppingList) async {
     try {
-
       final collectionRef =
           FirebaseFirestore.instance.collection("ShoppingList");
       print("JSON IN PROVIDER:");
@@ -41,6 +40,7 @@ class ShoppingListMenuProvider extends GetConnect {
       print("new Shopping List");
       print(newShoppingList);
       print("Data added successfully");
+      newShoppingList.id = newDocRef.id;
       return newShoppingList;
     } catch (e) {
       print("Provider error (addItem): $e");
@@ -48,13 +48,13 @@ class ShoppingListMenuProvider extends GetConnect {
     }
   }
 
-  Future<ShoppingListMenuModel> updateShoppingList(String shoppingListID,ShoppingListMenuModel shoppingList) async {
-    final collectionRef =
-          FirebaseFirestore.instance.collection("ShoppingList").doc(shoppingListID).set({
-            'name': shoppingList.name,
-            'date':shoppingList.date
-          });
-      ShoppingListMenuModel updatedShoppingList = await getById(shoppingListID);
+  Future<ShoppingListMenuModel> updateShoppingList(
+      String shoppingListID, ShoppingListMenuModel shoppingList) async {
+    final collectionRef = FirebaseFirestore.instance
+        .collection("ShoppingList")
+        .doc(shoppingListID)
+        .set({'name': shoppingList.name, 'date': shoppingList.date});
+    ShoppingListMenuModel updatedShoppingList = await getById(shoppingListID);
     return updatedShoppingList;
   }
 
@@ -74,5 +74,4 @@ class ShoppingListMenuProvider extends GetConnect {
     }
     return [];
   }
-
 }

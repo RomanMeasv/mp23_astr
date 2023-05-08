@@ -8,6 +8,7 @@ import '../../data/model/user.dart';
 import '../shopping_list_menu_module/binding.dart';
 import '../shopping_list_menu_module/page.dart';
 
+
 class UserController extends GetxController {
   final UserRepository repository;
   final AuthRepository authRepository;
