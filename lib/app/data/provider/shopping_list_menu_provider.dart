@@ -28,9 +28,7 @@ class ShoppingListMenuProvider extends GetConnect {
     try {
       final collectionRef =
           FirebaseFirestore.instance.collection("ShoppingList");
-      print("JSON IN PROVIDER:");
-      print(shoppingList.date);
-      print(shoppingList.toJson());
+
       final newDocRef = await collectionRef.add(shoppingList.toJson());
       final newShoppingListId = newDocRef.id;
       print("ID ");

@@ -29,7 +29,7 @@ class ShoppingListMenuRepository {
 
   Future<ShoppingListMenuModel> add(String nameGiven, String dateGiven) async {
     ShoppingListMenuModel shoppingList =
-        ShoppingListMenuModel(id: "0",name: nameGiven, date: dateGiven);
+        ShoppingListMenuModel(id: "", name: nameGiven, date: dateGiven);
     ShoppingListMenuModel createdShoppingList =
         await shoppingListMenuProvider.addShoppingList(shoppingList);
     return createdShoppingList;
