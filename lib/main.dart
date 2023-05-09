@@ -35,9 +35,9 @@ class Mp23Astr extends StatelessWidget {
       //initialRoute: Routes.USER,
       theme: appThemeData,
       defaultTransition: Transition.fade,
-      initialBinding: UserBinding(),
+      initialBinding: ShoppingListMenuBinding(),
       getPages: AppPages.pages,
-      home: UserPage(),
+      home: ShoppingListMenuPage(),
     );
   }
 }

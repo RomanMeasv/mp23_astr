@@ -8,26 +8,34 @@ import '../user_module/controller.dart';
 class ShoppingListMenuController extends GetxController {
   final ShoppingListMenuRepository repository;
   UserController userController = Get.find<UserController>();
-  ShoppingListMenuController(this.repository);
-
+  ShoppingListMenuController(this.repository) {
+    getAll();
+    print("TEST");
+    print(shoppingLists.length);
+  }
+  List<ShoppingListMenuModel> shoppingLists = <ShoppingListMenuModel>[].obs;
   getAll() {
-    return repository.getAll();
+    List<String> shoppingListIDs = userController.rxUserModel.shoppingListIds;
+
+    shoppingLists = repository.getAll(shoppingListIDs);
   }
 
-  Future<ShoppingListMenuModel> add(String name, String date) async {
-    ShoppingListMenuModel shoppingList = await repository.add(name, date);
-    userController.assignShoppingList(shoppingList.id);
-    return shoppingList;
+  add(String name, String date) async {
+  
+    Map<String, dynamic> shoppingList =
+        await repository.add(name,date);
+    userController.assignShoppingList(shoppingList["id"]);
+
   }
 
-  Future<ShoppingListMenuModel> getById(String shoppingListID) async {
-    return repository.getId(shoppingListID);
-  }
+  // Future<ShoppingListMenuModel> getById(String shoppingListID) async {
+  //   return repository.getId(shoppingListID);
+  // }
 
-  Future<ShoppingListMenuModel> updateShoppingList(
-      String ID, ShoppingListMenuModel shoppingList) {
-    return repository.edit(ID, shoppingList);
-  }
+  // Future<ShoppingListMenuModel> updateShoppingList(
+  //     String ID, ShoppingListMenuModel shoppingList) {
+  //   return repository.edit(ID, shoppingList);
+  // }
   // final _obj = ''.obs;
   // set obj(value) => this._obj.value = value;
   // get obj => this._obj.value;
