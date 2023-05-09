@@ -8,8 +8,7 @@ class UserProvider extends GetConnect {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<UserModel> getUser(String uid) {
-    //TODO: Add try/catch
-    return firestore.collection('users').doc(uid).get().then((value) {
+    return firestore.collection('Users').doc(uid).get().then((value) {
       return UserModel.fromJson(value.data()!);
     });
   }

@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:mp23_astr/app/modules/shopping_list_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
 
 import '../../data/model/user.dart';
-import '../shopping_list_module/binding.dart';
+import '../shopping_list_menu_module/binding.dart';
+import '../shopping_list_menu_module/page.dart';
 
 class UserController extends GetxController {
   final UserRepository repository;
@@ -14,7 +14,7 @@ class UserController extends GetxController {
 
   UserController(this.repository, this.authRepository) {
     authRepository.authStateChanges.listen((user) {
-      syncAppWithAuthState(user);
+      _syncAppWithAuthState(user);
     }
     );
   }
@@ -22,11 +22,11 @@ class UserController extends GetxController {
   final UserModel rxUserModel = UserModel();
   get user => rxUserModel;
 
-  syncAppWithAuthState(user) async {
+  _syncAppWithAuthState(user) async {
     if (user != null) {
       print("Syncing rxUserModel");
       // Fetch the UserModel from the UserRepository
-      UserModel userModel = await repository.getUser(user.uid);
+      UserModel userModel = await _fetchUser(user);
 
       // Update the rxUserModel
       rxUserModel.uid = userModel.uid;
@@ -34,7 +34,7 @@ class UserController extends GetxController {
       rxUserModel.shoppingListIds = userModel.shoppingListIds;
 
       //Navigate to the ShoppingListPage, if the user is logged in
-      Get.offAll(() => ShoppingListPage(), binding: ShoppingListBinding());
+      Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
     }
     else {
       // Reset the rxUserModel
@@ -44,6 +44,24 @@ class UserController extends GetxController {
       // Navigate to the UserPage, if the user is logged out
       Get.offAll(() => UserPage(), binding: UserBinding());
     }
+  }
+
+  Future<UserModel> _fetchUser(user) async {
+    UserModel userModel = UserModel();
+    num attempts = 0;
+    print("Fetching user");
+    do {
+      try {
+        userModel = await repository.getUser(user.uid);
+      } catch (e) {
+        print("Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
+        await Future.delayed(Duration(seconds: 1));
+      }
+    } while (userModel.uid == "" && attempts < 10);
+    if (attempts > 10) {
+      print("Could not fetch user.");
+    }
+    return userModel;
   }
 
   void signUp(String email, String password) async {
