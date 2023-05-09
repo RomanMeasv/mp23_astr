@@ -3,35 +3,37 @@ import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
 class ShoppingListMenuRepository {
   final ShoppingListMenuProvider shoppingListMenuProvider;
-
+  late ShoppingListMenuModel model;
   ShoppingListMenuRepository(this.shoppingListMenuProvider);
 
-  Future<List<ShoppingListMenuModel>> getAll() async {
-    List<ShoppingListMenuModel> AllShoppingLists =
-        await shoppingListMenuProvider.getAll();
-    return AllShoppingLists;
+  getAll(List<String> shoppingListIDs) async {
+    model = await shoppingListMenuProvider.getAll(shoppingListIDs);
   }
 
-  Future<ShoppingListMenuModel> getId(id) async {
-    ShoppingListMenuModel shoppingList =
-        await shoppingListMenuProvider.getById(id);
-    return shoppingList;
-  }
+  // Future<ShoppingListMenuModel> getId(id) async {
+  //   ShoppingListMenuModel shoppingList =
+  //       await shoppingListMenuProvider.getById(id);
+  //   return shoppingList;
+  // }
 
   delete(id) {
     return shoppingListMenuProvider.delete(id);
   }
 
-  Future<ShoppingListMenuModel> edit(String ID,ShoppingListMenuModel shoppingList) async {
-    ShoppingListMenuModel UpdatedShoppingList = await shoppingListMenuProvider.updateShoppingList(ID,shoppingList);
-    return UpdatedShoppingList; 
-  }
+  // Future<ShoppingListMenuModel> edit(
+  //     String ID, ShoppingListMenuModel shoppingList) async {
+  //   final updatedShoppinList =
+  //       await shoppingListMenuProvider.updateShoppingList(ID, shoppingList);
+  //   return UpdatedShoppingList;
+  // }
 
-  Future<ShoppingListMenuModel> add(String nameGiven, String dateGiven) async {
-    ShoppingListMenuModel shoppingList =
-        ShoppingListMenuModel(id: "", name: nameGiven, date: dateGiven);
-    ShoppingListMenuModel createdShoppingList =
+ add(String name, String date) async {
+    final Map<String, dynamic> shoppingList = <String, dynamic>{
+      "name": name,
+      "date": date
+    };
+    final addedShoppingList =
         await shoppingListMenuProvider.addShoppingList(shoppingList);
-    return createdShoppingList;
+    model.shoppingLists.addAll(addedShoppingList);
   }
 }

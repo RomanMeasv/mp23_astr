@@ -9,67 +9,80 @@ const baseUrl = 'http://gerador-nomes.herokuapp.com/nomes/10';
 class ShoppingListMenuProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<ShoppingListMenuModel> getById(shoppingListId) async {
-    try {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection("ShoppingList").doc(shoppingListId).get();
+  // Future<ShoppingListMenuModel> getById(shoppingListId) async {
+  //   try {
+  //     final DocumentSnapshot<Map<String, dynamic>> snapshot =
+  //         await _firestore.collection("ShoppingList").doc(shoppingListId).get();
 
-      ShoppingListMenuModel shoppingList =
-          ShoppingListMenuModel.fromJson(snapshot.data()!);
-      return shoppingList;
-    } catch (e) {
-      print("Provider error (getById): $e");
-      rethrow;
-    }
-  }
+  //     ShoppingListMenuModel shoppingList =
+  //         ShoppingListMenuModel.fromJson(snapshot.data()!);
+  //     return shoppingList;
+  //   } catch (e) {
+  //     print("Provider error (getById): $e");
+  //     rethrow;
+  //   }
+  // }
 
-  Future<ShoppingListMenuModel> addShoppingList(
-      ShoppingListMenuModel shoppingList) async {
+  Future<Map<String,dynamic>> addShoppingList(
+      Map<String,dynamic> shoppingList) async {
     try {
+         
       final collectionRef =
           FirebaseFirestore.instance.collection("ShoppingList");
 
-      final newDocRef = await collectionRef.add(shoppingList.toJson());
-      final newShoppingListId = newDocRef.id;
-      print("ID ");
-      print(newDocRef.id);
+      final newDocRef = await collectionRef.add(shoppingList);
 
-      ShoppingListMenuModel newShoppingList = await getById(newShoppingListId);
-      print("new Shopping List");
-      print(newShoppingList);
-      print("Data added successfully");
-      newShoppingList.id = newDocRef.id;
-      return newShoppingList;
+      shoppingList["id"] = newDocRef.id;
+      return shoppingList;
+      // final collectionRef =
+      //     FirebaseFirestore.instance.collection("ShoppingList");
+
+      // final newDocRef = await collectionRef.add(shoppingList.toJson());
+      // final newShoppingListId = newDocRef.id;
+      // print("ID ");
+      // print(newDocRef.id);
+
+      // ShoppingListMenuModel newShoppingList = await getById(newShoppingListId);
+      // newShoppingList.id = newDocRef.id;
+      // return newShoppingList;
     } catch (e) {
       print("Provider error (addItem): $e");
       rethrow;
     }
   }
 
-  Future<ShoppingListMenuModel> updateShoppingList(
-      String shoppingListID, ShoppingListMenuModel shoppingList) async {
+  Future<Map<String,dynamic>> updateShoppingList(
+  String shoppingListID, Map<String, dynamic> shoppingList) async {
     final collectionRef = FirebaseFirestore.instance
         .collection("ShoppingList")
         .doc(shoppingListID)
-        .set({'name': shoppingList.name, 'date': shoppingList.date});
-    ShoppingListMenuModel updatedShoppingList = await getById(shoppingListID);
-    return updatedShoppingList;
+        .set(shoppingList);
+    //ShoppingListMenuModel updatedShoppingList = await getById(shoppingListID);
+    return shoppingList;
   }
 
-  Future<List<ShoppingListMenuModel>> getAll() async {
+  Future<ShoppingListMenuModel> getAll(
+      List<String> shoppingListIDs) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection("ShoppingList").get();
-      print("Query");
-      print(snapshot.docs.map((e) => e.data()));
-      List<ShoppingListMenuModel> list = snapshot.docs.map((doc) {
-        return ShoppingListMenuModel.fromJson(doc.data());
-      }).toList();
-      print("Data retrieved successfully");
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
+          .collection("ShoppingList")
+          .where(FieldPath.documentId, whereIn: shoppingListIDs)
+          .get();
+      final ShoppingListMenuModel retrieved = ShoppingListMenuModel.fromJson(snapshot.docs);
+      print("Data retrieved successfully (getAll): $retrieved");
+
+      return retrieved;
+      // List<ShoppingListMenuModel> list = snapshot.docs.map((doc) {
+      //   return ShoppingListMenuModel.fromJson(doc.data());
+      // }).toList();
+      // print("IN PROVIDER");
+      // print(list.length);
+
+      // print("Data retrieved successfully");
+      // return list;
     } catch (e) {
       print("Provider error (getAll): $e");
       rethrow;
     }
-    return [];
   }
 }
