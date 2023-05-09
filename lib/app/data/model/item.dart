@@ -1,37 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class RxItemModel {
-  final id = 1.obs;
-  final text = 'some text'.obs;
-  final imageUrl =
-      'https://www.eatthis.com/wp-content/uploads/sites/4/2022/09/cereal-aisle.jpg?quality=82&strip=1&w=640'
-          .obs;
+  final RxMap<String, dynamic> _items = <String, dynamic>{}.obs;
 }
 
 class ItemModel {
-  ItemModel({id, text, imageUrl});
+  ItemModel();
 
   final rx = RxItemModel();
 
-  get text => rx.text.value;
-  set text(value) => rx.text.value = value;
+  Map<String, dynamic> get items => rx._items.value;
+  set items(value) => rx._items.value = value;
 
-  get id => rx.id.value;
-  set id(value) => rx.id.value = value;
-
-  get imageUrl => rx.imageUrl.value;
-  set imageUrl(value) => rx.imageUrl.value = value;
-
-  ItemModel.fromJson(Map<String, dynamic> json) {
-    this.id = json['id'];
-    this.text = json['text'];
-    this.imageUrl = json['imageUrl'];
+  ItemModel.fromJson(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    docs.map((qds) {
+      rx._items.addAll(qds.data());
+    });
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = this.text;
-    data['imageUrl'] = this.imageUrl;
+    data['text'] = this.items;
+    // data['imageUrl'] = this.imageUrl;
     return data;
   }
 }

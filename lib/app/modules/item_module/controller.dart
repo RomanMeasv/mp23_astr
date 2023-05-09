@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 import 'package:mp23_astr/app/modules/item_module/repository.dart';
 
 class ItemController extends GetxController {
@@ -16,6 +17,8 @@ class ItemController extends GetxController {
   late Rx<CameraDescription?> _selectedCamera;
   late Rx<bool> _isCameraReady;
   late Rx<XFile?> _capturedImage;
+
+  final shoppingListId = "W1FcrBpQwEAvDm41Pz4X";
 
   @override
   void onInit() {
@@ -55,7 +58,12 @@ class ItemController extends GetxController {
   }
 
   _retrieveItems() {
-    repository.getAll();
+    try {
+      final retrievedItems = repository.getAll(shoppingListId);
+      print("Retrieve success: $retrievedItems");
+    } catch (e) {
+      print("Retrieving failed");
+    }
   }
 
   Future<void> captureImage() async {
@@ -87,10 +95,14 @@ class ItemController extends GetxController {
   item(index) => _items[index].value;
 
   saveItem() {
-    print(repository.getAll());
-    String text = _textFieldController.text;
-    XFile? image = _capturedImage.value;
-    repository.addItem(text, image);
+    try {
+      String text = _textFieldController.text;
+      XFile image = _capturedImage.value!;
+      repository.addItem(shoppingListId, text, image);
+      // print("Saving success: $newItem");
+    } catch (e) {
+      print("Saving failed");
+    }
   }
 
   @override

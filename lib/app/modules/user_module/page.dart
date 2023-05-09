@@ -6,8 +6,6 @@ import 'controller.dart';
 class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
-    final UserController controller = Get.find();
-
     return Scaffold(
       appBar: AppBar(title: Text('UserPage')),
       body: Column(

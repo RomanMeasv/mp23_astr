@@ -10,63 +10,67 @@ import 'package:mp23_astr/app/data/model/item.dart';
 class ItemProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<ItemModel>> getAll(shoppingListId) async {
+  final shoppingListCollection = "ShoppingList";
+  final itemCollection = "Item";
+  final imageCollection = "Image/";
+
+  Future<ItemModel> getAll(shoppingListId) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection("ShoppingList")
+          .collection(shoppingListCollection)
           .doc(shoppingListId)
-          .collection("Item")
+          .collection(itemCollection)
           .get();
 
-      List<ItemModel> list = snapshot.docs.map((doc) {
-        print(doc.data());
-        return ItemModel.fromJson(doc.data());
-      }).toList();
+      final ItemModel retrieved = ItemModel.fromJson(snapshot.docs);
 
-      print("Data retrieved successfully");
-      print(list);
-      return list;
+      print("Data retrieved successfully (getAll): $retrieved");
+
+      return retrieved;
     } catch (e) {
       print("Provider error (getAll): $e");
       rethrow;
     }
   }
 
-  Future<ItemModel> getById(shoppingListId, itemId) async {
-    try {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection("ShoppingList")
-          .doc(shoppingListId)
-          .collection("Item")
-          .doc(itemId)
-          .get();
+  // Future<DocumentSnapshot<Map<String, dynamic>>> getById(
+  //     shoppingListId, itemId) async {
+  //   try {
+  //     final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
+  //         .collection(shoppingListCollection)
+  //         .doc(shoppingListId)
+  //         .collection(itemCollection)
+  //         .doc(itemId)
+  //         .get();
 
-      ItemModel item = ItemModel.fromJson(snapshot.data()!);
-      return item;
-    } catch (e) {
-      print("Provider error (getById): $e");
-      rethrow;
-    }
-  }
+  //     print("Data retrieved successfully (getById): $snapshot");
+
+  //     return snapshot;
+  //   } catch (e) {
+  //     print("Provider error (getById): $e");
+  //     rethrow;
+  //   }
+  // }
 
   edit(obj) {}
 
-  Future<ItemModel> addItem(String shoppingListId, ItemModel item) async {
+  Future<Map<String, dynamic>> addItem(
+      String shoppingListId, Map<String, dynamic> item) async {
     try {
       // Get a reference to the collection you want to add data to
       final collectionRef = FirebaseFirestore.instance
-          .collection("ShoppingList")
+          .collection(shoppingListCollection)
           .doc(shoppingListId)
-          .collection("Item");
+          .collection(itemCollection);
 
       // Create a new document with auto-generated ID
-      final newDocRef = await collectionRef.add(item.toJson());
-      final newItemId = newDocRef.id;
+      final newDocRef = await collectionRef.add(item);
+      // Assign the newly created id
+      item["id"] = newDocRef.id;
 
-      ItemModel newItem = await getById(shoppingListId, newItemId);
+      print("Data added successfully (addItem): $item");
 
-      print("Data added successfully");
-      return newItem;
+      return item;
     } catch (e) {
       print("Provider error (addItem): $e");
       rethrow;
@@ -78,7 +82,8 @@ class ItemProvider extends GetConnect {
 
     // Create a reference to the file location
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final storageRef = FirebaseStorage.instance.ref().child("images/$fileName");
+    final storageRef =
+        FirebaseStorage.instance.ref().child(imageCollection + fileName);
 
     // Upload the file to the storage location
     final uploadTask = storageRef.putFile(File(file.path));
