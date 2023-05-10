@@ -6,5 +6,17 @@ final ThemeData appThemeData = ThemeData(
   textTheme: const TextTheme(
     displayLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
   ),
-  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
+  colorScheme: const ColorScheme(
+      primary: Color(0xffFF5733),
+      secondary: Colors.green,
+      surface: Colors.white,
+      background: Colors.grey,
+      error: Colors.red,
+      onPrimary: Colors.white,
+      onSecondary: Colors.black,
+      onSurface: Colors.black,
+      onBackground: Colors.black,
+      onError: Colors.white,
+      brightness: Brightness.light,
+    ),
 );
