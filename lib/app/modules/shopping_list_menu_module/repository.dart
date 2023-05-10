@@ -3,11 +3,11 @@ import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
 class ShoppingListMenuRepository {
   final ShoppingListMenuProvider shoppingListMenuProvider;
-  late ShoppingListMenuModel model;
+ 
   ShoppingListMenuRepository(this.shoppingListMenuProvider);
 
-  getAll(List<String> shoppingListIDs) async {
-    model = await shoppingListMenuProvider.getAll(shoppingListIDs);
+   Future<ShoppingListMenuModel> getAll(List<String> shoppingListIDs) async {
+    return await shoppingListMenuProvider.getAll(shoppingListIDs);
   }
 
   // Future<ShoppingListMenuModel> getId(id) async {
@@ -27,13 +27,13 @@ class ShoppingListMenuRepository {
   //   return UpdatedShoppingList;
   // }
 
- add(String name, String date) async {
+  add(String name, String date) async {
     final Map<String, dynamic> shoppingList = <String, dynamic>{
       "name": name,
       "date": date
     };
     final addedShoppingList =
         await shoppingListMenuProvider.addShoppingList(shoppingList);
-    model.shoppingLists.addAll(addedShoppingList);
+    
   }
 }

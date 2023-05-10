@@ -21,63 +21,68 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     //         onPressed: () => controller.add("Tawfik test", "22/02/1999"),
     //         child: Text("Add a ShoppingList"),
     //       ),
-    //       ElevatedButton(
-    //         onPressed: () => controller.getById("OfwoYr2jeCBDrp4FRAVc"),
-    //         child: Text("Get By ID"),
-    //       ),
-    //       ElevatedButton(
-    //         onPressed: () => controller.updateShoppingList(
-    //             "oMytU3WlFqehQcz8mwSi",
-    //             ShoppingListMenuModel(
-    //                 name: "Modified Shit", date: "12/2/5255")),
-    //         child: Text("Update List"),
-    //       ),
+    //       // ElevatedButton(
+    //       //   onPressed: () => controller.getById("OfwoYr2jeCBDrp4FRAVc"),
+    //       //   child: Text("Get By ID"),
+    //       // ),
+    //       // ElevatedButton(
+    //       //   onPressed: () => controller.updateShoppingList(
+    //       //       "oMytU3WlFqehQcz8mwSi",
+    //       //       ShoppingListMenuModel(
+    //       //           name: "Modified Shit", date: "12/2/5255")),
+    //       //   child: Text("Update List"),
+    //       // ),
     //     ],
     //   ),
     // );
-    
+
     return Scaffold(
-      bottomNavigationBar: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: showBottomSheet,
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-      appBar: AppBar(
-        title: const Text('Current Shopping Lists'),
-        centerTitle: true,
-      ),
-      body: Obx(() =>  ListView.builder(
-        itemCount: controller.shoppingLists.length,
-        itemBuilder: (context, int index) {
-          return ListTile(
-            title: Text(controller.shoppingLists[index].toString()),
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return showBottomSheet(context);
+        bottomNavigationBar: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: showBottomSheet,
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
+        appBar: AppBar(
+          title: const Text('Current Shopping Lists'),
+          centerTitle: true,
+        ),
+        body: Obx(
+          () => ListView.builder(
+            itemCount: controller.rxShoppingList.shoppingLists.length,
+            itemBuilder: (context, int index) {
+              return ListTile(
+                title: Text(controller.rxShoppingList.shoppingLists.entries
+                        .elementAt(index)
+                        .value +
+                    " " +
+                    controller.rxShoppingList.shoppingLists.entries
+                        .elementAt(index)
+                        .value),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return showBottomSheet(context);
+                    },
+                  );
                 },
+                trailing: IconButton(
+                  icon: const Icon(
+                    Icons.delete_outline,
+                  ),
+                  onPressed: () {
+                    // Here We Will Add The Delete Feature
+                  },
+                ),
               );
             },
-            trailing: IconButton(
-              icon: const Icon(
-                Icons.delete_outline,
-              ),
-              onPressed: () {
-                // Here We Will Add The Delete Feature
-              },
-            ),
-          );
-        },
-      ),)
-    );
+          ),
+        ));
   }
-
-
 }
 
 String? value;
@@ -92,8 +97,8 @@ Widget showBottomSheet(BuildContext context) {
           child: TextField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Add Todo',
-              hintText: 'Enter An Item',
+              labelText: 'Add a ShoppingList',
+              hintText: 'Enter a name',
             ),
             onChanged: (String _val) {
               value = _val;

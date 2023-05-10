@@ -23,10 +23,9 @@ class ShoppingListMenuProvider extends GetConnect {
   //   }
   // }
 
-  Future<Map<String,dynamic>> addShoppingList(
-      Map<String,dynamic> shoppingList) async {
+  Future<Map<String, dynamic>> addShoppingList(
+      Map<String, dynamic> shoppingList) async {
     try {
-         
       final collectionRef =
           FirebaseFirestore.instance.collection("ShoppingList");
 
@@ -51,8 +50,8 @@ class ShoppingListMenuProvider extends GetConnect {
     }
   }
 
-  Future<Map<String,dynamic>> updateShoppingList(
-  String shoppingListID, Map<String, dynamic> shoppingList) async {
+  Future<Map<String, dynamic>> updateShoppingList(
+      String shoppingListID, Map<String, dynamic> shoppingList) async {
     final collectionRef = FirebaseFirestore.instance
         .collection("ShoppingList")
         .doc(shoppingListID)
@@ -61,16 +60,15 @@ class ShoppingListMenuProvider extends GetConnect {
     return shoppingList;
   }
 
-  Future<ShoppingListMenuModel> getAll(
-      List<String> shoppingListIDs) async {
+  Future<ShoppingListMenuModel> getAll(List<String> shoppingListIDs) async {
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
           .collection("ShoppingList")
           .where(FieldPath.documentId, whereIn: shoppingListIDs)
           .get();
-      final ShoppingListMenuModel retrieved = ShoppingListMenuModel.fromJson(snapshot.docs);
+      final ShoppingListMenuModel retrieved =
+          ShoppingListMenuModel.fromJson(snapshot.docs);
       print("Data retrieved successfully (getAll): $retrieved");
-
       return retrieved;
       // List<ShoppingListMenuModel> list = snapshot.docs.map((doc) {
       //   return ShoppingListMenuModel.fromJson(doc.data());
