@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/item_module/binding.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
+import 'package:mp23_astr/app/routes/routes.dart';
 
 import '../../data/model/shopping_list_menu.dart';
 import '../item_module/page.dart';
@@ -59,8 +61,10 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                         Icons.delete_outline,
                       ),
                       onPressed: () {
-                        controller.deleteShoppingList(
-                            controller.rxShoppingLists.value[index]);
+                        // controller.deleteShoppingList(
+                        //     controller.rxShoppingLists.value[index]);
+                        showAlertDialog(
+                            context, controller.rxShoppingLists.value[index]);
                       },
                     ),
                   ],
@@ -85,9 +89,12 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 // Used a ternary operator to check if isUpdate is true then display
-                // Update Todo.
-                labelText:
-                    isUpdate ? 'Update Shopping List' : 'Add Shopping List',
+                // Update Shopping List.
+                label: Text(isUpdate
+                    ? shoppingList.name
+                    : 'Enter a Shopping List name'),
+                // labelText:
+                //     isUpdate ? 'Update Shopping List' : 'Add Shopping List',
                 hintText: 'Enter a Shopping list',
               ),
               onChanged: (String _val) {
@@ -123,16 +130,41 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       ),
     );
   }
-}
 
-Widget _buildShoppingList(
-    BuildContext context, List<ShoppingListMenuModel> list) {
-  return ListView.builder(
-    itemBuilder: (BuildContext context, int index) {
-      return ListTile(
-        title: Text(list[index].toString()),
-      );
-    },
-    itemCount: list.length,
-  );
+  showAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        controller.deleteShoppingList(shoppingList);
+        // Get.to(() => ShoppingListMenuPage(),
+        //     binding: ShoppingListMenuBinding());
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirm deletion"),
+      content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
