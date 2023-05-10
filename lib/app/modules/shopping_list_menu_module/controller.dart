@@ -8,24 +8,33 @@ import '../user_module/controller.dart';
 class ShoppingListMenuController extends GetxController {
   final ShoppingListMenuRepository repository;
   UserController userController = Get.find<UserController>();
-  ShoppingListMenuController(this.repository) {
-    getAll();
-    print("TEST");
-    print(shoppingLists.length);
-  }
-  List<ShoppingListMenuModel> shoppingLists = <ShoppingListMenuModel>[].obs;
-  getAll() {
-    List<String> shoppingListIDs = userController.rxUserModel.shoppingListIds;
 
-    shoppingLists = repository.getAll(shoppingListIDs);
+  ShoppingListMenuModel rxShoppingList = ShoppingListMenuModel();
+
+  ShoppingListMenuController(this.repository) {
+    // getAll();
   }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await getAll();
+  }
+
+  getAll() async {
+    List<String> shoppingListIDs = userController.rxUserModel.shoppingListIds;
+    ShoppingListMenuModel tmp = ShoppingListMenuModel();
+    tmp = await repository.getAll(shoppingListIDs);
+    rxShoppingList.shoppingLists.addAll(tmp.shoppingLists);
+  }
+  // final _shoppingLists = Map<String, dynamic>{};
+  // get shoppingLists => _shoppingLists.value;
+  // set shoppingLists(value) => _shoppingLists.value = value;
+  // get shoppingListsCount => shoppingLists.length;
 
   add(String name, String date) async {
-  
-    Map<String, dynamic> shoppingList =
-        await repository.add(name,date);
+    Map<String, dynamic> shoppingList = await repository.add(name, date);
     userController.assignShoppingList(shoppingList["id"]);
-
   }
 
   // Future<ShoppingListMenuModel> getById(String shoppingListID) async {
