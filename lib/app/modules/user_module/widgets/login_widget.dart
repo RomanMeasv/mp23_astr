@@ -26,10 +26,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             hintText: 'example@gmail.com',
             prefixIcon: Icon(Icons.email),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(5),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(5),
               borderSide: BorderSide(
                 color: Theme.of(context).colorScheme.primary,
                 width: 2.0,
@@ -59,10 +59,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                   },
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
                     color: Theme.of(context).colorScheme.primary,
                     width: 2.0,
@@ -76,20 +76,43 @@ class _LoginWidgetState extends State<LoginWidget> {
           },
         ),
         ElevatedButton(
-          onPressed: () => controller.signUp(
-            _emailController.text.trim(),
-            _passwordController.text.trim(),
+          onPressed: () {
+            controller.signIn(
+              _emailController.text.trim(),
+              _passwordController.text.trim(),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
-          child: Text("Sign up"),
+          child: Text('Log in',
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
         ),
         ElevatedButton(
-          onPressed: () => controller.signIn(
-            _emailController.text.trim(),
-            _passwordController.text.trim(),
+          onPressed: () {
+            controller.signUp(
+              _emailController.text.trim(),
+              _passwordController.text.trim(),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
-          child: Text("Sign in"),
+          child: Text('Register',
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
         ),
       ],
+      
     );
   }
 }
