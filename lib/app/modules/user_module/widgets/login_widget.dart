@@ -93,26 +93,26 @@ class _LoginWidgetState extends State<LoginWidget> {
               style:
                   TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
         ),
-        ElevatedButton(
-          onPressed: () {
-            controller.signUp(
-              _emailController.text.trim(),
-              _passwordController.text.trim(),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-          child: Text('Register',
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
-        ),
       ],
-      
     );
   }
 }
+
+// ElevatedButton(
+//           onPressed: () {
+//             controller.signUp(
+//               _emailController.text.trim(),
+//               _passwordController.text.trim(),
+//             );
+//           },
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: Theme.of(context).colorScheme.secondary,
+//             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(5),
+//             ),
+//           ),
+//           child: Text('Register',
+//               style:
+//                   TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+//         ),
