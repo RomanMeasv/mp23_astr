@@ -9,7 +9,9 @@ class UserProvider extends GetConnect {
 
   Future<UserModel> getUser(String uid) {
     return firestore.collection('Users').doc(uid).get().then((value) {
-      return UserModel.fromJson(value.data()!);
+      UserModel userModel = UserModel.fromJson(value.data()!);
+      userModel.uid = value.id;
+      return userModel;
     });
   }
 }

@@ -21,7 +21,6 @@ class UserModel {
   set shoppingListIds(value) => rx.shoppingListIds.value = value;
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    uid = json['uid'];
     email = json['email'];
     shoppingListIds = json['shoppingListIds'].cast<String>();
   }
