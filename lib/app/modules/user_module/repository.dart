@@ -14,4 +14,8 @@ class UserRepository {
   Future<void> assignShoppingList(String uid, String shoppingListId) {
     return api.assignShoppingList(uid, shoppingListId);
   }
+
+  Future<void> deAssignShoppingList(String uid, String shoppingListId) {
+    return api.deAssignShoppingList(uid, shoppingListId);
+  }
 }

@@ -96,4 +96,9 @@ class UserController extends GetxController {
     await repository.assignShoppingList(user.uid, shoppingListId);
     rxUserModel.shoppingListIds.add(shoppingListId);
   }
+
+   void deAssignShoppingList(String shoppingListId) async {
+    await repository.deAssignShoppingList(user.uid, shoppingListId);
+    rxUserModel.shoppingListIds.remove(shoppingListId);
+  }
 }

@@ -23,7 +23,7 @@ class ShoppingListMenuModel {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['uid'] = uid;
+    // data['uid'] = uid;
     data['name'] = name;
     return data;
   }
