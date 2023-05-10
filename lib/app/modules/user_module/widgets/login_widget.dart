@@ -25,8 +25,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                 )),
-                        const Padding(padding: EdgeInsets.only(top: 30)),
-
+        const Padding(padding: EdgeInsets.only(top: 30)),
         Container(
           margin: const EdgeInsets.all(20),
           child: TextField(
@@ -110,12 +109,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
                 child: Text('Log in',
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary
-                        )
-                        ),
+                        color: Theme.of(context).colorScheme.onSecondary)),
               ),
             )),
-            
+        Container(
+            margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text("or"),
+                ),
+                Expanded(
+                  child: Divider(color: Colors.grey[400], thickness: 1)),
+              ],
+            )),
         Container(
             height: 60,
             width: double.infinity,
