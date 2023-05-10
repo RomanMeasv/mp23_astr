@@ -22,4 +22,8 @@ class AuthProvider {
       password: password
     ).then((value) => value.user);
   }
+
+  Future<User?> signInWithGoogle() {
+
+  }
 }
