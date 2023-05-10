@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProvider {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,7 +24,22 @@ class AuthProvider {
     ).then((value) => value.user);
   }
 
-  Future<User?> signInWithGoogle() {
+  Future<User?> signInWithGoogle() async {
+    print("Signing in with Google");
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) {
+      print("Google sign in aborted");
+      return null;
+    }
+
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken
+    );
+
+    return _auth.signInWithCredential(credential).then((value) => value.user);
   }
 }
