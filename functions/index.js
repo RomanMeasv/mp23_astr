@@ -7,7 +7,6 @@ exports.createUserOnSignUp = functions.auth
     .onCreate((user) => {
         admin.firestore().collection("Users").doc(user.uid)
         .set({
-            uid: user.uid,
             email: user.email,
             shoppingListIds: [],
         });
