@@ -19,7 +19,14 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     return Column(
       children: [
-        // Image.asset('lib\app\assets\images\grocery.png'),
+        const Padding(padding: EdgeInsets.only(top: 50)),
+        Text('Unpacked',
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                )),
+        const Padding(padding: EdgeInsets.only(top: 25)),
+        Image.asset('lib/app/assets/images/grocery.png', scale: 3),
+        const Padding(padding: EdgeInsets.only(top: 30)),
         TextField(
           controller: _emailController,
           decoration: InputDecoration(
