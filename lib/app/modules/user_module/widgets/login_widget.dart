@@ -19,6 +19,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     return Column(
       children: [
+        // Image.asset('lib\app\assets\images\grocery.png'),
         TextField(
           controller: _emailController,
           decoration: InputDecoration(
