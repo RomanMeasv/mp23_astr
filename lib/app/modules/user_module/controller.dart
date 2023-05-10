@@ -23,10 +23,15 @@ class UserController extends GetxController {
   get user => rxUserModel;
 
   _syncAppWithAuthState(user) async {
+    print("AuthState: $user");
     if (user != null) {
       print("Syncing rxUserModel");
       // Fetch the UserModel from the UserRepository
       UserModel userModel = await _fetchUser(user);
+
+      if (userModel.uid == "") {
+        return;
+      }
 
       // Update the rxUserModel
       rxUserModel.uid = userModel.uid;
@@ -49,7 +54,7 @@ class UserController extends GetxController {
   Future<UserModel> _fetchUser(user) async {
     UserModel userModel = UserModel();
     num attempts = 0;
-    print("Fetching user");
+    print("Fetching user with UID: ${user.uid}");
     do {
       try {
         userModel = await repository.getUser(user.uid);
@@ -74,5 +79,9 @@ class UserController extends GetxController {
 
   void signOut() async {
     await authRepository.signOut();
+  }
+
+  void signInWithGoogle() async {
+    await authRepository.signInWithGoogle();
   }
 }
