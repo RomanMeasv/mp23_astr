@@ -6,7 +6,7 @@ class ShoppingListMenuRepository {
  
   ShoppingListMenuRepository(this.shoppingListMenuProvider);
 
-   Future<ShoppingListMenuModel> getAll(List<String> shoppingListIDs) async {
+   Future<List<ShoppingListMenuModel>> getAll(List<String> shoppingListIDs) async {
     return await shoppingListMenuProvider.getAll(shoppingListIDs);
   }
 

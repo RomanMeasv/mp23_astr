@@ -60,16 +60,20 @@ class ShoppingListMenuProvider extends GetConnect {
     return shoppingList;
   }
 
-  Future<ShoppingListMenuModel> getAll(List<String> shoppingListIDs) async {
+  Future<List<ShoppingListMenuModel>> getAll(List<String> shoppingListIDs) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection("ShoppingList")
-          .where(FieldPath.documentId, whereIn: shoppingListIDs)
-          .get();
-      final ShoppingListMenuModel retrieved =
-          ShoppingListMenuModel.fromJson(snapshot.docs);
-      print("Data retrieved successfully (getAll): $retrieved");
-      return retrieved;
+      List<ShoppingListMenuModel> shoppingLists = [];
+      for (var shoppingListID in shoppingListIDs) {
+        final DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await _firestore.collection("ShoppingList").doc(shoppingListID).get();
+
+        ShoppingListMenuModel shoppingList =
+            ShoppingListMenuModel.fromJson(snapshot.data()!);
+        shoppingList.uid = shoppingListID;
+        shoppingLists.add(shoppingList);
+        print("Provider:" + shoppingListID);
+      }
+      return shoppingLists;
       // List<ShoppingListMenuModel> list = snapshot.docs.map((doc) {
       //   return ShoppingListMenuModel.fromJson(doc.data());
       // }).toList();
