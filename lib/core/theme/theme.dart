@@ -9,22 +9,23 @@ final ThemeData appThemeData = ThemeData(
     titleMedium: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
     titleSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
 
-    displayLarge: TextStyle(fontSize: 20.0),
-    displayMedium: TextStyle(fontSize: 16.0),
-    displaySmall: TextStyle(fontSize: 12.0),
+    displayLarge: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),
+    displayMedium: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+    displaySmall: TextStyle(fontSize: 12.0,fontWeight: FontWeight.bold),
 
-    bodyLarge: TextStyle(fontSize: 20.0),
-    bodyMedium: TextStyle(fontSize: 16.0),
-    bodySmall: TextStyle(fontSize: 12.0),
+    bodyLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+    bodyMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+    bodySmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
 
-    labelLarge: TextStyle(fontSize: 20.0),
-    labelMedium: TextStyle(fontSize: 16.0),
-    labelSmall: TextStyle(fontSize: 12.0),
+    labelLarge: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),
+    labelMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+    labelSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
 
-    headlineLarge: TextStyle(fontSize: 20.0),
-    headlineMedium: TextStyle(fontSize: 16.0),
-    headlineSmall: TextStyle(fontSize: 12.0),
-    
+    headlineLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+    headlineMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+    headlineSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+
+
     ),
   colorScheme: const ColorScheme(
       primary: Color(0xffE2711D),
