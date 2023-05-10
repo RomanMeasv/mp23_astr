@@ -8,7 +8,7 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('UserPage')),
+      appBar: AppBar(title: Text('Log in Unpacked')),
       body: Column(
         children: [
           Obx(() => Text('UID: ${controller.user.uid}')),

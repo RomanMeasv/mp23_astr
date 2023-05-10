@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,17 +15,65 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     final UserController controller = Get.find();
+    bool _obscureText = true;
 
     return Column(
       children: [
         TextField(
           controller: _emailController,
-          decoration: InputDecoration(labelText: 'Email'),
+          decoration: InputDecoration(
+            labelText: 'Email',
+            hintText: 'example@gmail.com',
+            prefixIcon: Icon(Icons.email),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2.0,
+              ),
+            ),
+            filled: true,
+            fillColor: Colors.grey[100],
+          ),
         ),
-        TextField(
-          controller: _passwordController,
-          decoration: InputDecoration(labelText: 'Password'),
-          obscureText: true,
+        StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                hintText: '••••••••',
+                prefixIcon: Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    print('Toggle password visibility');
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2.0,
+                  ),
+                ),
+                filled: true,
+                fillColor: Colors.grey[100],
+              ),
+              obscureText: _obscureText,
+            );
+          },
         ),
         ElevatedButton(
           onPressed: () => controller.signUp(
