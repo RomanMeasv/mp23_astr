@@ -16,8 +16,9 @@ class ShoppingListMenuModel {
   String get name => rx.name.value;
   set name(value) => rx.name.value = value;
 
-  ShoppingListMenuModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  ShoppingListMenuModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    uid = snapshot.id;
+    name = snapshot.data()!['name'];
   }
 
   Map<String, dynamic> toJson() {

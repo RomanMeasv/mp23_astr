@@ -68,8 +68,7 @@ class ShoppingListMenuProvider extends GetConnect {
             await _firestore.collection("ShoppingList").doc(shoppingListID).get();
 
         ShoppingListMenuModel shoppingList =
-            ShoppingListMenuModel.fromJson(snapshot.data()!);
-        shoppingList.uid = shoppingListID;
+            ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
         shoppingLists.add(shoppingList);
         print("Provider:" + shoppingListID);
       }
