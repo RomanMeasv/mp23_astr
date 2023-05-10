@@ -25,6 +25,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-  
+  - family: Nunito
+      fonts:
+        - asset: lib/app/assets/fonts/Nunito-VariableFont_wght.ttf
   assets: 
     - lib/app/assets/images/
