@@ -20,4 +20,13 @@ class UserProvider extends GetConnect {
       'shoppingListIds': FieldValue.arrayUnion([shoppingListId])
     });
   }
+
+ Future<void> deAssignShoppingList(String uid, String shoppingListId) {
+    List<dynamic> listToRemove = <dynamic>[];
+    listToRemove.add(shoppingListId);
+   return firestore
+        .collection('users')
+        .doc(uid)
+        .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
+  }
 }

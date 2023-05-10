@@ -3,10 +3,11 @@ import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
 class ShoppingListMenuRepository {
   final ShoppingListMenuProvider shoppingListMenuProvider;
- 
+
   ShoppingListMenuRepository(this.shoppingListMenuProvider);
 
-   Future<List<ShoppingListMenuModel>> getAll(List<String> shoppingListIDs) async {
+  Future<List<ShoppingListMenuModel>> getAll(
+      List<String> shoppingListIDs) async {
     return await shoppingListMenuProvider.getAll(shoppingListIDs);
   }
 
@@ -17,23 +18,22 @@ class ShoppingListMenuRepository {
   // }
 
   delete(id) {
-    return shoppingListMenuProvider.delete(id);
+    return shoppingListMenuProvider.deleteShoppingList(id);
   }
 
-  // Future<ShoppingListMenuModel> edit(
-  //     String ID, ShoppingListMenuModel shoppingList) async {
-  //   final updatedShoppinList =
-  //       await shoppingListMenuProvider.updateShoppingList(ID, shoppingList);
-  //   return UpdatedShoppingList;
-  // }
+  Future<ShoppingListMenuModel> edit(
+      String ID, ShoppingListMenuModel shoppingList) async {
+    print("IN REPO ${shoppingList.name}");
+    final updatedShoppingList =
+        await shoppingListMenuProvider.updateShoppingList(ID, shoppingList);
+    return updatedShoppingList;
+  }
 
-  add(String name, String date) async {
-    final Map<String, dynamic> shoppingList = <String, dynamic>{
-      "name": name,
-      "date": date
-    };
+  Future<ShoppingListMenuModel> add(String name) async {
+    ShoppingListMenuModel shoppingList = ShoppingListMenuModel();
+    shoppingList.name = name;
     final addedShoppingList =
         await shoppingListMenuProvider.addShoppingList(shoppingList);
-    
+    return addedShoppingList;
   }
 }
