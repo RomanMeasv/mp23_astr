@@ -52,16 +52,10 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
         ),
         body: Obx(
           () => ListView.builder(
-            itemCount: controller.rxShoppingList.shoppingLists.length,
+            itemCount: controller.rxShoppingLists.value.length,
             itemBuilder: (context, int index) {
               return ListTile(
-                title: Text(controller.rxShoppingList.shoppingLists.entries
-                        .elementAt(index)
-                        .value +
-                    " " +
-                    controller.rxShoppingList.shoppingLists.entries
-                        .elementAt(index)
-                        .value),
+                title: Text(controller.rxShoppingLists.value[index].uid),
                 onTap: () {
                   showModalBottomSheet(
                     context: context,

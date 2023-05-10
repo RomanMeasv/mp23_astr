@@ -9,7 +9,7 @@ class ShoppingListMenuController extends GetxController {
   final ShoppingListMenuRepository repository;
   UserController userController = Get.find<UserController>();
 
-  ShoppingListMenuModel rxShoppingList = ShoppingListMenuModel();
+  Rx<List<ShoppingListMenuModel>> rxShoppingLists = Rx<List<ShoppingListMenuModel>>([]);
 
   ShoppingListMenuController(this.repository) {
     // getAll();
@@ -17,15 +17,16 @@ class ShoppingListMenuController extends GetxController {
 
   @override
   void onInit() async {
+
     super.onInit();
-    await getAll();
+    getAll();
   }
 
-  getAll() async {
+  void getAll() async {
     List<String> shoppingListIDs = userController.rxUserModel.shoppingListIds;
-    ShoppingListMenuModel tmp = ShoppingListMenuModel();
-    tmp = await repository.getAll(shoppingListIDs);
-    rxShoppingList.shoppingLists.addAll(tmp.shoppingLists);
+    List<ShoppingListMenuModel> shoppingList = await repository.getAll(shoppingListIDs);
+    rxShoppingLists.value = List.from(shoppingList);
+    print("Controller: ${rxShoppingLists.value.length}");
   }
   // final _shoppingLists = Map<String, dynamic>{};
   // get shoppingLists => _shoppingLists.value;
