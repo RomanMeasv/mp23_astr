@@ -24,5 +24,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+  
   assets: 
     - lib/app/assets/images/
