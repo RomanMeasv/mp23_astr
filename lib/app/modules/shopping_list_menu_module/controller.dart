@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/repository.dart';
 
 import '../../data/model/shopping_list_menu.dart';
+import '../../data/model/user.dart';
 import '../user_module/auth_repository.dart';
 import '../user_module/controller.dart';
 
@@ -15,7 +16,7 @@ class ShoppingListMenuController extends GetxController {
   ShoppingListMenuController(this.repository) {
     // getAll();
   }
-
+  List<UserModel> listUsers = <UserModel>[];
   @override
   void onInit() async {
     super.onInit();
@@ -24,6 +25,7 @@ class ShoppingListMenuController extends GetxController {
 
   void getAll() async {
     List<String> shoppingListIDs = userController.rxUserModel.shoppingListIds;
+    print("ShoppingLIstUser: ${shoppingListIDs}");
     List<ShoppingListMenuModel> shoppingList =
         await repository.getAll(shoppingListIDs);
     rxShoppingLists.value = List.from(shoppingList);
@@ -45,7 +47,10 @@ class ShoppingListMenuController extends GetxController {
   //   return repository.getId(shoppingListID);
   // }
   deleteShoppingList(ShoppingListMenuModel shoppingList) async {
-    userController.deAssignShoppingList(shoppingList.uid);
+    //userController.deAssignShoppingList(shoppingList.uid);
+
+    userController.rxUserModel.removeShoppingListId(shoppingList.uid);
+
     await repository.delete(shoppingList.uid);
     getAll();
   }
@@ -58,7 +63,16 @@ class ShoppingListMenuController extends GetxController {
     getAll();
     print("Modified ${shoppingList.name}");
   }
+
   // final _obj = ''.obs;
   // set obj(value) => this._obj.value = value;
   // get obj => this._obj.value;
+  getAllUSers() async {
+    listUsers = await repository.getAllUsers();
+  }
+
+  addNewUserToShoppingList(
+      String userID, ShoppingListMenuModel shoppingList) async {
+    userController.assignShoppingListToUser(userID, shoppingList.uid);
+  }
 }

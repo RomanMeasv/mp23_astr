@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/user.dart';
 import 'package:mp23_astr/app/modules/item_module/binding.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
@@ -42,6 +43,17 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.contact_mail,
+                      ),
+                      onPressed: () {
+                        // controller.deleteShoppingList(
+                        //     controller.rxShoppingLists.value[index]);
+                        showUserAlertDialog(
+                            context, controller.rxShoppingLists.value[index]);
+                      },
+                    ),
                     IconButton(
                       icon: const Icon(
                         Icons.edit,
@@ -153,6 +165,72 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     AlertDialog alert = AlertDialog(
       title: Text("Confirm deletion"),
       content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showUserAlertDialog(
+      BuildContext context, ShoppingListMenuModel shoppingList) {
+    // set up the buttons
+    UserModel? _selectedUser = UserModel();
+    controller.getAllUSers();
+    print("List User size : ${controller.listUsers.length}");
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Add User to Shopping List"),
+      onPressed: () {
+        controller.addNewUserToShoppingList(_selectedUser!.uid, shoppingList);
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Input a mail:"),
+      content: Column(
+        children: [
+          Autocomplete<UserModel>(
+            optionsBuilder: (TextEditingValue value) {
+              // When the field is empty
+              if (value.text.isEmpty) {
+                return [];
+              }
+
+              // The logic to find out which ones should appear
+              return controller.listUsers.where((element) => element.email
+                  .toLowerCase()
+                  .contains(value.text.toLowerCase()));
+              // .where((suggestion) =>
+              //     suggestion.toLowerCase().contains(value.text.toLowerCase()));
+            },
+            onSelected: (value) {
+              _selectedUser = value;
+              print("it works ${value.email}");
+            },
+            displayStringForOption: (option) => option.email,
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Text(_selectedUser!.email ?? 'Type something (a, b, c, etc)'),
+        ],
+      ),
       actions: [
         cancelButton,
         continueButton,

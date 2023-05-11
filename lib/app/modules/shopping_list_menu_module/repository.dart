@@ -1,6 +1,8 @@
 import 'package:mp23_astr/app/data/model/shopping_list_menu.dart';
 import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
+import '../../data/model/user.dart';
+
 class ShoppingListMenuRepository {
   final ShoppingListMenuProvider shoppingListMenuProvider;
 
@@ -19,6 +21,12 @@ class ShoppingListMenuRepository {
 
   delete(id) {
     return shoppingListMenuProvider.deleteShoppingList(id);
+  }
+
+  Future<List<UserModel>> getAllUsers() async {
+    List<UserModel> listUsers = <UserModel>[];
+    listUsers = await shoppingListMenuProvider.getAllUsers();
+    return listUsers;
   }
 
   Future<ShoppingListMenuModel> edit(
