@@ -11,6 +11,7 @@ import '../item_module/page.dart';
 import '../shopping_list_menu_module/controller.dart';
 
 class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
+  UserController userController = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +31,8 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
             centerTitle: true,
             actions: [
               IconButton(
-                  icon: const Icon(Icons.add_alert),
-                  tooltip: 'Show Snackbar',
+                  icon: const Icon(Icons.logout),
+                  tooltip: 'Logout',
                   onPressed: () {
                     controller.signOut();
                   }),
@@ -75,16 +76,35 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                         );
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.delete_outline,
+                    Visibility(
+                      visible: controller.rxShoppingLists.value[index].owner ==
+                          userController.rxUserModel.uid,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.delete_outline,
+                        ),
+                        onPressed: () {
+                          // controller.deleteShoppingList(
+                          //     controller.rxShoppingLists.value[index]);
+                          showAlertDialog(
+                              context, controller.rxShoppingLists.value[index]);
+                        },
                       ),
-                      onPressed: () {
-                        // controller.deleteShoppingList(
-                        //     controller.rxShoppingLists.value[index]);
-                        showAlertDialog(
-                            context, controller.rxShoppingLists.value[index]);
-                      },
+                    ),
+                    Visibility(
+                      visible: controller.rxShoppingLists.value[index].owner !=
+                          userController.rxUserModel.uid,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.directions_run_rounded,
+                        ),
+                        onPressed: () {
+                          // controller.deleteShoppingList(
+                          //     controller.rxShoppingLists.value[index]);
+                          showLeaveListAlertDialog(
+                              context, controller.rxShoppingLists.value[index]);
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -172,6 +192,44 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     AlertDialog alert = AlertDialog(
       title: Text("Confirm deletion"),
       content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showLeaveListAlertDialog(
+      BuildContext context, ShoppingListMenuModel shoppingList) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Stay"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Leave the list"),
+      onPressed: () {
+        controller.deleteShoppingList(shoppingList);
+        // Get.to(() => ShoppingListMenuPage(),
+        //     binding: ShoppingListMenuBinding());
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirm leaving the list"),
+      content: Text("Are you sure you want to leave ${shoppingList.name} ?"),
       actions: [
         cancelButton,
         continueButton,
