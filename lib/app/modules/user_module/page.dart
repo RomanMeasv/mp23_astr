@@ -23,7 +23,6 @@ class UserPage extends GetView<UserController> {
           //   child: Text("Sign out"),
           // ),
           LoginWidget(),
-          
         ],
       ),
     );
