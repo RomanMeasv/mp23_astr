@@ -10,7 +10,7 @@ import '../user_module/controller.dart';
 class ShoppingListMenuController extends GetxController {
   final ShoppingListMenuRepository repository;
   UserController userController = Get.find<UserController>();
-  UserRepository userRepository = Get.find<UserRepository>();
+  // UserRepository userRepository = Get.find<UserRepository>();
 
   Rx<List<ShoppingListMenuModel>> rxShoppingLists =
       Rx<List<ShoppingListMenuModel>>([]);
@@ -70,11 +70,15 @@ class ShoppingListMenuController extends GetxController {
   // set obj(value) => this._obj.value = value;
   // get obj => this._obj.value;
   getAllUsers() async {
-    listUsers = await userRepository.getAll();
+    listUsers = await userController.repository.getAll();
+  }
+
+  signOut() {
+    userController.signOut();
   }
 
   addNewUserToShoppingList(
       String userID, ShoppingListMenuModel shoppingList) async {
-    userRepository.assignShoppingList(userID, shoppingList.uid);
+    userController.repository.assignShoppingList(userID, shoppingList.uid);
   }
 }

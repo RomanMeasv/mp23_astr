@@ -26,9 +26,16 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           child: const Icon(Icons.add),
         ),
         appBar: AppBar(
-          title: const Text('Current Shopping Lists'),
-          centerTitle: true,
-        ),
+            title: const Text('Current Shopping Lists'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  icon: const Icon(Icons.add_alert),
+                  tooltip: 'Show Snackbar',
+                  onPressed: () {
+                    controller.signOut();
+                  }),
+            ]),
         body: Obx(
           () => ListView.builder(
             itemCount: controller.rxShoppingLists.value.length,
@@ -221,7 +228,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
             },
             onSelected: (value) {
               _selectedUser = value;
-              print("it works ${value.email}");
+              print("it works ${value.email} ID : ${value.uid}");
             },
             displayStringForOption: (option) => option.email,
           ),
