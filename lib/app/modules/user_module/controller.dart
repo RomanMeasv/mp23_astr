@@ -15,8 +15,7 @@ class UserController extends GetxController {
   UserController(this.repository, this.authRepository) {
     authRepository.authStateChanges.listen((user) {
       _syncAppWithAuthState(user);
-    }
-    );
+    });
   }
 
   final UserModel rxUserModel = UserModel();
@@ -39,13 +38,13 @@ class UserController extends GetxController {
       rxUserModel.shoppingListIds = userModel.shoppingListIds;
 
       //Navigate to the ShoppingListPage, if the user is logged in
-      Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
-    }
-    else {
+      Get.offAll(() => ShoppingListMenuPage(),
+          binding: ShoppingListMenuBinding());
+    } else {
       // Reset the rxUserModel
       print("Resetting rxUserModel");
       rxUserModel.reset();
-      
+
       // Navigate to the UserPage, if the user is logged out
       Get.offAll(() => UserPage(), binding: UserBinding());
     }
@@ -59,7 +58,8 @@ class UserController extends GetxController {
       try {
         userModel = await repository.getUser(user.uid);
       } catch (e) {
-        print("Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
+        print(
+            "Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
         await Future.delayed(Duration(seconds: 1));
       }
     } while (userModel.uid == "" && attempts < 10);
@@ -72,15 +72,11 @@ class UserController extends GetxController {
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
     //Navigate to the ShoppingListPage, if the user is logged in
-    Get.offAll(() => ShoppingListMenuPage(),
-        binding: ShoppingListMenuBinding());
   }
 
   void signIn(String email, String password) async {
     await authRepository.signIn(email, password);
     //Navigate to the ShoppingListPage, if the user is logged in
-    Get.offAll(() => ShoppingListMenuPage(),
-        binding: ShoppingListMenuBinding());
   }
 
   // Methods below are not used in the page respective to this module but are used in other modules
