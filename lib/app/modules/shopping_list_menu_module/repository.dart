@@ -23,12 +23,6 @@ class ShoppingListMenuRepository {
     return shoppingListMenuProvider.deleteShoppingList(id);
   }
 
-  Future<List<UserModel>> getAllUsers() async {
-    List<UserModel> listUsers = <UserModel>[];
-    listUsers = await shoppingListMenuProvider.getAllUsers();
-    return listUsers;
-  }
-
   Future<ShoppingListMenuModel> edit(
       String ID, ShoppingListMenuModel shoppingList) async {
     print("IN REPO ${shoppingList.name}");

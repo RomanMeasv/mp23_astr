@@ -11,6 +11,12 @@ class UserRepository {
     return api.getUser(uid);
   }
 
+  Future<List<UserModel>> getAll() async {
+    List<UserModel> listUsers = <UserModel>[];
+    listUsers = await api.getAll();
+    return listUsers;
+  }
+
   Future<void> assignShoppingList(String uid, String shoppingListId) {
     return api.assignShoppingList(uid, shoppingListId);
   }

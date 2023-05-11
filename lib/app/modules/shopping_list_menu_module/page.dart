@@ -184,7 +184,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       BuildContext context, ShoppingListMenuModel shoppingList) {
     // set up the buttons
     UserModel? _selectedUser = UserModel();
-    controller.getAllUSers();
+    controller.getAllUsers();
     print("List User size : ${controller.listUsers.length}");
     Widget cancelButton = TextButton(
       child: Text("Cancel"),

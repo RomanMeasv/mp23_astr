@@ -83,22 +83,4 @@ class ShoppingListMenuProvider extends GetConnect {
       rethrow;
     }
   }
-
-  Future<List<UserModel>> getAllUsers() async {
-    try {
-      List<UserModel> userList = [];
-
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection("users").get();
-      snapshot.docs.map((e) => userList.add(UserModel.fromJson(e.data())));
-      for (int i = 0; i < snapshot.docs.length; i++) {
-        userList.add(UserModel.fromJson(snapshot.docs[i].data()));
-      }
-      print("IN PROVIDER: ${userList.length}");
-      return userList;
-    } catch (e) {
-      print("Provider error (getAllUsers): $e");
-      rethrow;
-    }
-  }
 }
