@@ -34,7 +34,7 @@ class UserController extends GetxController {
       rxUserModel.shoppingListIds = userModel.shoppingListIds;
       
       //Navigate to the ShoppingListPage, if the user is logged in
-      //Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
+      Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
     }
     else {
       // Reset the rxUserModel
