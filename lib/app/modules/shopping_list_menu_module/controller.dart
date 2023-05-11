@@ -39,7 +39,10 @@ class ShoppingListMenuController extends GetxController {
   // get shoppingListsCount => shoppingLists.length;
 
   add(String name) async {
-    ShoppingListMenuModel shoppingList = await repository.add(name);
+    ShoppingListMenuModel shoppingList = ShoppingListMenuModel();
+    shoppingList.name = name;
+    shoppingList.owner = userController.rxUserModel.uid;
+    shoppingList = await repository.add(shoppingList);
     userController.assignShoppingList(shoppingList.uid);
     rxShoppingLists.value.add(shoppingList);
     print("Added Shopping List ${shoppingList.uid}");
@@ -53,7 +56,7 @@ class ShoppingListMenuController extends GetxController {
 
     userController.rxUserModel.removeShoppingListId(shoppingList.uid);
 
-    await repository.delete(shoppingList.uid);
+    await repository.delete(userController.rxUserModel.uid,shoppingList);
     getAll();
   }
 
