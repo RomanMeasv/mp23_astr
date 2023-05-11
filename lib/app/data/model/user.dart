@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class RxUserModel {
@@ -24,9 +25,11 @@ class UserModel {
     rx.shoppingListIds.remove(shoppingListId);
     
   }
-  UserModel.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    shoppingListIds = json['shoppingListIds'].cast<String>();
+  UserModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    uid = snapshot.id;
+    email = snapshot.data()!['email'];
+    shoppingListIds = List<String>.from(snapshot.data()!['shoppingListIds']);
   }
 
   Map<String, dynamic> toJson() {
