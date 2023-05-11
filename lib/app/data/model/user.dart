@@ -20,6 +20,10 @@ class UserModel {
   get shoppingListIds => rx.shoppingListIds;
   set shoppingListIds(value) => rx.shoppingListIds.value = value;
 
+  void removeShoppingListId(String shoppingListId) {
+    rx.shoppingListIds.remove(shoppingListId);
+    
+  }
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     shoppingListIds = json['shoppingListIds'].cast<String>();

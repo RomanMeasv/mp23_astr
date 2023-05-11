@@ -8,7 +8,6 @@ import '../../data/model/user.dart';
 import '../shopping_list_menu_module/binding.dart';
 import '../shopping_list_menu_module/page.dart';
 
-
 class UserController extends GetxController {
   final UserRepository repository;
   final AuthRepository authRepository;
@@ -46,7 +45,7 @@ class UserController extends GetxController {
       // Reset the rxUserModel
       print("Resetting rxUserModel");
       rxUserModel.reset();
-
+      
       // Navigate to the UserPage, if the user is logged out
       Get.offAll(() => UserPage(), binding: UserBinding());
     }
@@ -73,13 +72,15 @@ class UserController extends GetxController {
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
     //Navigate to the ShoppingListPage, if the user is logged in
-    Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
+    Get.offAll(() => ShoppingListMenuPage(),
+        binding: ShoppingListMenuBinding());
   }
 
   void signIn(String email, String password) async {
     await authRepository.signIn(email, password);
     //Navigate to the ShoppingListPage, if the user is logged in
-    Get.offAll(() => ShoppingListMenuPage(), binding: ShoppingListMenuBinding());
+    Get.offAll(() => ShoppingListMenuPage(),
+        binding: ShoppingListMenuBinding());
   }
 
   // Methods below are not used in the page respective to this module but are used in other modules
@@ -97,8 +98,12 @@ class UserController extends GetxController {
     rxUserModel.shoppingListIds.add(shoppingListId);
   }
 
-   void deAssignShoppingList(String shoppingListId) async {
+  void deAssignShoppingList(String shoppingListId) async {
     await repository.deAssignShoppingList(user.uid, shoppingListId);
     rxUserModel.shoppingListIds.remove(shoppingListId);
+  }
+
+  void assignShoppingListToUser(String userID, String shoppingListID) async {
+    await repository.assignShoppingList(userID, shoppingListID);
   }
 }
