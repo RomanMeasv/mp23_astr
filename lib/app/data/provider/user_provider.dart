@@ -17,7 +17,7 @@ class UserProvider extends GetConnect {
 
   Future<void> assignShoppingList(String uid, String shoppingListId) {
     print("USERID: ${uid} Shopping ListID: ${shoppingListId}");
-    return firestore.collection('users').doc(uid).update({
+    return firestore.collection('Users').doc(uid).update({
       'shoppingListIds': FieldValue.arrayUnion([shoppingListId])
     });
   }
@@ -27,8 +27,27 @@ class UserProvider extends GetConnect {
     listToRemove.add(shoppingListId);
     
     return firestore
-        .collection('users')
+        .collection('Users')
         .doc(uid)
         .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
+  }
+
+
+  Future<List<UserModel>> getAll() async {
+    try {
+      List<UserModel> userList = [];
+
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+      await firestore.collection("Users").get();
+      snapshot.docs.map((e) => userList.add(UserModel.fromJson(e.data())));
+      for (int i = 0; i < snapshot.docs.length; i++) {
+        userList.add(UserModel.fromJson(snapshot.docs[i].data()));
+      }
+      print("IN PROVIDER: ${userList.length}");
+      return userList;
+    } catch (e) {
+      print("Provider error (getAllUsers): $e");
+      rethrow;
+    }
   }
 }

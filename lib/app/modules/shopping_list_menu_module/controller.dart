@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/repository.dart';
+import 'package:mp23_astr/app/modules/user_module/repository.dart';
 
 import '../../data/model/shopping_list_menu.dart';
 import '../../data/model/user.dart';
@@ -9,6 +10,7 @@ import '../user_module/controller.dart';
 class ShoppingListMenuController extends GetxController {
   final ShoppingListMenuRepository repository;
   UserController userController = Get.find<UserController>();
+  UserRepository userRepository = Get.find<UserRepository>();
 
   Rx<List<ShoppingListMenuModel>> rxShoppingLists =
       Rx<List<ShoppingListMenuModel>>([]);
@@ -67,12 +69,12 @@ class ShoppingListMenuController extends GetxController {
   // final _obj = ''.obs;
   // set obj(value) => this._obj.value = value;
   // get obj => this._obj.value;
-  getAllUSers() async {
-    listUsers = await repository.getAllUsers();
+  getAllUsers() async {
+    listUsers = await userRepository.getAll();
   }
 
   addNewUserToShoppingList(
       String userID, ShoppingListMenuModel shoppingList) async {
-    userController.assignShoppingListToUser(userID, shoppingList.uid);
+    userRepository.assignShoppingList(userID, shoppingList.uid);
   }
 }
