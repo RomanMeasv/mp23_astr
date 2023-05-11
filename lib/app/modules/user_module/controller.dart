@@ -20,6 +20,7 @@ class UserController extends GetxController {
   }
 
   final UserModel rxUserModel = UserModel();
+
   get user => rxUserModel;
 
   _syncAppWithAuthState(user) async {
@@ -60,7 +61,7 @@ class UserController extends GetxController {
         userModel = await repository.getUser(user.uid);
       } catch (e) {
         print("Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
       }
     } while (userModel.uid == "" && attempts < 10);
     if (attempts > 10) {
