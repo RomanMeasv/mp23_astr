@@ -10,6 +10,13 @@ import '../../data/model/shopping_list_menu.dart';
 import '../item_module/page.dart';
 import '../shopping_list_menu_module/controller.dart';
 
+typedef ButtonCallback = void Function();
+
+enum DialogType {
+  Delete,
+  Leave,
+  User,
+}
 class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   UserController userController = Get.find<UserController>();
   @override
@@ -170,105 +177,85 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
   }
 
-  showAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed: () {
-        controller.deleteShoppingList(shoppingList);
-        // Get.to(() => ShoppingListMenuPage(),
-        //     binding: ShoppingListMenuBinding());
-        Navigator.pop(context);
-      },
-    );
+showConfirmationDialog({
+  required BuildContext context,
+  required DialogType type,
+  required String title,
+  required Widget content,
+  required ButtonCallback cancelButtonCallback,
+  required ButtonCallback continueButtonCallback,
+}) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    onPressed: cancelButtonCallback,
+    child: const Text("Cancel"),
+  );
+  Widget continueButton = TextButton(
+    onPressed: continueButtonCallback,
+    child: Text(type == DialogType.User ? "Add User to Shopping List" : "Continue"),
+  );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Confirm deletion"),
-      content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: content,
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 
-  showLeaveListAlertDialog(
-      BuildContext context, ShoppingListMenuModel shoppingList) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Stay"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Leave the list"),
-      onPressed: () {
-        controller.deleteShoppingList(shoppingList);
-        // Get.to(() => ShoppingListMenuPage(),
-        //     binding: ShoppingListMenuBinding());
-        Navigator.pop(context);
-      },
-    );
+showAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
+  showConfirmationDialog(
+    context: context,
+    type: DialogType.Delete,
+    title: "Confirm deletion",
+    content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
+    cancelButtonCallback: () {
+      Navigator.pop(context);
+    },
+    continueButtonCallback: () {
+      controller.deleteShoppingList(shoppingList);
+      Navigator.pop(context);
+    },
+  );
+}
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Confirm leaving the list"),
-      content: Text("Are you sure you want to leave ${shoppingList.name} ?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
+showLeaveListAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
+  showConfirmationDialog(
+    context: context,
+    type: DialogType.Leave,
+    title: "Confirm leaving the list",
+    content: Text("Are you sure you want to leave ${shoppingList.name} ?"),
+    cancelButtonCallback: () {
+      Navigator.pop(context);
+    },
+    continueButtonCallback: () {
+      controller.deleteShoppingList(shoppingList);
+      Navigator.pop(context);
+    },
+  );
+}
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+showUserAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
+  UserModel? selectedUser = UserModel();
+  controller.getAllUsers();
+  print("List User size : ${controller.listUsers.length}");
 
-  showUserAlertDialog(
-      BuildContext context, ShoppingListMenuModel shoppingList) {
-    // set up the buttons
-    UserModel? _selectedUser = UserModel();
-    controller.getAllUsers();
-    print("List User size : ${controller.listUsers.length}");
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Add User to Shopping List"),
-      onPressed: () {
-        controller.addNewUserToShoppingList(_selectedUser!.uid, shoppingList);
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Input a mail:"),
-      content: Column(
+  showConfirmationDialog(
+    context: context,
+    type: DialogType.User,
+    title: "Input a mail:",
+    content: Column(
         children: [
           Autocomplete<UserModel>(
             optionsBuilder: (TextEditingValue value) {
@@ -285,7 +272,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               //     suggestion.toLowerCase().contains(value.text.toLowerCase()));
             },
             onSelected: (value) {
-              _selectedUser = value;
+              selectedUser = value;
               print("it works ${value.email} ID : ${value.uid}");
             },
             displayStringForOption: (option) => option.email,
@@ -293,21 +280,17 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           const SizedBox(
             height: 30,
           ),
-          Text(_selectedUser!.email ?? 'Type something (a, b, c, etc)'),
+          Text(selectedUser!.email ?? 'Type something (a, b, c, etc)'),
         ],
       ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+    cancelButtonCallback: () {
+      Navigator.pop(context);
+    },
+    continueButtonCallback: () {
+      controller.addNewUserToShoppingList(selectedUser!.uid, shoppingList);
+      Navigator.pop(context);
+    },
+  );
+ }
 }
+
