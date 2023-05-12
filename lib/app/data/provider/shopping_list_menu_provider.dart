@@ -15,7 +15,7 @@ class ShoppingListMenuProvider extends GetConnect {
       ShoppingListMenuModel shoppingList) async {
     try {
       final collectionRef =
-          FirebaseFirestore.instance.collection("ShoppingList");
+          _firestore.collection("ShoppingList");
 
       final newDocRef = await collectionRef.add(shoppingList.toJson());
 
@@ -29,7 +29,7 @@ class ShoppingListMenuProvider extends GetConnect {
 
   Future<ShoppingListMenuModel> updateShoppingList(
       String shoppingListID, ShoppingListMenuModel shoppingList) async {
-    final collectionRef = FirebaseFirestore.instance
+    final collectionRef = _firestore
         .collection("ShoppingList")
         .doc(shoppingListID)
         .set(shoppingList.toJson());
@@ -40,29 +40,24 @@ class ShoppingListMenuProvider extends GetConnect {
     if (userID != shoppingList.owner) {
       List<dynamic> listToRemove = <dynamic>[];
       listToRemove.add(shoppingList.uid);
-      await FirebaseFirestore.instance
+      await _firestore
           .collection('Users')
           .doc(userID)
           .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
       return;
     }
-    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
+    final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
         .collection("Users")
         .where("shoppingListIds", arrayContains: shoppingList.uid)
         .get();
-    List<dynamic> listToRemove = <dynamic>[];
-    listToRemove.add(shoppingList.uid);
+   
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-      // Access specific fields in the data map
-
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(doc.id)
-          .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
-      // Do something with the extracted data
+          .update({'shoppingListIds': FieldValue.arrayRemove([shoppingList.uid])});
     }
-    final collectionRef = await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("ShoppingList")
         .doc(shoppingList.uid)
         .delete();
@@ -71,7 +66,6 @@ class ShoppingListMenuProvider extends GetConnect {
   Future<List<ShoppingListMenuModel>> getAll(
       List<String> shoppingListIDs) async {
     try {
-      print("Shopping in provider: ${shoppingListIDs}");
       List<ShoppingListMenuModel> shoppingLists = [];
       for (var shoppingListID in shoppingListIDs) {
         final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
@@ -82,7 +76,6 @@ class ShoppingListMenuProvider extends GetConnect {
         ShoppingListMenuModel shoppingList =
             ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
         shoppingLists.add(shoppingList);
-        print("Provider:" + shoppingListID);
       }
       return shoppingLists;
     } catch (e) {
