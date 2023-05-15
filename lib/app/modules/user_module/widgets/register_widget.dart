@@ -201,6 +201,42 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               child: SizedBox(
                 child: ElevatedButton(
                   onPressed: () {
+                    controller.isLogging(true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: Text('Log in',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary)),
+                ),
+              )),
+          Container(
+              margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("or maybe..."),
+                  ),
+                  Expanded(
+                      child: Divider(color: Colors.grey[400], thickness: 1)),
+                ],
+              )),
+          Container(
+              height: 60,
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
+              child: SizedBox(
+                child: ElevatedButton(
+                  onPressed: () {
                     //implement google log in
                   },
                   style: ElevatedButton.styleFrom(
@@ -214,42 +250,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   child: Text('Use your google account',
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary)),
-                ),
-              )),
-          Container(
-              margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text("or"),
-                  ),
-                  Expanded(
-                      child: Divider(color: Colors.grey[400], thickness: 1)),
-                ],
-              )),
-          Container(
-              height: 60,
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    controller.isLogging(true);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: Text('Log in',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary)),
                 ),
               )),
         ],
