@@ -23,7 +23,7 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     // Get the tokens of the users, the tokens are stored as an array in the user document
     let allFcmTokens = []; //TODO: The user's own token might be excluded, but it's easier to test
     users.forEach(user => {
-        tokens = tokens.concat(user.data().fcmTokens);
+        allFcmTokens = allFcmTokens.concat(user.data().fcmTokens);
     });
 
     // Construct the notification message that it includes the name of the shopping list, who added and what
@@ -41,7 +41,7 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     response.failureCount > 0 && response.responses.forEach((resp, idx) => {
         if (!resp.success) {
             // remove the failed token
-            let failed_token = tokens[idx];
+            let failed_token = allFcmTokens[idx];
             //TODO: remove the `failed_token` from the users `fcmTokens` array
             console.log('Failure sending notification to', failed_token, resp.error);
         }
