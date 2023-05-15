@@ -1,29 +1,31 @@
-import 'package:get/get.dart';
-
-class RxItemModel {
-  final id = 0.obs;
-  final nome = 'nome'.obs;
-}
+import 'package:camera/camera.dart';
 
 class ItemModel {
-  ItemModel({id, nome});
+  String? id;
+  late String text;
+  late String imageUrl;
+  XFile? image;
 
-  final rx = RxItemModel();
+  ItemModel({this.id, required this.text, required this.imageUrl});
 
-  get nome => rx.nome.value;
-  set nome(value) => rx.nome.value = value;
-
-  get id => rx.id.value;
-  set id(value) => rx.id.value = value;
-
-  ItemModel.fromJson(Map<String, dynamic> json) {
-    this.id = json['id'];
-    this.nome = json['nome'];
+  ItemModel.fromJson(String itemId, Map<String, dynamic> json) {
+    id = itemId;
+    text = json['text'];
+    imageUrl = json['imageUrl'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nome'] = this.nome;
-    return data;
+    final Map<String, dynamic> item = <String, dynamic>{
+      'id': id,
+      'text': text,
+      'imageUrl': imageUrl,
+      'image': image,
+    };
+    return item;
+  }
+
+  @override
+  String toString() {
+    return 'ID: $id, text: $text';
   }
 }

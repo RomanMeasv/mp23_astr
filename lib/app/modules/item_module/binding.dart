@@ -7,7 +7,6 @@ import 'controller.dart';
 class ItemBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ItemController>(
-        () => ItemController(ItemRepository(ItemProvider())));
+    Get.put<ItemController>(ItemController(ItemRepository(ItemProvider())));
   }
 }

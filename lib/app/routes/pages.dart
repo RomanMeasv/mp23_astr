@@ -7,8 +7,8 @@ import '../modules/item_module/page.dart';
 
 class AppPages {
   static final pages = [
-    GetPage(name: Routes.ITEM, page: () => const ItemPage()),
     GetPage(name: Routes.USER, page: () => UserPage()),
+    GetPage(name: Routes.ITEM, page: () => ItemPage()),
     GetPage(
         name: Routes.SHOPPING_LIST_MENU, page: () => ShoppingListMenuPage()),
   ];
