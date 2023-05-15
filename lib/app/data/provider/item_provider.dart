@@ -14,7 +14,7 @@ class ItemProvider extends GetConnect {
   final itemCollection = "Item";
   final imageCollection = "Image/";
 
-  Future<ItemModel> getAll(shoppingListId) async {
+  Future<List<ItemModel>> getAllItems(shoppingListId) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
           .collection(shoppingListCollection)
@@ -22,11 +22,13 @@ class ItemProvider extends GetConnect {
           .collection(itemCollection)
           .get();
 
-      final ItemModel retrieved = ItemModel.fromJson(snapshot.docs);
+      final List<ItemModel> items = snapshot.docs
+          .map((item) => ItemModel.fromJson(item.id, item.data()))
+          .toList();
 
-      print("Data retrieved successfully (getAll): $retrieved");
+      print("Items retrieved successfully (getAll): $items");
 
-      return retrieved;
+      return items;
     } catch (e) {
       print("Provider error (getAll): $e");
       rethrow;
@@ -54,8 +56,7 @@ class ItemProvider extends GetConnect {
 
   edit(obj) {}
 
-  Future<Map<String, dynamic>> addItem(
-      String shoppingListId, Map<String, dynamic> item) async {
+  Future<ItemModel> addItem(String shoppingListId, ItemModel item) async {
     try {
       // Get a reference to the collection you want to add data to
       final collectionRef = FirebaseFirestore.instance
@@ -64,11 +65,11 @@ class ItemProvider extends GetConnect {
           .collection(itemCollection);
 
       // Create a new document with auto-generated ID
-      final newDocRef = await collectionRef.add(item);
+      final newDocRef = await collectionRef.add(item.toJson());
       // Assign the newly created id
-      item["id"] = newDocRef.id;
+      item.id = newDocRef.id;
 
-      print("Data added successfully (addItem): $item");
+      print("Item added successfully (addItem): $item");
 
       return item;
     } catch (e) {

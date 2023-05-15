@@ -9,7 +9,7 @@ import 'widgets/photo_remover.dart';
 import 'widgets/photo_taker.dart';
 
 class ItemPage extends GetView<ItemController> {
-  ItemPage({super.key});
+  const ItemPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +37,28 @@ class ItemPage extends GetView<ItemController> {
   }
 
   Widget _buildCarousel() {
-    return PageView.builder(
-      allowImplicitScrolling: true,
-      controller: controller.horizontalController,
-      itemCount: controller.itemCount,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return CarouselCard(item: controller.item(index));
-      },
+    return controller.obx(
+      (items) => PageView.builder(
+        allowImplicitScrolling: true,
+        controller: controller.horizontalController,
+        itemCount: items!.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          // print('ITEMS: $items');
+          return CarouselCard(item: items[index]);
+        },
+      ),
     );
+
+    // return PageView.builder(
+    //   allowImplicitScrolling: true,
+    //   controller: controller.horizontalController,
+    //   itemCount: controller.itemCount,
+    //   scrollDirection: Axis.horizontal,
+    //   itemBuilder: (context, index) {
+    //     return Obx(() => CarouselCard(item: controller.itemAtIndex(index)));
+    //   },
+    // );
   }
 
   Widget _buildPhotoTaker() {
@@ -100,7 +113,7 @@ class ItemPage extends GetView<ItemController> {
                 controller.saveItem();
               },
               icon: const Icon(Icons.save_rounded),
-              label: Text("Save"),
+              label: const Text("Save"),
             ),
           ],
         ),

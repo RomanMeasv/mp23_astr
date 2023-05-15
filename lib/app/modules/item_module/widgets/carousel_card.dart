@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 import 'package:mp23_astr/core/utils/card_size.dart';
 
 class CarouselCard extends StatelessWidget {
   static const double _textHeight = 120.0;
 
-  var item;
+  final ItemModel item;
 
-  CarouselCard({required this.item, super.key});
+  const CarouselCard({required this.item, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +34,13 @@ class CarouselCard extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(16.0),
                 // TODO: add some kind of shadow so the text is visible at all times
                 child: Text(
-                  'Cereals',
+                  item.text,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,
                   ),

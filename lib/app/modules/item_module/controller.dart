@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mp23_astr/app/data/model/item.dart';
 import 'package:mp23_astr/app/modules/item_module/repository.dart';
 
-class ItemController extends GetxController {
+class ItemController extends GetxController with StateMixin<List<ItemModel>> {
   final ItemRepository repository;
 
   late PageController _horizontalController;
@@ -22,13 +22,41 @@ class ItemController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
+    _retrieveAllItems();
     _initializeControllers();
     _initializeCamera();
-    _retrieveItems();
+    super.onInit();
   }
 
   ItemController(this.repository);
+
+  PageController get verticalController => _verticalController;
+  PageController get horizontalController => _horizontalController;
+
+  TextEditingController get textFieldController => _textFieldController;
+
+  CameraController get cameraController => _cameraController;
+  List<CameraDescription> get cameras => _cameras;
+  Rx<CameraDescription?> get selectedCamera => _selectedCamera;
+  Rx<bool> get isCameraReady => _isCameraReady;
+  Rx<XFile?> get capturedImage => _capturedImage;
+
+  Future<void> captureImage() async {
+    if (!_isCameraReady.value) return;
+
+    try {
+      final XFile capturedFile = await _cameraController.takePicture();
+      _capturedImage.value = capturedFile;
+    } catch (e) {
+      print('Error capturing image (captureImage): $e');
+    }
+  }
+
+  saveItem() async {
+    String text = _textFieldController.text;
+    XFile image = _capturedImage.value!;
+    //append(repository.addItem(shoppingListId, text, image))
+  }
 
   _initializeControllers() {
     _horizontalController = PageController();
@@ -57,52 +85,15 @@ class ItemController extends GetxController {
     _capturedImage = Rx<XFile?>(null);
   }
 
-  _retrieveItems() {
-    try {
-      final retrievedItems = repository.getAll(shoppingListId);
-      print("Retrieve success: $retrievedItems");
-    } catch (e) {
-      print("Retrieving failed");
-    }
-  }
-
-  Future<void> captureImage() async {
-    if (!_isCameraReady.value) return;
-
-    try {
-      final XFile? capturedFile = await _cameraController.takePicture();
-      _capturedImage.value = capturedFile;
-    } catch (e) {
-      print('Error capturing image (captureImage): $e');
-    }
-  }
-
-  PageController get verticalController => _verticalController;
-  PageController get horizontalController => _horizontalController;
-
-  TextEditingController get textFieldController => _textFieldController;
-
-  CameraController get cameraController => _cameraController;
-  List<CameraDescription> get cameras => _cameras;
-  Rx<CameraDescription?> get selectedCamera => _selectedCamera;
-  Rx<bool> get isCameraReady => _isCameraReady;
-  Rx<XFile?> get capturedImage => _capturedImage;
-
-  final _items = RxList.empty();
-  get items => _items.value;
-  set items(value) => _items.value = value;
-  get itemCount => items.length;
-  item(index) => _items[index].value;
-
-  saveItem() {
-    try {
-      String text = _textFieldController.text;
-      XFile image = _capturedImage.value!;
-      repository.addItem(shoppingListId, text, image);
-      // print("Saving success: $newItem");
-    } catch (e) {
-      print("Saving failed");
-    }
+  _retrieveAllItems() {
+    repository.getAll(shoppingListId).then((resp) {
+      change(resp, status: RxStatus.success());
+    }, onError: (err) {
+      change(
+        null,
+        status: RxStatus.error(err.toString()),
+      );
+    });
   }
 
   @override

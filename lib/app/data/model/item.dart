@@ -1,28 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
-
-class RxItemModel {
-  final RxMap<String, dynamic> _items = <String, dynamic>{}.obs;
-}
+import 'package:camera/camera.dart';
 
 class ItemModel {
-  ItemModel();
+  String? id;
+  late String text;
+  late String imageUrl;
+  XFile? image;
 
-  final rx = RxItemModel();
+  ItemModel({this.id, required this.text, required this.imageUrl});
 
-  Map<String, dynamic> get items => rx._items.value;
-  set items(value) => rx._items.value = value;
-
-  ItemModel.fromJson(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
-    docs.map((qds) {
-      rx._items.addAll(qds.data());
-    });
+  ItemModel.fromJson(String itemId, Map<String, dynamic> json) {
+    id = itemId;
+    text = json['text'];
+    imageUrl = json['imageUrl'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = this.items;
-    // data['imageUrl'] = this.imageUrl;
-    return data;
+    final Map<String, dynamic> item = <String, dynamic>{
+      'id': id,
+      'text': text,
+      'imageUrl': imageUrl,
+      'image': image,
+    };
+    return item;
+  }
+
+  @override
+  String toString() {
+    return 'ID: $id, text: $text';
   }
 }
