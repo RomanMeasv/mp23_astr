@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/user_module/widgets/register_widget.dart';
 
 import '../controller.dart';
 
@@ -133,10 +134,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: SizedBox(
               child: ElevatedButton(
                 onPressed: () {
-                  controller.signUp(
-                    _emailController.text.trim(),
-                    _passwordController.text.trim(),
-                  );
+                  controller.isLogging(false);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.secondary,

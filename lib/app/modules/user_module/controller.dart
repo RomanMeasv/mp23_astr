@@ -3,6 +3,7 @@ import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
+import 'package:mp23_astr/app/modules/user_module/widgets/register_widget.dart';
 
 import '../../data/model/user.dart';
 import '../shopping_list_menu_module/binding.dart';
@@ -11,6 +12,7 @@ import '../shopping_list_menu_module/page.dart';
 class UserController extends GetxController {
   final UserRepository repository;
   final AuthRepository authRepository;
+  RxBool isLogging = false.obs;
 
   UserController(this.repository, this.authRepository) {
     authRepository.authStateChanges.listen((user) {
@@ -19,7 +21,6 @@ class UserController extends GetxController {
   }
 
   final UserModel rxUserModel = UserModel();
-
   get user => rxUserModel;
 
   _syncAppWithAuthState(user) async {
@@ -54,20 +55,27 @@ class UserController extends GetxController {
   Future<UserModel> _fetchUser(user) async {
     UserModel userModel = UserModel();
     num attempts = 0;
+    bool userFetched = false; // Flag variable to indicate if a valid user is fetched
+
     print("Fetching user with UID: ${user.uid}");
     do {
       try {
         userModel = await repository.getUser(user.uid);
       } catch (e) {
-
         print("Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
         await Future.delayed(const Duration(seconds: 1));
-
       }
-    } while (userModel.uid == "" && attempts < 10);
-    if (attempts > 10) {
+
+      // Check if a valid user is fetched
+      if (userModel.uid != "") {
+        userFetched = true;
+      }
+    } while (!userFetched && attempts < 20);
+
+    if (!userFetched) {
       print("Could not fetch user.");
     }
+
     return userModel;
   }
 
@@ -99,5 +107,9 @@ class UserController extends GetxController {
   void deAssignShoppingList(String shoppingListId) async {
     await repository.deAssignShoppingList(user.uid, shoppingListId);
     rxUserModel.shoppingListIds.remove(shoppingListId);
+  }
+
+  void changeToRegisterWidget() {
+    isLogging(false);
   }
 }

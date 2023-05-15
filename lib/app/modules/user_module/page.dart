@@ -13,8 +13,7 @@ class UserPage extends GetView<UserController> {
       body: Column(
         children: [
           Obx(() {
-            String user = controller.rxUserModel.email;
-            if (user == "") {
+            if (controller.isLogging.value == false) {
               return RegisterWidget();
             } else {
               return LoginWidget();
