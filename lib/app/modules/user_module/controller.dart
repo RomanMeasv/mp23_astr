@@ -21,7 +21,6 @@ class UserController extends GetxController {
     });
   }
 
-
   final UserModel rxUserModel = UserModel();
   get user => rxUserModel;
 
