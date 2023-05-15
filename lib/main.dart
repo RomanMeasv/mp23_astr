@@ -22,7 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseFirestore.instance.clearPersistence();
+  //await FirebaseFirestore.instance.clearPersistence();
   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);

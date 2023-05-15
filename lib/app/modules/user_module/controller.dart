@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
@@ -20,18 +21,27 @@ class UserController extends GetxController {
     });
   }
 
+
   final UserModel rxUserModel = UserModel();
   get user => rxUserModel;
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   _syncAppWithAuthState(user) async {
     print("AuthState: $user");
     if (user != null) {
       print("Syncing rxUserModel");
       // Fetch the UserModel from the UserRepository
-      UserModel userModel = await _fetchUser(user);
+      UserModel? userModel = await _fetchUser(user);
 
-      if (userModel.uid == "") {
+      if (userModel == null) {
         return;
+      }
+
+      //Add the FCM token to the user, TODO: Only add if permission is granted
+      String? token = await messaging.getToken();
+      if (token != null) {
+        await repository.addFcmToken(userModel.uid, token);
       }
 
       // Update the rxUserModel
@@ -52,7 +62,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<UserModel> _fetchUser(user) async {
+  Future<UserModel?> _fetchUser(user) async {
     UserModel userModel = UserModel();
     num attempts = 0;
     bool userFetched = false; // Flag variable to indicate if a valid user is fetched
@@ -74,6 +84,7 @@ class UserController extends GetxController {
 
     if (!userFetched) {
       print("Could not fetch user.");
+      return null;
     }
 
     return userModel;

@@ -15,7 +15,7 @@ class ShoppingListMenuProvider extends GetConnect {
       ShoppingListMenuModel shoppingList) async {
     try {
       final collectionRef =
-          _firestore.collection("ShoppingList");
+          _firestore.collection("ShoppingLists");
 
       final newDocRef = await collectionRef.add(shoppingList.toJson());
 
@@ -30,7 +30,7 @@ class ShoppingListMenuProvider extends GetConnect {
   Future<ShoppingListMenuModel> updateShoppingList(
       String shoppingListID, ShoppingListMenuModel shoppingList) async {
     final collectionRef = _firestore
-        .collection("ShoppingList")
+        .collection("ShoppingLists")
         .doc(shoppingListID)
         .set(shoppingList.toJson());
     return shoppingList;
@@ -58,7 +58,7 @@ class ShoppingListMenuProvider extends GetConnect {
           .update({'shoppingListIds': FieldValue.arrayRemove([shoppingList.uid])});
     }
     await FirebaseFirestore.instance
-        .collection("ShoppingList")
+        .collection("ShoppingLists")
         .doc(shoppingList.uid)
         .delete();
   }
@@ -68,7 +68,7 @@ class ShoppingListMenuProvider extends GetConnect {
       List<ShoppingListMenuModel> shoppingLists = [];
       for (var shoppingListID in shoppingListIDs) {
         final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
-            .collection("ShoppingList")
+            .collection("ShoppingLists")
             .doc(shoppingListID)
             .get();
         if (snapshot.data() == null || snapshot.data()!['name'] == null) continue;
