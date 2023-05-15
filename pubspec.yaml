@@ -17,6 +17,7 @@ dependencies:
     sdk: flutter
   get: ^4.6.5
   mockito: ^5.4.0
+  google_sign_in: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: lib/app/assets/fonts/Nunito-VariableFont_wght.ttf
+  assets: 
+    - lib/app/assets/images/

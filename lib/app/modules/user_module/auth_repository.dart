@@ -19,4 +19,8 @@ class AuthRepository {
   Future<User?> signIn(String email, String password) {
     return api.signIn(email, password);
   }
+
+  Future<User?> signInWithGoogle() {
+    return api.signInWithGoogle();
+  }
 }

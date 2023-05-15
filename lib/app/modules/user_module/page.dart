@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/user.dart';
+import 'package:mp23_astr/app/modules/user_module/widgets/login_widget.dart';
+import 'package:mp23_astr/app/modules/user_module/widgets/register_widget.dart';
 
 import 'controller.dart';
 
@@ -7,23 +10,16 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('UserPage')),
       body: Column(
         children: [
-          Text('UserPage is working!'),
-          Obx(() => Text('User: ${controller.user.email}')),
-          ElevatedButton(
-            onPressed: () => controller.signUp("asd123@asd.com", "asd123"),
-            child: Text("Sign up"),
-          ),
-          ElevatedButton(
-            onPressed: () => controller.signIn("asd123@asd.com", "asd123"),
-            child: Text("Sign in"),
-          ),
-          ElevatedButton(
-            onPressed: () => controller.signOut(),
-            child: Text("Sign out"),
-          ),
+          Obx(() {
+            String user = controller.rxUserModel.email;
+            if (user == "") {
+              return RegisterWidget();
+            } else {
+              return LoginWidget();
+            }
+          }),
         ],
       ),
     );

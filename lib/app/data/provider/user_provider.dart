@@ -1,34 +1,51 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_connect/connect.dart';
-
-const baseUrl = 'http://gerador-nomes.herokuapp.com/nomes/10';
+import 'package:mp23_astr/app/data/model/user.dart';
 
 class UserProvider extends GetConnect {
-  getAll() {}
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  getId(id) {}
+  Future<UserModel> getUser(String uid) {
+    return firestore.collection('Users').doc(uid).get().then((doc) {
+      UserModel userModel = UserModel.fromDocumentSnapshot(doc);
+      return userModel;
+    });
+  }
 
-  edit(obj) {}
+  Future<void> assignShoppingList(String uid, String shoppingListId) {
+    print("USERID: ${uid} Shopping ListID: ${shoppingListId}");
+    return firestore.collection('Users').doc(uid).update({
+      'shoppingListIds': FieldValue.arrayUnion([shoppingListId])
+    });
+  }
 
-  add(obj) {}
+  Future<void> deAssignShoppingList(String uid, String shoppingListId) {
+    List<dynamic> listToRemove = <dynamic>[];
+    listToRemove.add(shoppingListId);
+    
+    return firestore
+        .collection('Users')
+        .doc(uid)
+        .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
+  }
 
 
+  Future<List<UserModel>> getAll() async {
+    try {
+      List<UserModel> userList = [];
 
-// // Get request
-// Future<Response> getUser(int id) => get('http://youapi/users/id');
-// // Post request
-// Future<Response> postUser(Map data) => post('http://youapi/users', body: data);
-// // Post request with File
-// Future<Response<CasesModel>> postCases(List<int> image) {
-//   final form = FormData({
-//     'file': MultipartFile(image, filename: 'avatar.png'),
-//     'otherFile': MultipartFile(image, filename: 'cover.png'),
-//   });
-//   return post('http://youapi/users/upload', form);
-// }
-// GetSocket userMessages() {
-//   return socket('https://yourapi/users/socket');
-// }
+      final QuerySnapshot<Map<String, dynamic>> collection =
+      await firestore.collection("Users").get();
 
+      collection.docs.map((doc) => userList.add(UserModel.fromDocumentSnapshot(doc)));
+
+      print("IN PROVIDER: ${userList.length}");
+      return userList;
+    } catch (e) {
+      print("Provider error (getAllUsers): $e");
+      rethrow;
+    }
+  }
 }

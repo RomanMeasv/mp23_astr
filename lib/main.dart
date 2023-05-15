@@ -5,10 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:mp23_astr/app/modules/item_module/binding.dart';
 import 'package:mp23_astr/app/modules/item_module/page.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:get/get.dart';
 
+import 'app/modules/shopping_list_menu_module/page.dart';
 import 'app/routes/pages.dart';
 import 'app/routes/routes.dart';
 import 'core/theme/theme.dart';
@@ -33,12 +35,12 @@ class Mp23Astr extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // initialRoute: Routes.ITEM,
+      // initialRoute: Routes.USER,
       theme: appThemeData,
       defaultTransition: Transition.fade,
-      initialBinding: ItemBinding(),
+      initialBinding: UserBinding(),
       getPages: AppPages.pages,
-      home: ItemPage(),
+      home: UserPage(),
     );
   }
 }
