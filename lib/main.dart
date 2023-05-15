@@ -49,7 +49,7 @@ Future<void> main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
-  
+
   runApp(const Mp23Astr());
 }
 
