@@ -28,8 +28,8 @@ class _LoginWidgetState extends State<LoginWidget> {
             Image.asset('lib/app/assets/images/grocery.png', scale: 3),
             Text('Unpacked',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
+                  color: Theme.of(context).colorScheme.primary,
+                )),
             const Padding(padding: EdgeInsets.only(top: 30)),
             Container(
               margin: const EdgeInsets.all(20),
