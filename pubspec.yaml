@@ -18,6 +18,7 @@ dependencies:
   get: ^4.6.5
   mockito: ^5.4.0
   google_sign_in: ^6.1.0
+  firebase_messaging: ^14.6.0
 
 dev_dependencies:
   flutter_test:
