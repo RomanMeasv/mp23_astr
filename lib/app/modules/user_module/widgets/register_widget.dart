@@ -168,7 +168,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -177,7 +177,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   child: Text('Register',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary)),
+                          color: Theme.of(context).colorScheme.onSecondary)),
                 ),
               )),
           Container(
@@ -204,7 +204,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     controller.isLogging(true);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -213,7 +213,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   child: Text('Log in',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary)),
+                          color: Theme.of(context).colorScheme.onPrimary)),
                 ),
               )),
           Container(
