@@ -6,6 +6,9 @@ import 'package:mp23_astr/app/modules/item_module/repository.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart';
 
 class ItemController extends GetxController with StateMixin<List<ItemModel>> {
+  final ShoppingListMenuController shoppingListMenuController =
+      Get.find<ShoppingListMenuController>();
+
   final ItemRepository repository;
 
   late PageController _horizontalController;
@@ -19,10 +22,11 @@ class ItemController extends GetxController with StateMixin<List<ItemModel>> {
   late Rx<bool> _isCameraReady;
   late Rx<XFile?> _capturedImage;
 
-  final shoppingListId = "W1FcrBpQwEAvDm41Pz4X";
+  late String shoppingListId;
 
   @override
   void onInit() {
+    shoppingListId = shoppingListMenuController.selectedShoppingList.uid;
     _retrieveAllItems();
     _initializeControllers();
     _initializeCamera();
@@ -56,7 +60,7 @@ class ItemController extends GetxController with StateMixin<List<ItemModel>> {
   saveItem() async {
     String text = _textFieldController.text;
     XFile image = _capturedImage.value!;
-    //append(repository.addItem(shoppingListId, text, image))
+    await repository.addItem(shoppingListId, text, image);
   }
 
   _initializeControllers() {
