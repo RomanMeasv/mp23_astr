@@ -272,8 +272,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               return controller.listUsers.where((element) => element.email
                   .toLowerCase()
                   .contains(value.text.toLowerCase()));
-              // .where((suggestion) =>
-              //     suggestion.toLowerCase().contains(value.text.toLowerCase()));
             },
             onSelected: (value) {
               selectedUser = value;
