@@ -36,28 +36,35 @@ class ShoppingListMenuProvider extends GetConnect {
     return shoppingList;
   }
 
-  deleteShoppingList(String shoppingListID) async {
+  deleteShoppingList(String userID, ShoppingListMenuModel shoppingList) async {
+    if (userID != shoppingList.owner) {
+      List<dynamic> listToRemove = <dynamic>[];
+      listToRemove.add(shoppingList.uid);
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userID)
+          .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
+      return;
+    }
     final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
-        .collection("users")
-        .where("shoppingListIds", arrayContains: shoppingListID)
+        .collection("Users")
+        .where("shoppingListIds", arrayContains: shoppingList.uid)
         .get();
     List<dynamic> listToRemove = <dynamic>[];
-    listToRemove.add(shoppingListID);
+    listToRemove.add(shoppingList.uid);
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-      final Map<String, dynamic> data = doc.data();
-      print("User Id ${data['uid']}");
       // Access specific fields in the data map
 
       await FirebaseFirestore.instance
-          .collection('users')
-          .doc(data['uid'])
+          .collection('Users')
+          .doc(doc.id)
           .update({'shoppingListIds': FieldValue.arrayRemove(listToRemove)});
       // Do something with the extracted data
     }
     final collectionRef = await FirebaseFirestore.instance
         .collection("ShoppingList")
-        .doc(shoppingListID)
+        .doc(shoppingList.uid)
         .delete();
   }
 

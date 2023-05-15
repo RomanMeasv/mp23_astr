@@ -19,8 +19,8 @@ class ShoppingListMenuRepository {
   //   return shoppingList;
   // }
 
-  delete(id) {
-    return shoppingListMenuProvider.deleteShoppingList(id);
+  delete(String userID,ShoppingListMenuModel shoppingList) {
+    return shoppingListMenuProvider.deleteShoppingList(userID,shoppingList);
   }
 
   Future<ShoppingListMenuModel> edit(
@@ -31,9 +31,7 @@ class ShoppingListMenuRepository {
     return updatedShoppingList;
   }
 
-  Future<ShoppingListMenuModel> add(String name) async {
-    ShoppingListMenuModel shoppingList = ShoppingListMenuModel();
-    shoppingList.name = name;
+  Future<ShoppingListMenuModel> add(ShoppingListMenuModel shoppingList) async {
     final addedShoppingList =
         await shoppingListMenuProvider.addShoppingList(shoppingList);
     return addedShoppingList;

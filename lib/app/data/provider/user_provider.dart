@@ -8,9 +8,8 @@ class UserProvider extends GetConnect {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<UserModel> getUser(String uid) {
-    return firestore.collection('Users').doc(uid).get().then((value) {
-      UserModel userModel = UserModel.fromJson(value.data()!);
-      userModel.uid = value.id;
+    return firestore.collection('Users').doc(uid).get().then((doc) {
+      UserModel userModel = UserModel.fromDocumentSnapshot(doc);
       return userModel;
     });
   }
@@ -37,12 +36,11 @@ class UserProvider extends GetConnect {
     try {
       List<UserModel> userList = [];
 
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
+      final QuerySnapshot<Map<String, dynamic>> collection =
       await firestore.collection("Users").get();
-      snapshot.docs.map((e) => userList.add(UserModel.fromJson(e.data())));
-      for (int i = 0; i < snapshot.docs.length; i++) {
-        userList.add(UserModel.fromJson(snapshot.docs[i].data()));
-      }
+
+      collection.docs.map((doc) => userList.add(UserModel.fromDocumentSnapshot(doc)));
+
       print("IN PROVIDER: ${userList.length}");
       return userList;
     } catch (e) {
