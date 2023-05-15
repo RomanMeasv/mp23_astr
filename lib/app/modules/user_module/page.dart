@@ -10,16 +10,18 @@ class UserPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Obx(() {
-            if (controller.isLogging.value == false) {
-              return RegisterWidget();
-            } else {
-              return LoginWidget();
-            }
-          }),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(() {
+              if (controller.isLogging.value == false) {
+                return RegisterWidget();
+              } else {
+                return LoginWidget();
+              }
+            }),
+          ],
+        ),
       ),
     );
   }
