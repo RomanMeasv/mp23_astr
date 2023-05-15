@@ -143,7 +143,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   obscureText: _obscureTextRepPass,
                   validator: (value) {
-                    if (value == null || value.isEmpty || value.length < 6) {
+                    if (value == null || value.isEmpty || value.length <=5) {
                       return "Please repeat the previously introduced password";
                     }
                     if(value != _passwordController.value.text){
