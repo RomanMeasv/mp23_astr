@@ -1,6 +1,11 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
+var serviceAccount = require("./mp23-astr-firebase-adminsdk-3gl9w-984d3164ee.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://mp23-astr-default-rtdb.europe-west1.firebasedatabase.app"
+});
 
 exports.createUserOnSignUp = functions.auth
     .user()
@@ -25,6 +30,8 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     users.forEach(user => {
         allFcmTokens = allFcmTokens.concat(user.data().fcmTokens);
     });
+
+    console.log('allFcmTokens', allFcmTokens);
 
     // Construct the notification message that it includes the name of the shopping list, who added and what
     const payload = {
