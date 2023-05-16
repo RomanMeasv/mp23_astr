@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,18 +9,23 @@ import 'package:mp23_astr/app/data/model/item.dart';
 class ItemProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final shoppingListCollection = "ShoppingList";
-  final itemCollection = "Item";
-  final imageCollection = "Image/";
+  final shoppingListCollection = "ShoppingLists";
+  final itemCollection = "Items";
+  final imageCollection = "Images";
 
   Future<List<ItemModel>> getAllItems(shoppingListId) async {
     try {
+      // points to the item collection
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
           .collection(shoppingListCollection)
           .doc(shoppingListId)
           .collection(itemCollection)
           .get();
 
+      // if the collection is empty, return an empty list
+      if (snapshot.docs.isEmpty) return List<ItemModel>.empty(growable: true);
+
+      // since there are items in the collection, map them to a list
       final List<ItemModel> items = snapshot.docs
           .map((item) => ItemModel.fromJson(item.id, item.data()))
           .toList();
@@ -56,42 +60,66 @@ class ItemProvider extends GetConnect {
 
   edit(obj) {}
 
-  Future<ItemModel> addItem(String shoppingListId, ItemModel item) async {
+  Future<ItemModel> addItem(String shoppingListId, ItemModel itemToAdd) async {
     try {
-      // Get a reference to the collection you want to add data to
+      // upload the image to FireStorage first
+      itemToAdd = await uploadImage(itemToAdd);
+
+      // points to the item collection
       final collectionRef = FirebaseFirestore.instance
           .collection(shoppingListCollection)
           .doc(shoppingListId)
           .collection(itemCollection);
 
-      // Create a new document with auto-generated ID
-      final newDocRef = await collectionRef.add(item.toJson());
-      // Assign the newly created id
-      item.id = newDocRef.id;
+      // creates a new document inside the collection (return is the created document)
+      final newDocRef = await collectionRef.add(itemToAdd.toJson());
+      // assign id to the item
+      itemToAdd.id = newDocRef.id;
 
-      print("Item added successfully (addItem): $item");
+      print("Item added successfully (addItem): $itemToAdd");
 
-      return item;
+      return itemToAdd;
     } catch (e) {
       print("Provider error (addItem): $e");
       rethrow;
     }
   }
 
-  Future<String?> uploadImage(XFile? file) async {
-    if (file == null) return null;
-
+  Future<ItemModel> uploadImage(ItemModel item) async {
     // Create a reference to the file location
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
     final storageRef =
-        FirebaseStorage.instance.ref().child(imageCollection + fileName);
+        FirebaseStorage.instance.ref(imageCollection).child(fileName);
 
     // Upload the file to the storage location
-    final uploadTask = storageRef.putFile(File(file.path));
+    final uploadTask = storageRef.putFile(File(item.image.path));
 
     // Wait for the upload to complete and return the download URL
     final snapshot = await uploadTask;
     final downloadURL = await snapshot.ref.getDownloadURL();
-    return downloadURL;
+
+    item.imageUrl = downloadURL;
+    item.imagePath = fileName;
+    return item;
+  }
+
+  Future<void> deleteItem(String shoppingListId, ItemModel item) async {
+    try {
+      final storageRef =
+          FirebaseStorage.instance.ref(imageCollection).child(item.imagePath);
+      await storageRef.delete();
+
+      // points to the item doc
+      final itemRef = FirebaseFirestore.instance
+          .collection(shoppingListCollection)
+          .doc(shoppingListId)
+          .collection(itemCollection)
+          .doc(item.id);
+
+      await itemRef.delete();
+    } catch (e) {
+      print("Provider error (deleteItem): $e");
+      rethrow;
+    }
   }
 }

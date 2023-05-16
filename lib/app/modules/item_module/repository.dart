@@ -1,33 +1,34 @@
-import 'package:camera/camera.dart';
 import 'package:mp23_astr/app/data/model/item.dart';
 
 import 'package:mp23_astr/app/data/provider/item_provider.dart';
 
 class ItemRepository {
   final ItemProvider api;
+  late List<ItemModel> items;
 
   ItemRepository(this.api);
 
   Future<List<ItemModel>> getAll(String shoppingListId) async {
-    return await api.getAllItems(shoppingListId);
+    return items = await api.getAllItems(shoppingListId);
   }
 
-  Future<ItemModel> addItem(
-      String shoppingListId, String text, XFile image) async {
-    String? imageUrl = await api.uploadImage(image);
-    if (imageUrl == null) throw Exception("Image not uploaded");
-
-    final ItemModel item = ItemModel(text: text, imageUrl: imageUrl);
-
-    return await api.addItem(shoppingListId, item);
+  Future<List<ItemModel>> addItem(
+      String shoppingListId, ItemModel itemToAdd) async {
+    // add the item to FireStore and if it's successfull, add it to repository
+    final ItemModel addedItem = await api.addItem(shoppingListId, itemToAdd);
+    items.add(addedItem);
+    return items;
   }
 
   // getById(String shoppingListId, String itemId) {
   //   return api.getById(shoppingListId, itemId);
   // }
 
-  delete(id) {
-    return api.delete(id);
+  Future<List<ItemModel>> delete(
+      String shoppingListId, ItemModel itemToDelete) async {
+    await api.deleteItem(shoppingListId, itemToDelete);
+    items.remove(itemToDelete);
+    return items;
   }
 
   edit(obj) {

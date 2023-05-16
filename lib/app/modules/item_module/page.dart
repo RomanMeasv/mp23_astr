@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 import 'package:mp23_astr/app/modules/item_module/widgets/carousel_card.dart';
 
 import 'controller.dart';
@@ -45,7 +46,16 @@ class ItemPage extends GetView<ItemController> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           // print('ITEMS: $items');
-          return CarouselCard(item: items[index]);
+          final item = items[index];
+          return Dismissible(
+            key: ValueKey(item),
+            background: Container(color: Colors.red),
+            direction: DismissDirection.up,
+            child: CarouselCard(item: item),
+            onDismissed: (_) {
+              controller.deleteItem(items[index]);
+            },
+          );
         },
       ),
     );
@@ -110,7 +120,7 @@ class ItemPage extends GetView<ItemController> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                controller.saveItem();
+                controller.addItem();
               },
               icon: const Icon(Icons.save_rounded),
               label: const Text("Save"),

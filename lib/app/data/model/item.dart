@@ -2,16 +2,20 @@ import 'package:camera/camera.dart';
 
 class ItemModel {
   String? id;
-  late String text;
-  late String imageUrl;
-  XFile? image;
 
-  ItemModel({this.id, required this.text, required this.imageUrl});
+  late String text;
+
+  late XFile image;
+  late String imagePath;
+  late String imageUrl;
+
+  ItemModel(this.text, this.image);
 
   ItemModel.fromJson(String itemId, Map<String, dynamic> json) {
     id = itemId;
     text = json['text'];
     imageUrl = json['imageUrl'];
+    imagePath = json['imagePath'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,13 +23,13 @@ class ItemModel {
       'id': id,
       'text': text,
       'imageUrl': imageUrl,
-      'image': image,
+      'imagePath': imagePath,
     };
     return item;
   }
 
   @override
   String toString() {
-    return 'ID: $id, text: $text';
+    return 'ID: $id, text: $text, imagePath: $imagePath, imageUrl: $imageUrl';
   }
 }

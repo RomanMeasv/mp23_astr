@@ -57,10 +57,13 @@ class ItemController extends GetxController with StateMixin<List<ItemModel>> {
     }
   }
 
-  saveItem() async {
+  addItem() async {
     String text = _textFieldController.text;
     XFile image = _capturedImage.value!;
-    await repository.addItem(shoppingListId, text, image);
+    ItemModel itemToAdd = ItemModel(text, image);
+    append(() {
+      return () => repository.addItem(shoppingListId, itemToAdd);
+    });
   }
 
   _initializeControllers() {
@@ -108,5 +111,11 @@ class ItemController extends GetxController with StateMixin<List<ItemModel>> {
     _verticalController.dispose();
     _horizontalController.dispose();
     super.dispose();
+  }
+
+  void deleteItem(ItemModel itemToDelete) {
+    append(() {
+      return () => repository.delete(shoppingListId, itemToDelete);
+    });
   }
 }
