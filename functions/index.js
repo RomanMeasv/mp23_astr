@@ -37,7 +37,7 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     const payload = {
         notification: {
             title: 'New item added to a shopping list!',
-            body: `${snap.data().addedBy} added ${snap.data().name} to the shopping list ${snap.data().listName}`,
+            body: `${snap.data().addedBy} added ${snap.data().text} to the shopping list ${snap.data().name}`,
         }
     };
 
