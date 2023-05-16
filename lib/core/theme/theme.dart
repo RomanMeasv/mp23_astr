@@ -6,8 +6,8 @@ final ThemeData appThemeData = ThemeData(
   textTheme: const TextTheme(
 
     titleLarge: TextStyle(fontSize: 60.0, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-    titleSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+    titleMedium: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+    titleSmall: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
 
     displayLarge: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),
     displayMedium: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
