@@ -105,9 +105,8 @@ class ItemProvider extends GetConnect {
 
   Future<void> deleteItem(String shoppingListId, ItemModel item) async {
     try {
-      final storageRef =
-          FirebaseStorage.instance.ref(imageCollection).child(item.imagePath);
-      await storageRef.delete();
+      // delete the item's image from FireStorage
+      await deleteImage(item);
 
       // points to the item doc
       final itemRef = FirebaseFirestore.instance
@@ -116,10 +115,17 @@ class ItemProvider extends GetConnect {
           .collection(itemCollection)
           .doc(item.id);
 
+      // delete the item
       await itemRef.delete();
     } catch (e) {
       print("Provider error (deleteItem): $e");
       rethrow;
     }
+  }
+
+  Future<void> deleteImage(ItemModel item) async {
+    final storageRef =
+          FirebaseStorage.instance.ref(imageCollection).child(item.imagePath);
+    await storageRef.delete();
   }
 }
