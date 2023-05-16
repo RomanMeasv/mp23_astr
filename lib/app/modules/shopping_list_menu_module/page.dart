@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/data/model/user.dart';
 import 'package:mp23_astr/app/modules/item_module/binding.dart';
-import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
-import 'package:mp23_astr/app/routes/routes.dart';
 
 import '../../data/model/shopping_list_menu.dart';
 import '../item_module/page.dart';
@@ -20,109 +18,117 @@ enum DialogType {
 
 class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   UserController userController = Get.find<UserController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return showBottomSheet(context, false, ShoppingListMenuModel());
+      appBar: AppBar(
+          title: Text(
+            'Shopping lists',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Logout',
+                onPressed: () {
+                  controller.signOut();
+                }),
+          ]),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.rxShoppingLists.value.length,
+          itemBuilder: (context, int index) {
+            return ListTile(
+              title: Text(controller.rxShoppingLists.value[index].name),
+              onTap: () {
+                controller.selectedShoppingList =
+                    controller.rxShoppingLists.value[index];
+                Get.to(() => ItemPage(), binding: ItemBinding());
               },
-            );
-          },
-          child: const Icon(Icons.add),
-        ),
-        appBar: AppBar(
-            title: const Text('Current Shopping Lists'),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
-                  onPressed: () {
-                    controller.signOut();
-                  }),
-            ]),
-        body: Obx(
-          () => ListView.builder(
-            itemCount: controller.rxShoppingLists.value.length,
-            itemBuilder: (context, int index) {
-              return ListTile(
-                title: Text(controller.rxShoppingLists.value[index].name),
-                onTap: () {
-                  controller.selectedShoppingList =
-                      controller.rxShoppingLists.value[index];
-                  Get.to(() => ItemPage(), binding: ItemBinding());
-                },
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.contact_mail,
+                    ),
+                    onPressed: () {
+                      // controller.deleteShoppingList(
+                      //     controller.rxShoppingLists.value[index]);
+                      showUserAlertDialog(
+                          context, controller.rxShoppingLists.value[index]);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return showBottomSheet(context, true,
+                              controller.rxShoppingLists.value[index]);
+                        },
+                      );
+                    },
+                  ),
+                  Visibility(
+                    visible: controller.rxShoppingLists.value[index].owner ==
+                        userController.rxUserModel.uid,
+                    child: IconButton(
                       icon: const Icon(
-                        Icons.contact_mail,
+                        Icons.delete_outline,
                       ),
                       onPressed: () {
                         // controller.deleteShoppingList(
                         //     controller.rxShoppingLists.value[index]);
-                        showUserAlertDialog(
+                        showAlertDialog(
                             context, controller.rxShoppingLists.value[index]);
                       },
                     ),
-                    IconButton(
+                  ),
+                  Visibility(
+                    visible: controller.rxShoppingLists.value[index].owner !=
+                        userController.rxUserModel.uid,
+                    child: IconButton(
                       icon: const Icon(
-                        Icons.edit,
+                        Icons.directions_run_rounded,
                       ),
                       onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return showBottomSheet(context, true,
-                                controller.rxShoppingLists.value[index]);
-                          },
-                        );
+                        // controller.deleteShoppingList(
+                        //     controller.rxShoppingLists.value[index]);
+                        showLeaveListAlertDialog(
+                            context, controller.rxShoppingLists.value[index]);
                       },
                     ),
-                    Visibility(
-                      visible: controller.rxShoppingLists.value[index].owner ==
-                          userController.rxUserModel.uid,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.delete_outline,
-                        ),
-                        onPressed: () {
-                          // controller.deleteShoppingList(
-                          //     controller.rxShoppingLists.value[index]);
-                          showAlertDialog(
-                              context, controller.rxShoppingLists.value[index]);
-                        },
-                      ),
-                    ),
-                    Visibility(
-                      visible: controller.rxShoppingLists.value[index].owner !=
-                          userController.rxUserModel.uid,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.directions_run_rounded,
-                        ),
-                        onPressed: () {
-                          // controller.deleteShoppingList(
-                          //     controller.rxShoppingLists.value[index]);
-                          showLeaveListAlertDialog(
-                              context, controller.rxShoppingLists.value[index]);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+      bottomNavigationBar: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return showBottomSheet(context, false, ShoppingListMenuModel());
             },
-          ),
-        ));
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   String? value;
+
   Widget showBottomSheet(
       BuildContext context, bool isUpdate, ShoppingListMenuModel shoppingList) {
     // Added the isUpdate argument to check if our item has been updated
