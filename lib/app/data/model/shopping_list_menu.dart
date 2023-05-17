@@ -29,7 +29,7 @@ class ShoppingListMenuModel {
     uid = snapshot.id;
     name = snapshot.data()!['name'] ?? "";
     owner = snapshot.data()!['owner'] ?? "";
-    members.addAll(snapshot.data()!['members'] ?? []);
+    members = List<String>.from(snapshot.data()!['members'] ?? []);
   }
 
   Map<String, dynamic> toJson() {
