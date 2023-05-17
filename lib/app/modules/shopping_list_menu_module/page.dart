@@ -70,23 +70,32 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                             // controller.rxShoppingLists.value[index].members.toString()
                             )),
                     Container(
-                      margin: const EdgeInsets.only(top: 5),
+                      margin: const EdgeInsets.only(top: 5, bottom: 10),
                       padding: const EdgeInsets.only(right: 10, left: 10),
+                      height: 50,
                       width: double.maxFinite,
                       alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ButtonBar(
-                              alignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                SizedBox(
-                                  height: 40,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final buttonSize = Size(
+                            constraints.maxWidth / 4,
+                            constraints.maxHeight - 5,
+                          );
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Visibility(
+                                visible: controller
+                                        .rxShoppingLists.value[index].owner ==
+                                    userController.rxUserModel.uid,
+                                child: SizedBox(
+                                  width: buttonSize.width,
+                                  height: buttonSize.height,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                     child: IconButton(
                                       icon: const Icon(
@@ -109,12 +118,20 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 40,
+                              ),
+                              Visibility(
+                                visible: controller
+                                        .rxShoppingLists.value[index].owner ==
+                                    userController.rxUserModel.uid,
+                                child: SizedBox(
+                                  width: buttonSize.width,
+                                  height: buttonSize.height,
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     child: IconButton(
                                       icon: const Icon(
@@ -136,20 +153,19 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                       },
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-
-                            child: Container(
-                              child: ElevatedButton(
-                                onPressed: () => {},
-                                child: Text("Invite"),
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
+                              SizedBox(
+                                width: buttonSize.width + 70,
+                                height: buttonSize.height,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text('Invite'),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     )
                   ],
