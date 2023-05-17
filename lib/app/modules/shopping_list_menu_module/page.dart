@@ -182,75 +182,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                 ),
               ),
             );
-
-            // return ListTile(
-            //   title: Text(controller.rxShoppingLists.value[index].name),
-            //   onTap: () {
-            //     controller.selectedShoppingList =
-            //         controller.rxShoppingLists.value[index];
-            //     Get.to(() => ItemPage(), binding: ItemBinding());
-            //   },
-            //   trailing: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       IconButton(
-            //         icon: const Icon(
-            //           Icons.contact_mail,
-            //         ),
-            //         onPressed: () {
-            //           // controller.deleteShoppingList(
-            //           //     controller.rxShoppingLists.value[index]);
-            //           showUserAlertDialog(
-            //               context, controller.rxShoppingLists.value[index]);
-            //         },
-            //       ),
-            //       IconButton(
-            //         icon: const Icon(
-            //           Icons.edit,
-            //         ),
-            //         onPressed: () {
-            //           showModalBottomSheet(
-            //             context: context,
-            //             builder: (context) {
-            //               return showBottomSheet(context, true,
-            //                   controller.rxShoppingLists.value[index]);
-            //             },
-            //           );
-            //         },
-            //       ),
-            //       Visibility(
-            //         visible: controller.rxShoppingLists.value[index].owner ==
-            //             userController.rxUserModel.uid,
-            //         child: IconButton(
-            //           icon: const Icon(
-            //             Icons.delete_outline,
-            //           ),
-            //           onPressed: () {
-            //             // controller.deleteShoppingList(
-            //             //     controller.rxShoppingLists.value[index]);
-            //             showAlertDialog(
-            //                 context, controller.rxShoppingLists.value[index]);
-            //           },
-            //         ),
-            //       ),
-            //       Visibility(
-            //         visible: controller.rxShoppingLists.value[index].owner !=
-            //             userController.rxUserModel.uid,
-            //         child: IconButton(
-            //           icon: const Icon(
-            //             Icons.directions_run_rounded,
-            //           ),
-            //           onPressed: () {
-            //             // controller.deleteShoppingList(
-            //             //     controller.rxShoppingLists.value[index]);
-            //             showLeaveListAlertDialog(
-            //                 context, controller.rxShoppingLists.value[index]);
-            //           },
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // );
           },
         ),
       ),
@@ -267,6 +198,76 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       ),
     );
   }
+
+
+  // return ListTile(
+  //   title: Text(controller.rxShoppingLists.value[index].name),
+  //   onTap: () {
+  //     controller.selectedShoppingList =
+  //         controller.rxShoppingLists.value[index];
+  //     Get.to(() => ItemPage(), binding: ItemBinding());
+  //   },
+  //   trailing: Row(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       IconButton(
+  //         icon: const Icon(
+  //           Icons.contact_mail,
+  //         ),
+  //         onPressed: () {
+  //           // controller.deleteShoppingList(
+  //           //     controller.rxShoppingLists.value[index]);
+  //           showUserAlertDialog(
+  //               context, controller.rxShoppingLists.value[index]);
+  //         },
+  //       ),
+  //       IconButton(
+  //         icon: const Icon(
+  //           Icons.edit,
+  //         ),
+  //         onPressed: () {
+  //           showModalBottomSheet(
+  //             context: context,
+  //             builder: (context) {
+  //               return showBottomSheet(context, true,
+  //                   controller.rxShoppingLists.value[index]);
+  //             },
+  //           );
+  //         },
+  //       ),
+  //       Visibility(
+  //         visible: controller.rxShoppingLists.value[index].owner ==
+  //             userController.rxUserModel.uid,
+  //         child: IconButton(
+  //           icon: const Icon(
+  //             Icons.delete_outline,
+  //           ),
+  //           onPressed: () {
+  //             // controller.deleteShoppingList(
+  //             //     controller.rxShoppingLists.value[index]);
+  //             showAlertDialog(
+  //                 context, controller.rxShoppingLists.value[index]);
+  //           },
+  //         ),
+  //       ),
+  //       Visibility(
+  //         visible: controller.rxShoppingLists.value[index].owner !=
+  //             userController.rxUserModel.uid,
+  //         child: IconButton(
+  //           icon: const Icon(
+  //             Icons.directions_run_rounded,
+  //           ),
+  //           onPressed: () {
+  //             // controller.deleteShoppingList(
+  //             //     controller.rxShoppingLists.value[index]);
+  //             showLeaveListAlertDialog(
+  //                 context, controller.rxShoppingLists.value[index]);
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   ),
+  // );
 
   String? value;
 
