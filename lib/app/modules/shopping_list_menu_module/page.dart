@@ -51,24 +51,26 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               child: Container(
                 margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
                 decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0)),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
                 child: Column(
                   children: [
                     Container(
                         margin: const EdgeInsets.only(left: 10, top: 5),
                         alignment: Alignment.centerLeft,
-                        child:
-                            Text(controller.rxShoppingLists.value[index].name)),
+                        child: Text(
+                            controller.rxShoppingLists.value[index].name,
+                            style: Theme.of(context).textTheme.bodyLarge)),
                     Container(
                         margin: const EdgeInsets.only(left: 10, top: 5),
                         alignment: Alignment.centerLeft,
-                        child: const Text("Member 1, Member 2" //Styling
-                            // controller.rxShoppingLists.value[index].members.toString()
-                            )),
+                        child: Text(
+                            "Members: ${controller.rxShoppingLists.value[index].members}")),
                     Container(
                       margin: const EdgeInsets.only(top: 5, bottom: 10),
                       padding: const EdgeInsets.only(right: 10, left: 10),
