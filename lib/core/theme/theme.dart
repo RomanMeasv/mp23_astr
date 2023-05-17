@@ -30,6 +30,7 @@ final ThemeData appThemeData = ThemeData(
   colorScheme: const ColorScheme(
       primary: Color(0xffE2711D),
       secondary: Color(0xff800020),
+      tertiary: Color(0xffF8F0DF),
       surface: Colors.white,
       background: Colors.grey,
       error: Color(0xffDC0037),
