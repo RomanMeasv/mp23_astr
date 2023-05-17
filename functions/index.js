@@ -20,7 +20,18 @@ exports.createUserOnSignUp = functions.auth
 exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.firestore
 .document('ShoppingLists/{listId}/Items/{itemId}')
 .onCreate(async (snap, context) => {
+    // Get the name of the shopping list
     const listId = context.params.listId;
+    const listSnapshot = await admin.firestore().collection('ShoppingLists').doc(listId).get();
+    const listName = listSnapshot.data().name;
+
+    // Construct the notification message that it includes the name of the shopping list, and what item was added (text)
+    const payload = {
+        notification: {
+            title: 'New item added to a shopping list!',
+            body: `"${snap.data().text}" was added to the shopping list "${listName}"`,
+        }
+    };
 
     //Fetch the user that have the list id in their shoppingListIds list
     const users = await admin.firestore().collection('Users').where('shoppingListIds', 'array-contains', listId).get();
@@ -30,16 +41,6 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     users.forEach(user => {
         allFcmTokens = allFcmTokens.concat(user.data().fcmTokens);
     });
-
-    console.log('allFcmTokens', allFcmTokens);
-
-    // Construct the notification message that it includes the name of the shopping list, who added and what
-    const payload = {
-        notification: {
-            title: 'New item added to a shopping list!',
-            body: `${snap.data().addedBy} added ${snap.data().text} to the shopping list ${snap.data().name}`,
-        }
-    };
 
     // Send the notification to all tokens
     const response = await admin.messaging().sendToDevice(allFcmTokens, payload);
