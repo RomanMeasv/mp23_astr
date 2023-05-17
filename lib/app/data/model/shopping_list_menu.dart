@@ -5,6 +5,7 @@ class RxShoppingListMenuModel {
   final uid = "".obs;
   final name = "".obs;
   final owner = "".obs;
+  final members = <String>[].obs;
 }
 
 class ShoppingListMenuModel {
@@ -20,12 +21,15 @@ class ShoppingListMenuModel {
   String get owner => rx.owner.value;
   set owner(value) => rx.owner.value = value;
 
+  List<String> get members => rx.members;
+  set members(value) => rx.members.value = value;
+
   ShoppingListMenuModel.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     uid = snapshot.id;
     name = snapshot.data()!['name'] ?? "";
     owner = snapshot.data()!['owner'] ?? "";
-
+    members.addAll(snapshot.data()!['members'] ?? []);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +37,7 @@ class ShoppingListMenuModel {
     // data['uid'] = uid;
     data['name'] = name;
     data['owner'] = owner;
+    data['members'] = members.toList();
     return data;
   }
 }
