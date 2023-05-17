@@ -63,8 +63,7 @@ class ShoppingListMenuProvider extends GetConnect {
         .delete();
   }
 
-  Future<List<ShoppingListMenuModel>> getAll(
-      List<String> shoppingListIDs) async {
+  Future<List<ShoppingListMenuModel>> getAll(List<String> shoppingListIDs) async {
     try {
       List<ShoppingListMenuModel> shoppingLists = [];
       for (var shoppingListID in shoppingListIDs) {
@@ -72,9 +71,9 @@ class ShoppingListMenuProvider extends GetConnect {
             .collection("ShoppingList")
             .doc(shoppingListID)
             .get();
-        if (snapshot.data()!['name'] == null) continue;
+        if (snapshot.data() == null || snapshot.data()!['name'] == null) continue;
         ShoppingListMenuModel shoppingList =
-            ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
+        ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
         shoppingLists.add(shoppingList);
       }
       return shoppingLists;
