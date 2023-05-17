@@ -95,7 +95,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                   height: buttonSize.height,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(5.0),
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                     ),
@@ -130,7 +130,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                   height: buttonSize.height,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(5.0),
                                       color: Theme.of(context)
                                           .colorScheme
                                           .secondary,
@@ -157,12 +157,20 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: buttonSize.width + 70,
-                                height: buttonSize.height,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text('Invite'),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary,
+                                ),
+                                child: SizedBox(
+                                  width: buttonSize.width + buttonSize.width/1.2,
+                                  height: buttonSize.height,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: Text('Invite'),
+                                  ),
                                 ),
                               ),
                             ],
