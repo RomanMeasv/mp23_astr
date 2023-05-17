@@ -25,11 +25,19 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     const listSnapshot = await admin.firestore().collection('ShoppingLists').doc(listId).get();
     const listName = listSnapshot.data().name;
 
+    const itemName = snap.data().text;
+
+    let titles = [
+        `📢 Item added!`,
+        `🎉 A new item joins the list!`,
+        `🛍️ Another one buies the stuff!`,
+        ]
+
     // Construct the notification message that it includes the name of the shopping list, and what item was added (text)
     const payload = {
         notification: {
-            title: 'New item added to a shopping list!',
-            body: `"${snap.data().text}" was added to the shopping list "${listName}"`,
+            title: titles[Math.floor(Math.random()*titles.length)],
+            body: `${itemName} was added to ${listName}`,
         }
     };
 
