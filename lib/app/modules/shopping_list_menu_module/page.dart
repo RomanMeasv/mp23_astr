@@ -66,10 +66,12 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                     Container(
                         margin: const EdgeInsets.only(left: 10, top: 5),
                         alignment: Alignment.centerLeft,
-                        child: Text("Member 1, Member 2" //Styling
+                        child: const Text("Member 1, Member 2" //Styling
                             // controller.rxShoppingLists.value[index].members.toString()
                             )),
                     Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(right: 10, left: 10),
                       width: double.maxFinite,
                       alignment: Alignment.centerLeft,
                       child: Row(
@@ -77,61 +79,69 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                           Expanded(
                             child: ButtonBar(
                               alignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.max,
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey.withOpacity(0.5),
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
+                                SizedBox(
+                                  height: 40,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Theme.of(context).colorScheme.primary,
                                     ),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return showBottomSheet(
-                                            context,
-                                            true,
-                                            controller
-                                                .rxShoppingLists.value[index],
-                                          );
-                                        },
-                                      );
-                                    },
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return showBottomSheet(
+                                              context,
+                                              true,
+                                              controller
+                                                  .rxShoppingLists.value[index],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Theme.of(context).colorScheme.secondary,
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
+                                SizedBox(
+                                  height: 40,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Theme.of(context).colorScheme.secondary,
                                     ),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return showBottomSheet(
-                                            context,
-                                            true,
-                                            controller
-                                                .rxShoppingLists.value[index],
-                                          );
-                                        },
-                                      );
-                                    },
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return showBottomSheet(
+                                              context,
+                                              true,
+                                              controller
+                                                  .rxShoppingLists.value[index],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 )
                               ],
                             ),
                           ),
                           Expanded(
+
                             child: Container(
                               child: ElevatedButton(
                                 onPressed: () => {},
