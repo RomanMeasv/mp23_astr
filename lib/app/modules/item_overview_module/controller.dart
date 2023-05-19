@@ -26,6 +26,7 @@ class ItemOverviewController extends GetxController {
     itemAdded.bought == false;
     itemAdded = await repository.addItem(shoppingList, itemName);
     rxItemList.value.add(itemAdded);
+    shoppingListMenuController.getAll();
     getAll();
     print("RXITEMS LIST LENGTH ${rxItemList.value.length}");
   }
@@ -40,7 +41,7 @@ class ItemOverviewController extends GetxController {
 
   deleteItem(String shoppingListId, ItemModel item) {
     repository.deleteItem(shoppingListId, item);
-
+    shoppingListMenuController.getAll();
     getAll();
   }
 

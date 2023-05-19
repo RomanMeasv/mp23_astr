@@ -79,10 +79,10 @@ class ShoppingListMenuProvider extends GetConnect {
         CollectionReference itemsCollection = _firestore
             .collection("ShoppingLists")
             .doc(shoppingListID)
-            .collection('Item');
+            .collection('Items');
         QuerySnapshot snapshotItem = await itemsCollection.get();
         int itemCount = snapshotItem.size;
-        shoppingList.itemCount = itemCount.toString();
+        shoppingList.itemCount = itemCount;
         shoppingLists.add(shoppingList);
       }
       return shoppingLists;
