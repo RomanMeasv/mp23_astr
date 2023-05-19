@@ -14,6 +14,7 @@ class ItemProvider extends GetConnect {
   final itemsCollection = "Items";
   final imageCollection = "Images";
 
+
   Future<List<ItemModel>> getAllItems(shoppingListId) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore

@@ -66,4 +66,11 @@ class UserProvider extends GetConnect {
       rethrow;
     }
   }
+
+  addFcmToken(uid, String token) {
+    //Add the fcm token to the list of fcmTokens if the fcmTokens field exists, otherwise create it with one entry
+    firestore.collection('Users').doc(uid).update({
+      'fcmTokens': FieldValue.arrayUnion([token])
+    });
+  }
 }
