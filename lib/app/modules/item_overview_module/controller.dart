@@ -14,6 +14,12 @@ class ItemOverviewController extends GetxController {
 
   final ItemOverviewRepository repository;
 
+  get shoppingListId => shoppingListMenuController.selectedShoppingList.uid;
+
+  String? itemId(index) {
+    return rxItemList.value[index].id;
+  }
+
   @override
   void onInit() async {
     getAll();
@@ -42,8 +48,8 @@ class ItemOverviewController extends GetxController {
     getAll();
   }
 
-  void updateItem(String uid, ItemModel item) {
-    repository.updateItem(uid, item);
+  void updateItem(String shoppingListId, ItemModel item) {
+    repository.updateItem(shoppingListId, item);
     getAll();
   }
 

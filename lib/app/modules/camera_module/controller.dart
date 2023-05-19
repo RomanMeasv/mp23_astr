@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/camera_module/repository.dart';
 
 class CameraPageController extends GetxController {
+  final args = Get.arguments;
   final CameraRepository repository;
   CameraPageController(this.repository);
 
@@ -36,8 +37,17 @@ class CameraPageController extends GetxController {
     if (!_isCameraReady.value) return;
 
     try {
+      // take image from camera controller
       final XFile capturedFile = await _cameraController.takePicture();
       _capturedImage.value = capturedFile;
+
+      // save image in firestorage and firestore
+      final imageUrl = await repository.addImage(
+          args["ShoppingListId"], args["ItemId"], capturedFile);
+      print("Image URL: $imageUrl");
+
+      // return to the previous page
+      Get.back();
     } catch (e) {
       print('Error capturing image (captureImage): $e');
     }

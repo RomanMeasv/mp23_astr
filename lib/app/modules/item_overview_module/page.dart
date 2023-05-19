@@ -15,17 +15,31 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return showBottomSheet(
-                    context, false, ItemModel(text: "", imageUrl: ""));
-              },
-            );
-          },
-          child: const Icon(Icons.add),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return showBottomSheet(
+                          context, false, ItemModel(text: "", imageUrl: ""));
+                    },
+                  );
+                },
+                child: const Icon(Icons.add),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  // display carousel
+                },
+                child: const Icon(Icons.amp_stories),
+              ),
+            ],
+          ),
         ),
         appBar: AppBar(
           title: const Text('Item Overview'),
@@ -49,7 +63,12 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                         Icons.camera_alt_outlined,
                       ),
                       onPressed: () {
-                        Get.to(CameraPage(), binding: CameraBinding());
+                        Get.to(CameraPage(),
+                            binding: CameraBinding(),
+                            arguments: {
+                              "ShoppingListId": controller.shoppingListId,
+                              "ItemId": controller.itemId(index),
+                            });
                       },
                     ),
                     Visibility(
