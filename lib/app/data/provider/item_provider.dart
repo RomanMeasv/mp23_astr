@@ -120,7 +120,7 @@ class ItemProvider extends GetConnect {
 
   deleteItem(String shoppingListId,ItemModel item) async {
     await FirebaseFirestore.instance
-        .collection("ShoppingList")
+        .collection("ShoppingLists")
         .doc(shoppingListId)
         .collection("Item")
         .doc(item.id)
@@ -129,7 +129,7 @@ class ItemProvider extends GetConnect {
 
   updateItem(String uid, ItemModel item) {
     final collectionRef = _firestore
-        .collection("ShoppingList")
+        .collection("ShoppingLists")
         .doc(uid)
         .collection("Item")
         .doc(item.id)
