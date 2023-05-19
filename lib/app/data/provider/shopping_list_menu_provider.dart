@@ -15,7 +15,7 @@ class ShoppingListMenuProvider extends GetConnect {
       ShoppingListMenuModel shoppingList) async {
     try {
 
-      final collectionRef = _firestore.collection("ShoppingList");
+      final collectionRef = _firestore.collection("ShoppingLists");
 
 
       final newDocRef = await collectionRef.add(shoppingList.toJson());
@@ -77,7 +77,7 @@ class ShoppingListMenuProvider extends GetConnect {
         ShoppingListMenuModel shoppingList =
             ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
         CollectionReference itemsCollection = _firestore
-            .collection("ShoppingList")
+            .collection("ShoppingLists")
             .doc(shoppingListID)
             .collection('Item');
         QuerySnapshot snapshotItem = await itemsCollection.get();
