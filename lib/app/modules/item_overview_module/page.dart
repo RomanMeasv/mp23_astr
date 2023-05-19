@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/camera_module/binding.dart';
+import 'package:mp23_astr/app/modules/camera_module/page.dart';
 import 'package:mp23_astr/app/modules/item_overview_module/controller.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
-import '../../data/model/item.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 
 class ItemOverviewPage extends GetView<ItemOverviewController> {
   ShoppingListMenuController shoppingListMenuController =
@@ -13,17 +15,31 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return showBottomSheet(
-                    context, false, ItemModel(text: "", imageUrl: ""));
-              },
-            );
-          },
-          child: const Icon(Icons.add),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return showBottomSheet(
+                          context, false, ItemModel(text: "", imageUrl: ""));
+                    },
+                  );
+                },
+                child: const Icon(Icons.add),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  // display carousel
+                },
+                child: const Icon(Icons.amp_stories),
+              ),
+            ],
+          ),
         ),
         appBar: AppBar(
           title: const Text('Item Overview'),
@@ -46,7 +62,14 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                       icon: const Icon(
                         Icons.camera_alt_outlined,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(CameraPage(),
+                            binding: CameraBinding(),
+                            arguments: {
+                              "ShoppingListId": controller.shoppingListId,
+                              "ItemId": controller.itemId(index),
+                            });
+                      },
                     ),
                     Visibility(
                       visible:

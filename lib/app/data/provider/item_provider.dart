@@ -10,16 +10,17 @@ import 'package:mp23_astr/app/data/model/item.dart';
 class ItemProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final shoppingListCollection = "ShoppingLists";
-  final itemCollection = "Items";
-  final imageCollection = "Image/";
+  final shoppingListsCollection = "ShoppingLists";
+  final itemsCollection = "Items";
+  final imageCollection = "Images";
+
 
   Future<List<ItemModel>> getAllItems(shoppingListId) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection(shoppingListCollection)
+          .collection(shoppingListsCollection)
           .doc(shoppingListId)
-          .collection(itemCollection)
+          .collection(itemsCollection)
           .get();
 
       final List<ItemModel> items = snapshot.docs
@@ -60,9 +61,9 @@ class ItemProvider extends GetConnect {
     try {
       // Get a reference to the collection you want to add data to
       final collectionRef = FirebaseFirestore.instance
-          .collection(shoppingListCollection)
+          .collection(shoppingListsCollection)
           .doc(shoppingListId)
-          .collection(itemCollection);
+          .collection(itemsCollection);
 
       // Create a new document with auto-generated ID
       final newDocRef = await collectionRef.add(item.toJson());
@@ -95,16 +96,17 @@ class ItemProvider extends GetConnect {
     return downloadURL;
   }
 
-  Future<ItemModel> addItemOverview(String shoppingListId, ItemModel item) async {
+  Future<ItemModel> addItemOverview(
+      String shoppingListId, ItemModel item) async {
     try {
       // Get a reference to the collection you want to add data to
       final collectionRef = FirebaseFirestore.instance
-          .collection(shoppingListCollection)
+          .collection(shoppingListsCollection)
           .doc(shoppingListId)
-          .collection(itemCollection);
+          .collection(itemsCollection);
 
       // Create a new document with auto-generated ID
-      
+
       final newDocRef = await collectionRef.add(item.toJson());
       // Assign the newly created id
       item.id = newDocRef.id;
@@ -118,22 +120,21 @@ class ItemProvider extends GetConnect {
     }
   }
 
-  deleteItem(String shoppingListId,ItemModel item) async {
+  deleteItem(String shoppingListId, ItemModel item) async {
     await FirebaseFirestore.instance
-        .collection("ShoppingList")
+        .collection(shoppingListsCollection)
         .doc(shoppingListId)
-        .collection("Item")
+        .collection(itemsCollection)
         .doc(item.id)
         .delete();
   }
 
-  updateItem(String uid, ItemModel item) {
+  updateItem(String shoppingListId, ItemModel item) {
     final collectionRef = _firestore
-        .collection("ShoppingList")
-        .doc(uid)
-        .collection("Item")
+        .collection(shoppingListsCollection)
+        .doc(shoppingListId)
+        .collection(itemsCollection)
         .doc(item.id)
         .set(item.toJson());
   }
-  
 }
