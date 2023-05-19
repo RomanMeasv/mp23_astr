@@ -10,8 +10,8 @@ import 'package:mp23_astr/app/data/model/item.dart';
 class ItemProvider extends GetConnect {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final shoppingListCollection = "ShoppingList";
-  final itemCollection = "Item";
+  final shoppingListCollection = "ShoppingLists";
+  final itemCollection = "Items";
   final imageCollection = "Image/";
 
   Future<List<ItemModel>> getAllItems(shoppingListId) async {

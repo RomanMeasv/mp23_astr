@@ -24,4 +24,8 @@ class UserRepository {
   Future<void> deAssignShoppingList(String uid, String shoppingListId) {
     return api.deAssignShoppingList(uid, shoppingListId);
   }
+
+  addFcmToken(uid, String token) {
+    return api.addFcmToken(uid, token);
+  }
 }
