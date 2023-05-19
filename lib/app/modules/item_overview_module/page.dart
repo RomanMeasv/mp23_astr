@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/modules/camera_module/binding.dart';
+import 'package:mp23_astr/app/modules/camera_module/page.dart';
 import 'package:mp23_astr/app/modules/item_overview_module/controller.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
-import '../../data/model/item.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 
 class ItemOverviewPage extends GetView<ItemOverviewController> {
   ShoppingListMenuController shoppingListMenuController =
@@ -46,7 +48,9 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                       icon: const Icon(
                         Icons.camera_alt_outlined,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(CameraPage(), binding: CameraBinding());
+                      },
                     ),
                     Visibility(
                       visible:

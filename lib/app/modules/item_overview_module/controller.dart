@@ -8,18 +8,17 @@ import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart'
 class ItemOverviewController extends GetxController {
   ShoppingListMenuController shoppingListMenuController =
       Get.find<ShoppingListMenuController>();
-  Rx<List<ItemModel>> rxItemList = Rx<List<ItemModel>>([]);
-  final ItemOverviewRepository repository;
   ItemOverviewController(this.repository);
+
+  Rx<List<ItemModel>> rxItemList = Rx<List<ItemModel>>([]);
+
+  final ItemOverviewRepository repository;
+
   @override
   void onInit() async {
-    super.onInit();
     getAll();
+    super.onInit();
   }
-
-  final _obj = ''.obs;
-  set obj(value) => this._obj.value = value;
-  get obj => this._obj.value;
 
   addItem(String shoppingList, String itemName) async {
     ItemModel itemAdded = ItemModel(text: "", imageUrl: '');
@@ -40,7 +39,6 @@ class ItemOverviewController extends GetxController {
 
   deleteItem(String shoppingListId, ItemModel item) {
     repository.deleteItem(shoppingListId, item);
-
     getAll();
   }
 
@@ -53,5 +51,10 @@ class ItemOverviewController extends GetxController {
     item.bought = !item.bought!;
     repository.updateItem(shoppingListId, item);
     getAll();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
