@@ -66,19 +66,3 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     return null;
 });
 
-exports.increaseItemCountOfShoppingListOnItemCreate = functions.firestore
-.document('ShoppingLists/{listId}/Items/{itemId}')
-.onCreate(async (snap, context) => {
-    await admin.firestore().collection('ShoppingLists').doc(listId).update({
-        itemCount: admin.firestore.FieldValue.increment(1),
-    });
-});
-
-exports.decreaseItemCountOfShoppingListOnItemDelete = functions.firestore
-.document('ShoppingLists/{listId}/Items/{itemId}')
-.onDelete(async (snap, context) => {
-    await admin.firestore().collection('ShoppingLists').doc(listId).update({
-        itemCount: admin.firestore.FieldValue.decrement(1),
-    });
-});
-

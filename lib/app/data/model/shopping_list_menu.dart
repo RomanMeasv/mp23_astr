@@ -5,7 +5,7 @@ class RxShoppingListMenuModel {
   final uid = "".obs;
   final name = "".obs;
   final owner = "".obs;
-  final itemCount = "".obs;
+  final itemCount = 0.obs;
 }
 
 class ShoppingListMenuModel {
@@ -21,7 +21,7 @@ class ShoppingListMenuModel {
   String get owner => rx.owner.value;
   set owner(value) => rx.owner.value = value;
 
-  String get itemCount => rx.itemCount.value;
+  int get itemCount => rx.itemCount.value;
   set itemCount(value) => rx.itemCount.value = value;
 
   ShoppingListMenuModel.fromDocumentSnapshot(
