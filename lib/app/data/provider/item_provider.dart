@@ -94,4 +94,46 @@ class ItemProvider extends GetConnect {
     final downloadURL = await snapshot.ref.getDownloadURL();
     return downloadURL;
   }
+
+  Future<ItemModel> addItemOverview(String shoppingListId, ItemModel item) async {
+    try {
+      // Get a reference to the collection you want to add data to
+      final collectionRef = FirebaseFirestore.instance
+          .collection(shoppingListCollection)
+          .doc(shoppingListId)
+          .collection(itemCollection);
+
+      // Create a new document with auto-generated ID
+      
+      final newDocRef = await collectionRef.add(item.toJson());
+      // Assign the newly created id
+      item.id = newDocRef.id;
+
+      print("Item added successfully (addItem): $item");
+
+      return item;
+    } catch (e) {
+      print("Provider error (addItem): $e");
+      rethrow;
+    }
+  }
+
+  deleteItem(String shoppingListId,ItemModel item) async {
+    await FirebaseFirestore.instance
+        .collection("ShoppingList")
+        .doc(shoppingListId)
+        .collection("Item")
+        .doc(item.id)
+        .delete();
+  }
+
+  updateItem(String uid, ItemModel item) {
+    final collectionRef = _firestore
+        .collection("ShoppingList")
+        .doc(uid)
+        .collection("Item")
+        .doc(item.id)
+        .set(item.toJson());
+  }
+  
 }

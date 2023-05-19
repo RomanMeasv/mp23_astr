@@ -6,6 +6,8 @@ import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
 import '../../data/model/shopping_list_menu.dart';
 import '../item_module/page.dart';
+import '../item_overview_module/binding.dart';
+import '../item_overview_module/page.dart';
 import '../shopping_list_menu_module/controller.dart';
 
 typedef ButtonCallback = void Function();
@@ -46,7 +48,8 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               onTap: () {
                 controller.selectedShoppingList =
                     controller.rxShoppingLists.value[index];
-                Get.to(() => ItemPage(), binding: ItemBinding());
+                Get.to(() => ItemOverviewPage(),
+                    binding: ItemOverviewBinding());
               },
               child: Container(
                 margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
@@ -70,7 +73,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                         margin: const EdgeInsets.only(left: 10, top: 5),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                            "Members: ${controller.rxShoppingLists.value[index].members}")),
+                            "Item count: ${controller.rxShoppingLists.value[index].itemCount}")),
                     Container(
                       margin: const EdgeInsets.only(top: 5, bottom: 10),
                       padding: const EdgeInsets.only(right: 10, left: 10),
@@ -141,17 +144,39 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return showBottomSheet(
-                                              context,
-                                              true,
-                                              controller
-                                                  .rxShoppingLists.value[index],
-                                            );
-                                          },
-                                        );
+                                        showDeleteAlertDialog(
+                                            context,
+                                            controller
+                                                .rxShoppingLists.value[index]);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: controller
+                                        .rxShoppingLists.value[index].owner !=
+                                    userController.rxUserModel.uid,
+                                child: SizedBox(
+                                  width: buttonSize.width,
+                                  height: buttonSize.height,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.directions_run_rounded,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        showLeaveListAlertDialog(
+                                            context,
+                                            controller
+                                                .rxShoppingLists.value[index]);
                                       },
                                     ),
                                   ),
@@ -160,15 +185,20 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 child: SizedBox(
-                                  width: buttonSize.width + buttonSize.width/1.2,
+                                  width:
+                                      buttonSize.width + buttonSize.width / 1.2,
                                   height: buttonSize.height,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showUserAlertDialog(
+                                          context,
+                                          controller
+                                              .rxShoppingLists.value[index]);
+                                    },
                                     child: Text('Invite'),
                                   ),
                                 ),
@@ -199,7 +229,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
   }
 
-
   // return ListTile(
   //   title: Text(controller.rxShoppingLists.value[index].name),
   //   onTap: () {
@@ -207,66 +236,66 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   //         controller.rxShoppingLists.value[index];
   //     Get.to(() => ItemPage(), binding: ItemBinding());
   //   },
-  //   trailing: Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: [
-  //       IconButton(
+  // trailing: Row(
+  //   mainAxisSize: MainAxisSize.min,
+  //   children: [
+  //     IconButton(
+  //       icon: const Icon(
+  //         Icons.contact_mail,
+  //       ),
+  //       onPressed: () {
+  //         // controller.deleteShoppingList(
+  //         //     controller.rxShoppingLists.value[index]);
+  //         showUserAlertDialog(
+  //             context, controller.rxShoppingLists.value[index]);
+  //       },
+  //     ),
+  //     IconButton(
+  //       icon: const Icon(
+  //         Icons.edit,
+  //       ),
+  //       onPressed: () {
+  //         showModalBottomSheet(
+  //           context: context,
+  //           builder: (context) {
+  //             return showBottomSheet(context, true,
+  //                 controller.rxShoppingLists.value[index]);
+  //           },
+  //         );
+  //       },
+  //     ),
+  //     Visibility(
+  //       visible: controller.rxShoppingLists.value[index].owner ==
+  //           userController.rxUserModel.uid,
+  //       child: IconButton(
   //         icon: const Icon(
-  //           Icons.contact_mail,
+  //           Icons.delete_outline,
   //         ),
   //         onPressed: () {
   //           // controller.deleteShoppingList(
   //           //     controller.rxShoppingLists.value[index]);
-  //           showUserAlertDialog(
+  //           showAlertDialog(
   //               context, controller.rxShoppingLists.value[index]);
   //         },
   //       ),
-  //       IconButton(
+  //     ),
+  //     Visibility(
+  //       visible: controller.rxShoppingLists.value[index].owner !=
+  //           userController.rxUserModel.uid,
+  //       child: IconButton(
   //         icon: const Icon(
-  //           Icons.edit,
+  //           Icons.directions_run_rounded,
   //         ),
   //         onPressed: () {
-  //           showModalBottomSheet(
-  //             context: context,
-  //             builder: (context) {
-  //               return showBottomSheet(context, true,
-  //                   controller.rxShoppingLists.value[index]);
-  //             },
-  //           );
+  //           // controller.deleteShoppingList(
+  //           //     controller.rxShoppingLists.value[index]);
+  //           showLeaveListAlertDialog(
+  //               context, controller.rxShoppingLists.value[index]);
   //         },
   //       ),
-  //       Visibility(
-  //         visible: controller.rxShoppingLists.value[index].owner ==
-  //             userController.rxUserModel.uid,
-  //         child: IconButton(
-  //           icon: const Icon(
-  //             Icons.delete_outline,
-  //           ),
-  //           onPressed: () {
-  //             // controller.deleteShoppingList(
-  //             //     controller.rxShoppingLists.value[index]);
-  //             showAlertDialog(
-  //                 context, controller.rxShoppingLists.value[index]);
-  //           },
-  //         ),
-  //       ),
-  //       Visibility(
-  //         visible: controller.rxShoppingLists.value[index].owner !=
-  //             userController.rxUserModel.uid,
-  //         child: IconButton(
-  //           icon: const Icon(
-  //             Icons.directions_run_rounded,
-  //           ),
-  //           onPressed: () {
-  //             // controller.deleteShoppingList(
-  //             //     controller.rxShoppingLists.value[index]);
-  //             showLeaveListAlertDialog(
-  //                 context, controller.rxShoppingLists.value[index]);
-  //           },
-  //         ),
-  //       ),
-  //     ],
-  //   ),
+  //     ),
+  //   ],
+  // ),
   // );
 
   String? value;
@@ -364,7 +393,8 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
   }
 
-  showAlertDialog(BuildContext context, ShoppingListMenuModel shoppingList) {
+  showDeleteAlertDialog(
+      BuildContext context, ShoppingListMenuModel shoppingList) {
     showConfirmationDialog(
       context: context,
       type: DialogType.Delete,

@@ -5,6 +5,7 @@ class ItemModel {
   late String text;
   late String imageUrl;
   XFile? image;
+  bool? bought;
 
   ItemModel({this.id, required this.text, required this.imageUrl});
 
@@ -12,6 +13,7 @@ class ItemModel {
     id = itemId;
     text = json['text'];
     imageUrl = json['imageUrl'];
+    bought = json['bought'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class ItemModel {
       'text': text,
       'imageUrl': imageUrl,
       'image': image,
+      'bought': bought
     };
     return item;
   }

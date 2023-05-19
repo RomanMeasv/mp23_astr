@@ -14,8 +14,9 @@ class ShoppingListMenuProvider extends GetConnect {
   Future<ShoppingListMenuModel> addShoppingList(
       ShoppingListMenuModel shoppingList) async {
     try {
-      final collectionRef =
-          _firestore.collection("ShoppingLists");
+
+      final collectionRef = _firestore.collection("ShoppingList");
+
 
       final newDocRef = await collectionRef.add(shoppingList.toJson());
 
@@ -50,12 +51,11 @@ class ShoppingListMenuProvider extends GetConnect {
         .collection("Users")
         .where("shoppingListIds", arrayContains: shoppingList.uid)
         .get();
-   
+
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
-      await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(doc.id)
-          .update({'shoppingListIds': FieldValue.arrayRemove([shoppingList.uid])});
+      await FirebaseFirestore.instance.collection('Users').doc(doc.id).update({
+        'shoppingListIds': FieldValue.arrayRemove([shoppingList.uid])
+      });
     }
     await FirebaseFirestore.instance
         .collection("ShoppingLists")
@@ -63,7 +63,8 @@ class ShoppingListMenuProvider extends GetConnect {
         .delete();
   }
 
-  Future<List<ShoppingListMenuModel>> getAll(List<String> shoppingListIDs) async {
+  Future<List<ShoppingListMenuModel>> getAll(
+      List<String> shoppingListIDs) async {
     try {
       List<ShoppingListMenuModel> shoppingLists = [];
       for (var shoppingListID in shoppingListIDs) {
@@ -71,9 +72,17 @@ class ShoppingListMenuProvider extends GetConnect {
             .collection("ShoppingLists")
             .doc(shoppingListID)
             .get();
-        if (snapshot.data() == null || snapshot.data()!['name'] == null) continue;
+        if (snapshot.data() == null || snapshot.data()!['name'] == null)
+          continue;
         ShoppingListMenuModel shoppingList =
-        ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
+            ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
+        CollectionReference itemsCollection = _firestore
+            .collection("ShoppingList")
+            .doc(shoppingListID)
+            .collection('Item');
+        QuerySnapshot snapshotItem = await itemsCollection.get();
+        int itemCount = snapshotItem.size;
+        shoppingList.itemCount = itemCount.toString();
         shoppingLists.add(shoppingList);
       }
       return shoppingLists;
