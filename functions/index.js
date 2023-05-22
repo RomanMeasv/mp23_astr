@@ -53,15 +53,26 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     // Send the notification to all tokens
     const response = await admin.messaging().sendToDevice(allFcmTokens, payload);
 
-    // Handle if tokens have been invalidated or expired
-    response.failureCount > 0 && response.responses.forEach((resp, idx) => {
-        if (!resp.success) {
-            // remove the failed token
-            let failed_token = allFcmTokens[idx];
-            //TODO: remove the `failed_token` from the users `fcmTokens` array
-            console.log('Failure sending notification to', failed_token, resp.error);
+    //If a notification fails to send, remove the token from the user's fcmTokens array
+    if (response.failureCount > 0) {
+        for (let idx = 0; idx < response.responses.length; idx++) {
+            const resp = response.responses[idx];
+            if (!resp.success) {
+                // remove the failed token, keeping in mind that one user might have multiple tokens
+                const failed_token = allFcmTokens[idx];
+                console.log('Failure sending notification to', failed_token, resp.error);
+                // Fetch users who have this FCM token - it is generally assumed that there is only one user having this token, but it is possible that there are more, if e.g. 2 users share the same device
+                const failed_token_users = await admin.firestore().collection('Users').where('fcmTokens', 'array-contains', failed_token).get();
+    
+                // Remove the failed token from each user
+                failed_token_users.forEach(doc => {
+                    doc.ref.update({
+                        fcmTokens: admin.firestore.FieldValue.arrayRemove(failed_token),
+                    });
+                });
+            }
         }
-    });
+    }
 
     return null;
 });
