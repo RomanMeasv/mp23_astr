@@ -230,7 +230,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context)
                 .colorScheme
-                .secondary, // Set the desired button color here
+                .secondary,
           ),
           child: const Icon(Icons.add),
         ),
