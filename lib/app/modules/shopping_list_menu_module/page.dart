@@ -307,68 +307,66 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   Widget showBottomSheet(
       BuildContext context, bool isUpdate, ShoppingListMenuModel shoppingList) {
     // Added the isUpdate argument to check if our item has been updated
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const Padding(padding: EdgeInsets.only(top: 20)),
-          Text("Change Shopping List name",
-              style: Theme.of(context).textTheme.titleMedium),
-          const Padding(padding: EdgeInsets.only(top: 20)),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: TextField(
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                // Used a ternary operator to check if isUpdate is true then display
-                // Update Shopping List.
-                label: Text(isUpdate
-                    ? shoppingList.name
-                    : 'Enter a Shopping List name'),
-                // labelText:
-                //     isUpdate ? 'Update Shopping List' : 'Add Shopping List',
-                hintText: 'Enter a Shopping list',
+    return ListView(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              Text(
+                "Change Shopping List name",
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              onChanged: (String _val) {
-                // Storing the value of the text entered in the variable value.
-                value = _val;
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.primary),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(isUpdate ? shoppingList.name : 'Enter a Shopping List name'),
+                    hintText: 'Enter a Shopping list',
+                  ),
+                  onChanged: (String _val) {
+                    value = _val;
+                  },
                 ),
-                onPressed: () {
-                  // Check to see if isUpdate is true then update the value else add the value
-                  if (isUpdate) {
-                    shoppingList.name = value;
-                    controller.updateShoppingList(
-                        shoppingList.uid, shoppingList);
-                  } else {
-                    if (value != null) {
-                      controller.add(value!);
-                    }
-                  }
-                  Navigator.pop(context);
-                },
-                child: isUpdate
-                    ? const Text(
-                        'Update',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    : const Text('Add', style: TextStyle(color: Colors.white)),
               ),
-            ),
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+                    ),
+                    onPressed: () {
+                      if (isUpdate) {
+                        shoppingList.name = value;
+                        controller.updateShoppingList(shoppingList.uid, shoppingList);
+                      } else {
+                        if (value != null) {
+                          controller.add(value!);
+                        }
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: isUpdate
+                        ? const Text(
+                      'Update',
+                      style: TextStyle(color: Colors.white),
+                    )
+                        : const Text('Add', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
+
   }
 
   showConfirmationDialog({
