@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 
 class CameraImageProvider extends GetConnect {
   final shoppingListsCollection = "ShoppingLists";
@@ -22,19 +23,21 @@ class CameraImageProvider extends GetConnect {
     // Wait for the upload to complete and return the download URL
     final snapshot = await uploadTask;
     final downloadURL = await snapshot.ref.getDownloadURL();
+    print("Uplodaded image (uploadImage): ${downloadURL}");
     return downloadURL;
   }
 
-  Future<void> addImageUrlToImage(
-      String shoppingListId, String itemId, String imageUrl) async {
+  Future<void> addImageUrlToItem(
+      String shoppingListId, ItemModel item, String imageUrl) async {
     try {
       // add imageUrl field to the item stored in firestore
       await FirebaseFirestore.instance
           .collection(shoppingListsCollection)
           .doc(shoppingListId)
           .collection(itemsCollection)
-          .doc(itemId)
-          .update({"imageUrl": imageUrl});
+          .doc(item.id)
+          .update(item.toJson());
+      print("Updated item (addImageUrlToItem): $item");
     } catch (e) {
       print("Provider error (addImageToItem): $e");
       rethrow;

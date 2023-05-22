@@ -43,7 +43,7 @@ class CameraPageController extends GetxController {
 
       // save image in firestorage and firestore
       final imageUrl = await repository.addImage(
-          args["ShoppingListId"], args["ItemId"], capturedFile);
+          args["ShoppingListId"], args["Item"], capturedFile);
       print("Image URL: $imageUrl");
 
       // return to the previous page

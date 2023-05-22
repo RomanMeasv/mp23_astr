@@ -29,6 +29,6 @@ class ItemModel {
 
   @override
   String toString() {
-    return 'ID: $id, text: $text';
+    return 'ID: $id, text: $text, imageUrl: $imageUrl, image: $image, bought: $bought';
   }
 }

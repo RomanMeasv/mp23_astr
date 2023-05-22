@@ -12,6 +12,9 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   ShoppingListMenuController shoppingListMenuController =
       Get.find<ShoppingListMenuController>();
   UserController userController = Get.find<UserController>();
+
+  ItemOverviewPage({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +24,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               FloatingActionButton(
+                heroTag: "addItem",
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -33,6 +37,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                 child: const Icon(Icons.add),
               ),
               FloatingActionButton(
+                heroTag: "displayCarousel",
                 onPressed: () {
                   // display carousel
                 },
@@ -67,7 +72,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                             binding: CameraBinding(),
                             arguments: {
                               "ShoppingListId": controller.shoppingListId,
-                              "ItemId": controller.itemId(index),
+                              "Item": controller.itemByIndex(index),
                             });
                       },
                     ),

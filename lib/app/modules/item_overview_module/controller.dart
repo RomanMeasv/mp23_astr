@@ -16,8 +16,12 @@ class ItemOverviewController extends GetxController {
 
   get shoppingListId => shoppingListMenuController.selectedShoppingList.uid;
 
+  ItemModel itemByIndex(index) {
+    return rxItemList.value[index];
+  }
+
   String? itemId(index) {
-    return rxItemList.value[index].id;
+    return itemByIndex(index).id;
   }
 
   @override
