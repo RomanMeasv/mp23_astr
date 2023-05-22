@@ -33,31 +33,45 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              FloatingActionButton(
-                heroTag: "addItem",
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return showBottomSheet(
-                          context, false, ItemModel(text: ""));
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return showBottomSheet(
+                              context, false, ItemModel(text: ""));
+                        },
+                      );
                     },
-                  );
-                },
-                child: const Icon(Icons.add),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: const Icon(Icons.add),
+                  ),
+                ),
               ),
-              FloatingActionButton(
-                heroTag: "displayCarousel",
-                onPressed: () {
-                  Get.to(
-                    CarouselPage(),
-                    binding: CarouselBinding(),
-                    arguments: {
-                      "Items": controller.rxItemList,
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(
+                        CarouselPage(),
+                        binding: CarouselBinding(),
+                        arguments: {
+                          "Items": controller.rxItemList,
+                        },
+                      );
                     },
-                  );
-                },
-                child: const Icon(Icons.amp_stories),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: const Icon(Icons.amp_stories),
+                  ),
+                ),
               ),
             ],
           ),
@@ -171,6 +185,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   }
 
   String? value;
+
   Widget showBottomSheet(BuildContext context, bool isUpdate, ItemModel item) {
     // Added the isUpdate argument to check if our item has been updated
     return Padding(
@@ -183,11 +198,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 // Used a ternary operator to check if isUpdate is true then display
-                // Update Shopping List.
                 label: Text(isUpdate ? item.text : 'Enter an Item'),
-                // labelText:
-                //     isUpdate ? 'Update Shopping List' : 'Add Shopping List',
-                hintText: 'Enter an Item',
               ),
               onChanged: (String _val) {
                 // Storing the value of the text entered in the variable value.
@@ -285,5 +296,3 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
     );
   }
 }
-
-
