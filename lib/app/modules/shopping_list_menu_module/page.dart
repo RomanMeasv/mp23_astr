@@ -398,7 +398,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     showConfirmationDialog(
       context: context,
       type: DialogType.Delete,
-      title: "Confirm deletion",
+      title:"Confirm deletion",
       content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
       cancelButtonCallback: () {
         Navigator.pop(context);

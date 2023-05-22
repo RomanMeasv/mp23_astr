@@ -27,9 +27,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           const Padding(padding: EdgeInsets.only(top: 50)),
           Image.asset('lib/app/assets/images/grocery.png', scale: 3),
           Text('Register',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-              )),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontSize: 60,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
+            ),),
           const Padding(padding: EdgeInsets.only(top: 30)),
           Container(
             margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
