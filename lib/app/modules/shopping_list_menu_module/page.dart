@@ -475,7 +475,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       title: "Input a mail:",
       content: Container(
         width: Get.width * 0.9,
-        height: Get.height * 0.3,
+        height: Get.height * 0.2,
         child: Column(
           children: [
             Autocomplete<UserModel>(
