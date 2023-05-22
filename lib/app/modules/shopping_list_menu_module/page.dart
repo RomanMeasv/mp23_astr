@@ -215,16 +215,20 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           },
         ),
       ),
-      bottomNavigationBar: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return showBottomSheet(context, false, ShoppingListMenuModel());
-            },
-          );
-        },
-        child: const Icon(Icons.add),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: ElevatedButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return showBottomSheet(context, false, ShoppingListMenuModel());
+              },
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -303,10 +307,13 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   Widget showBottomSheet(
       BuildContext context, bool isUpdate, ShoppingListMenuModel shoppingList) {
     // Added the isUpdate argument to check if our item has been updated
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
+    return SingleChildScrollView(
       child: Column(
         children: [
+          const Padding(padding: EdgeInsets.only(top: 20)),
+          Text("Change Shopping List name",
+              style: Theme.of(context).textTheme.titleMedium),
+          const Padding(padding: EdgeInsets.only(top: 20)),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
@@ -327,29 +334,38 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               },
             ),
           ),
-          TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.lightBlueAccent),
-              ),
-              onPressed: () {
-                // Check to see if isUpdate is true then update the value else add the value
-                if (isUpdate) {
-                  shoppingList.name = value;
-                  controller.updateShoppingList(shoppingList.uid, shoppingList);
-                } else {
-                  if (value != null) {
-                    controller.add(value!);
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.primary),
+                ),
+                onPressed: () {
+                  // Check to see if isUpdate is true then update the value else add the value
+                  if (isUpdate) {
+                    shoppingList.name = value;
+                    controller.updateShoppingList(
+                        shoppingList.uid, shoppingList);
+                  } else {
+                    if (value != null) {
+                      controller.add(value!);
+                    }
                   }
-                }
-                Navigator.pop(context);
-              },
-              child: isUpdate
-                  ? const Text(
-                      'UPDATE',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : const Text('ADD', style: TextStyle(color: Colors.white))),
+                  Navigator.pop(context);
+                },
+                child: isUpdate
+                    ? const Text(
+                        'Update',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : const Text('Add', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -364,14 +380,14 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     required ButtonCallback continueButtonCallback,
   }) {
     // set up the buttons
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       onPressed: cancelButtonCallback,
       child: const Text("Cancel"),
     );
-    Widget continueButton = TextButton(
+    Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
       child: Text(
-          type == DialogType.User ? "Add Shopping List to User" : "Continue"),
+          type == DialogType.User ? "Add user to Shopping List" : "Continue"),
     );
 
     // set up the AlertDialog
@@ -398,7 +414,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     showConfirmationDialog(
       context: context,
       type: DialogType.Delete,
-      title:"Confirm deletion",
+      title: "Confirm deletion",
       content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
       cancelButtonCallback: () {
         Navigator.pop(context);
