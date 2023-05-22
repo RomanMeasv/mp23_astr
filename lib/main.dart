@@ -20,13 +20,36 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await _initializeFirebase();
+
+  // Run with emulators
+  await _runWithEmulators(true);
+
+  // Setup Firebase Messaging
+  await _setupFirebaseMessaging();
+
+  runApp(const Mp23Astr());
+}
+
+Future<void> _initializeFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //await FirebaseFirestore.instance.clearPersistence();
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+}
+
+const firestoreEmulatorPort = 8080;
+const storageEmulatorPort = 9199;
+const authEmulatorPort = 9099;
+
+Future<void> _runWithEmulators(bool emulators) async {
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', firestoreEmulatorPort);
+  await FirebaseStorage.instance.useStorageEmulator('localhost', storageEmulatorPort);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', authEmulatorPort);
+}
+
+Future<void> _setupFirebaseMessaging() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -39,63 +62,21 @@ Future<void> main() async {
     sound: true,
   );
 
-  print('User granted permission: ${settings.authorizationStatus}');
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
-  final InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    importance: Importance.high,
-  );
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-      var notification = message.notification!;
-
-      flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              icon: 'app_icon',
-              //largeIcon: const DrawableResourceAndroidBitmap('app_icon'),
-            ),
-          ));
-    }
-  });
-
-  runApp(const Mp23Astr());
+  if (settings.authorizationStatus == AuthorizationStatus.denied) {
+    print('User has denied notification permissions.');
+  } else if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission: ${settings.authorizationStatus}');
+    await _setupNotifications(messaging);
+  }
 }
 
 class Mp23Astr extends StatelessWidget {
-  const Mp23Astr({super.key});
+  const Mp23Astr({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // initialRoute: Routes.USER,
       theme: appThemeData,
       defaultTransition: Transition.fade,
       initialBinding: UserBinding(),
@@ -105,6 +86,60 @@ class Mp23Astr extends StatelessWidget {
   }
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> _setupNotifications(FirebaseMessaging messaging) async {
+  //Foreground
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('app_icon');
+
+  final InitializationSettings initializationSettings =
+  InitializationSettings(android: initializationSettingsAndroid);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel',
+    'High Importance Notifications',
+    importance: Importance.high,
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  //Background
+  FirebaseMessaging.onBackgroundMessage(_handleIncomingMessageInBackground);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    _handleIncomingMessage(message, flutterLocalNotificationsPlugin);
+  });
+}
+
+void _handleIncomingMessage(RemoteMessage message, FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
+  print('Got a message whilst in the foreground!');
+  print('Message data: ${message.data}');
+
+  if (message.notification != null) {
+    print('Message also contained a notification: ${message.notification}');
+    var notification = message.notification!;
+
+    flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'High Importance Notifications',
+            icon: 'app_icon',
+          ),
+        )
+    );
+  }
+}
+
+Future<void> _handleIncomingMessageInBackground(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
