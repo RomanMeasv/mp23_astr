@@ -228,7 +228,9 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondary, // Set the desired button color here
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .secondary, // Set the desired button color here
           ),
           child: const Icon(Icons.add),
         ),
@@ -317,7 +319,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           child: Column(
             children: [
               Text(
-                "Change Shopping List name",
+                isUpdate ? "Change Shopping list name" : "Shopping list name",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
@@ -393,8 +395,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
     Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
-      child: Text(
-          type == DialogType.User ? "Add user" : "Continue"),
+      child: Text(type == DialogType.User ? "Add user" : "Continue"),
     );
 
     // set up the AlertDialog
@@ -473,8 +474,8 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       type: DialogType.User,
       title: "Input a mail:",
       content: Container(
-        width: Get.width*0.9,
-        height: Get.height*0.3,
+        width: Get.width * 0.9,
+        height: Get.height * 0.3,
         child: Column(
           children: [
             Autocomplete<UserModel>(
