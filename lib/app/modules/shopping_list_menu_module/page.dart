@@ -394,7 +394,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
       child: Text(
-          type == DialogType.User ? "Add user to Shopping List" : "Continue"),
+          type == DialogType.User ? "Add user" : "Continue"),
     );
 
     // set up the AlertDialog
@@ -413,6 +413,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
         cancelButton,
         continueButton,
       ],
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
     );
 
     // show the dialog
@@ -471,31 +472,34 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       context: context,
       type: DialogType.User,
       title: "Input a mail:",
-      content: Column(
-        children: [
-          Autocomplete<UserModel>(
-            optionsBuilder: (TextEditingValue value) {
-              // When the field is empty
-              if (value.text.isEmpty) {
-                return [];
-              }
-
-              // The logic to find out which ones should appear
-              return controller.listUsers.where((element) => element.email
-                  .toLowerCase()
-                  .contains(value.text.toLowerCase()));
-            },
-            onSelected: (value) {
-              selectedUser = value;
-              print("it works ${value.email} ID : ${value.uid}");
-            },
-            displayStringForOption: (option) => option.email,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Text(selectedUser!.email ?? 'Type something (a, b, c, etc)'),
-        ],
+      content: Container(
+        width: Get.width*0.9,
+        height: Get.height*0.3,
+        child: Column(
+          children: [
+            Autocomplete<UserModel>(
+              optionsBuilder: (TextEditingValue value) {
+                // When the field is empty
+                if (value.text.isEmpty) {
+                  return [];
+                }
+                // The logic to find out which ones should appear
+                return controller.listUsers.where((element) => element.email
+                    .toLowerCase()
+                    .contains(value.text.toLowerCase()));
+              },
+              onSelected: (value) {
+                selectedUser = value;
+                print("it works ${value.email} ID : ${value.uid}");
+              },
+              displayStringForOption: (option) => option.email,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(selectedUser!.email ?? 'Type something (a, b, c, etc)'),
+          ],
+        ),
       ),
       cancelButtonCallback: () {
         Navigator.pop(context);
