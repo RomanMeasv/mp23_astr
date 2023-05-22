@@ -227,6 +227,9 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               },
             );
           },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary, // Set the desired button color here
+          ),
           child: const Icon(Icons.add),
         ),
       ),
@@ -313,10 +316,12 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Padding(padding: EdgeInsets.only(top: 20)),
               Text(
                 "Change Shopping List name",
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
               ),
               const Padding(padding: EdgeInsets.only(top: 20)),
               SizedBox(
@@ -324,8 +329,10 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                 child: TextField(
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
-                    label: Text(isUpdate ? shoppingList.name : 'Enter a Shopping List name'),
-                    hintText: 'Enter a Shopping list',
+                    label: Text(isUpdate
+                        ? shoppingList.name
+                        : 'Enter a Shopping List name'),
+                    hintText: 'New name for the shopping list',
                   ),
                   onChanged: (String _val) {
                     value = _val;
@@ -339,12 +346,14 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                   height: 50,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.primary),
                     ),
                     onPressed: () {
                       if (isUpdate) {
                         shoppingList.name = value;
-                        controller.updateShoppingList(shoppingList.uid, shoppingList);
+                        controller.updateShoppingList(
+                            shoppingList.uid, shoppingList);
                       } else {
                         if (value != null) {
                           controller.add(value!);
@@ -354,10 +363,11 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                     },
                     child: isUpdate
                         ? const Text(
-                      'Update',
-                      style: TextStyle(color: Colors.white),
-                    )
-                        : const Text('Add', style: TextStyle(color: Colors.white)),
+                            'Update',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : const Text('Add',
+                            style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ),
@@ -366,7 +376,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
         ),
       ],
     );
-
   }
 
   showConfirmationDialog({
@@ -390,7 +399,15 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(title),
+      title: Container(
+        alignment: Alignment.center,
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+        ),
+      ),
       content: content,
       actions: [
         cancelButton,
@@ -413,7 +430,10 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       context: context,
       type: DialogType.Delete,
       title: "Confirm deletion",
-      content: Text("Are you sure you want to delete ${shoppingList.name} ?"),
+      content: Text(
+        "Are you sure you want to delete ${shoppingList.name} ?",
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
       cancelButtonCallback: () {
         Navigator.pop(context);
       },
