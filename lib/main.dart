@@ -41,10 +41,13 @@ Future<void> main() async {
 
   print('User granted permission: ${settings.authorizationStatus}');
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-  final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+  final InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -54,7 +57,8 @@ Future<void> main() async {
   );
 
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

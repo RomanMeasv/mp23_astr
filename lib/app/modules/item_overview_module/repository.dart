@@ -34,7 +34,7 @@ class ItemOverviewRepository {
     await api.deleteItem(shoppingListId, item);
   }
 
-  void updateItem(String uid, ItemModel item) async {
-    await api.updateItem(uid, item);
+  void updateItem(String shoppingListId, ItemModel item) async {
+    await api.updateItem(shoppingListId, item);
   }
 }
