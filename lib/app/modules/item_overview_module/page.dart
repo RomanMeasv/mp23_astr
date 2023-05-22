@@ -67,9 +67,23 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                     child: const Icon(Icons.amp_stories),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: const Icon(Icons.edit),
                   ),
                 ),
               ),
@@ -160,22 +174,6 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                             context, controller.rxItemList.value[index]);
                       },
                     ),
-
-                    // Visibility(
-                    //   visible: controller.rxShoppingLists.value[index].owner !=
-                    //       userController.rxUserModel.uid,
-                    //   child: IconButton(
-                    //     icon: const Icon(
-                    //       Icons.directions_run_rounded,
-                    //     ),
-                    //     onPressed: () {
-                    //       // controller.deleteShoppingList(
-                    //       //     controller.rxShoppingLists.value[index]);
-                    //       showLeaveListAlertDialog(
-                    //           context, controller.rxShoppingLists.value[index]);
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               );
