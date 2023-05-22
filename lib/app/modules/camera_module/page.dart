@@ -7,7 +7,7 @@ class CameraPage extends GetView<CameraPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CameraPage')),
+      appBar: AppBar(),
       body: SafeArea(
         child: Stack(
           alignment: Alignment.bottomCenter,

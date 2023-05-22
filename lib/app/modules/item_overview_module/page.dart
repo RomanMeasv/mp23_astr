@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/camera_module/binding.dart';
 import 'package:mp23_astr/app/modules/camera_module/page.dart';
+import 'package:mp23_astr/app/modules/carousel_module/binding.dart';
+import 'package:mp23_astr/app/modules/carousel_module/page.dart';
 import 'package:mp23_astr/app/modules/item_overview_module/controller.dart';
 import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
@@ -14,7 +16,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   UserController userController = Get.find<UserController>();
 
   ItemOverviewPage({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                     context: context,
                     builder: (context) {
                       return showBottomSheet(
-                          context, false, ItemModel(text: "", imageUrl: ""));
+                          context, false, ItemModel(text: ""));
                     },
                   );
                 },
@@ -39,7 +41,13 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
               FloatingActionButton(
                 heroTag: "displayCarousel",
                 onPressed: () {
-                  // display carousel
+                  Get.to(
+                    CarouselPage(),
+                    binding: CarouselBinding(),
+                    arguments: {
+                      "Items": controller.rxItemList,
+                    },
+                  );
                 },
                 child: const Icon(Icons.amp_stories),
               ),

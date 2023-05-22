@@ -1,27 +1,26 @@
 import 'package:camera/camera.dart';
 
 class ItemModel {
-  String? id;
-  late String text;
-  late String imageUrl;
+  late String id;
+  String text = "";
+  String? imageUrl;
   XFile? image;
-  bool? bought;
+  bool bought = false;
 
-  ItemModel({this.id, required this.text, required this.imageUrl});
+  ItemModel({required this.text});
 
   ItemModel.fromJson(String itemId, Map<String, dynamic> json) {
     id = itemId;
     text = json['text'];
     imageUrl = json['imageUrl'];
+    // image = json['imageUrl'];
     bought = json['bought'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> item = <String, dynamic>{
-      'id': id,
       'text': text,
       'imageUrl': imageUrl,
-      'image': image,
       'bought': bought
     };
     return item;

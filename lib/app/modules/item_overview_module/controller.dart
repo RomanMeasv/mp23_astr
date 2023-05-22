@@ -30,11 +30,14 @@ class ItemOverviewController extends GetxController {
     super.onInit();
   }
 
-  addItem(String shoppingList, String itemName) async {
-    ItemModel itemAdded = ItemModel(text: "", imageUrl: '');
-    itemAdded.bought == false;
-    itemAdded = await repository.addItem(shoppingList, itemName);
-    rxItemList.value.add(itemAdded);
+  addItem(String shoppingListId, String itemName) async {
+    // construct an item model that will be added to the FireStore
+    ItemModel itemToBeAdded = ItemModel(text: itemName);
+    itemToBeAdded = await repository.addItem(shoppingListId, itemToBeAdded);
+
+    // rxItemList.value.add(itemToBeAdded);
+
+    // update item list in shopping list menu and item list in item overview 
     shoppingListMenuController.getAll();
     getAll();
     print("RXITEMS LIST LENGTH ${rxItemList.value.length}");

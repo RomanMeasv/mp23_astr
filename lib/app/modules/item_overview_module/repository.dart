@@ -20,9 +20,7 @@ class ItemOverviewRepository {
 // edit(obj){
 //   return api.edit( obj );
 // }
-  addItem(String shoppingListId, String itemName) {
-    ItemModel item = ItemModel(text: itemName, imageUrl: "");
-    item.bought = false;
+  addItem(String shoppingListId, ItemModel item) {
     return api.addItemOverview(shoppingListId, item);
   }
 
