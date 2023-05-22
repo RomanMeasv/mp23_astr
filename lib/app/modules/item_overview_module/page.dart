@@ -10,6 +10,14 @@ import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
 import 'package:mp23_astr/app/data/model/item.dart';
 
+typedef ButtonCallback = void Function();
+
+enum DialogType {
+  Delete,
+  Leave,
+  User,
+}
+
 class ItemOverviewPage extends GetView<ItemOverviewController> {
   ShoppingListMenuController shoppingListMenuController =
       Get.find<ShoppingListMenuController>();
@@ -55,7 +63,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
           ),
         ),
         appBar: AppBar(
-          title: const Text('Item Overview'),
+          title: const Text('Items'),
           centerTitle: true,
         ),
         body: Obx(
@@ -278,10 +286,4 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   }
 }
 
-typedef ButtonCallback = void Function();
 
-enum DialogType {
-  Delete,
-  Leave,
-  User,
-}
