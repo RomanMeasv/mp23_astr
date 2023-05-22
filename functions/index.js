@@ -66,4 +66,3 @@ exports.sendNotificationWhenNewItemIsAddedToAShoppingListOfTheUser = functions.f
     return null;
 });
 
-
