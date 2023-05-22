@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mp23_astr/app/data/model/item.dart';
 import 'package:mp23_astr/core/utils/card_size.dart';
 
 class CarouselCard extends StatelessWidget {
-  static const double _textHeight = 120.0;
+  static const double _textHeight = 200.0;
 
   final ItemModel item;
 
@@ -23,9 +24,10 @@ class CarouselCard extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-              height: double.infinity,
+              height: Get.height,
+              width: Get.width,
               child: Image(
-                image: NetworkImage(item.imageUrl),
+                image: NetworkImage(item.imageUrl!),
                 fit: BoxFit.cover,
               ),
             ),

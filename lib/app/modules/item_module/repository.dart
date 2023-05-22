@@ -17,7 +17,7 @@ class ItemRepository {
     String? imageUrl = await api.uploadImage(image);
     if (imageUrl == null) throw Exception("Image not uploaded");
 
-    final ItemModel item = ItemModel(text: text, imageUrl: imageUrl);
+    final ItemModel item = ItemModel(text: text);
 
     return await api.addItem(shoppingListId, item);
   }

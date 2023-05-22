@@ -39,7 +39,7 @@ class CameraImageProvider extends GetConnect {
           .update(item.toJson());
       print("Updated item (addImageUrlToItem): $item");
     } catch (e) {
-      print("Provider error (addImageToItem): $e");
+      print("Provider error (addImageUrlToItem): $e");
       rethrow;
     }
   }

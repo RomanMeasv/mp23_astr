@@ -13,6 +13,9 @@ class CameraRepository {
     String? imageUrl = await api.uploadImage(image);
     if (imageUrl == null) throw Exception("Image not uploaded");
 
+    item.image = image;
+    item.imageUrl = imageUrl;
+
     // add image url to image
     await api.addImageUrlToItem(shoppingListId, item, imageUrl);
 
