@@ -15,6 +15,7 @@ class ItemOverviewController extends GetxController {
   final ItemOverviewRepository repository;
 
   get shoppingListId => shoppingListMenuController.selectedShoppingList.uid;
+  get shoppingListName => shoppingListMenuController.selectedShoppingList.name;
 
   ItemModel itemByIndex(index) {
     return rxItemList.value[index];
