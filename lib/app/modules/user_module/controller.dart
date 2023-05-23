@@ -101,13 +101,13 @@ class UserController extends GetxController {
       await authRepository.signIn(email, password);
     }
     catch (e) {
-      showSnackbarError("Unable to sign in. Please check your credentials.");
+      showSnackbarError("Error", "Unable to sign in. Please check your credentials.");
     }
   }
 
-  void showSnackbarError(String errorMessage) {
+  void showSnackbarError(String title, String errorMessage) {
     Get.snackbar(
-      'Error',
+      title,
       errorMessage,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: appThemeData.colorScheme.error,
