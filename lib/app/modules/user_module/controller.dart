@@ -1,4 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
@@ -6,6 +8,7 @@ import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
 import 'package:mp23_astr/app/modules/user_module/widgets/register_widget.dart';
 
+import '../../../core/theme/theme.dart';
 import '../../data/model/user.dart';
 import '../shopping_list_menu_module/binding.dart';
 import '../shopping_list_menu_module/page.dart';
@@ -91,12 +94,37 @@ class UserController extends GetxController {
 
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
-    //Navigate to the ShoppingListPage, if the user is logged in
   }
 
   void signIn(String email, String password) async {
-    await authRepository.signIn(email, password);
-    //Navigate to the ShoppingListPage, if the user is logged in
+    try {
+      await authRepository.signIn(email, password);
+    }
+    catch (e) {
+      showSnackbarError("Unable to sign in. Please check your credentials.");
+    }
+  }
+
+  void showSnackbarError(String errorMessage) {
+    Get.snackbar(
+      'Error',
+      errorMessage,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: appThemeData.colorScheme.error,
+      colorText: appThemeData.colorScheme.onError,
+      duration: Duration(seconds: 3),
+      borderRadius: 8.0,
+      margin: EdgeInsets.all(16.0),
+      snackStyle: SnackStyle.FLOATING,
+      forwardAnimationCurve: Curves.easeOutBack,
+      reverseAnimationCurve: Curves.easeInBack,
+      isDismissible: true,
+      overlayBlur: 0.0,
+      overlayColor: Colors.transparent,
+      animationDuration: Duration(milliseconds: 400),
+      barBlur: 0.0,
+      shouldIconPulse: false,
+    );
   }
 
   // Methods below are not used in the page respective to this module but are used in other modules
