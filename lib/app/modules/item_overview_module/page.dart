@@ -101,7 +101,9 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                               controller.rxItemList.value[index]);
                         },
                       ),
-                      Text("wow")
+                      Text(
+                          controller.rxItemList.value[index].text,
+                          style: Theme.of(context).textTheme.bodyLarge)
                     ],
                   ),
                 ),
