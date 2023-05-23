@@ -55,7 +55,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                 margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.primary,
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(8.0),
