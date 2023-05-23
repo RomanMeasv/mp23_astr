@@ -90,9 +90,9 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                     children: [
                       IconButton(
                         icon: Icon(
-                          controller.rxItemList.value[index].bought ?
-                          Icons.check_box_outlined :
-                          Icons.check_box_outline_blank_rounded,
+                          controller.rxItemList.value[index].bought
+                              ? Icons.check_box_outlined
+                              : Icons.check_box_outline_blank_rounded,
                         ),
                         onPressed: () {
                           controller.buyItem(
@@ -101,9 +101,22 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                               controller.rxItemList.value[index]);
                         },
                       ),
-                      Text(
-                          controller.rxItemList.value[index].text,
-                          style: Theme.of(context).textTheme.bodyLarge)
+                      Text(controller.rxItemList.value[index].text,
+                          style: Theme.of(context).textTheme.bodyLarge),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: (){
+
+                              }, child: const Icon(
+                              Icons.more_horiz
+                            ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
