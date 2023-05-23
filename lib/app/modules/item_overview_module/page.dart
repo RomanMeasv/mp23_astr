@@ -58,13 +58,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                   margin: const EdgeInsets.only(left: 10, right: 10),
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(
-                        CarouselPage(),
-                        binding: CarouselBinding(),
-                        arguments: {
-                          "Items": controller.rxItemList,
-                        },
-                      );
+
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
@@ -77,9 +71,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: ElevatedButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                     ),
@@ -90,10 +82,20 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
             ],
           ),
         ),
-        appBar: AppBar(
-          title: const Text('Items'),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: Text(controller.shoppingListName), centerTitle: true, actions: [
+          IconButton(
+              icon: const Icon(Icons.amp_stories),
+              tooltip: 'Carousel',
+              onPressed: () {
+                Get.to(
+                  CarouselPage(),
+                  binding: CarouselBinding(),
+                  arguments: {
+                    "Items": controller.rxItemList,
+                  },
+                );
+              }),
+        ]),
         body: Obx(
           () => ListView.builder(
             itemCount: controller.rxItemList.value.length,
@@ -164,7 +166,6 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                         );
                       },
                     ),
-
                     IconButton(
                       icon: const Icon(
                         Icons.delete_outline,
