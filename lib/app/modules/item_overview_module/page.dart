@@ -28,6 +28,20 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(title: Text(controller.shoppingListName), centerTitle: true, actions: [
+          IconButton(
+              icon: const Icon(Icons.amp_stories),
+              tooltip: 'Carousel',
+              onPressed: () {
+                Get.to(
+                  CarouselPage(),
+                  binding: CarouselBinding(),
+                  arguments: {
+                    "Items": controller.rxItemList,
+                  },
+                );
+              }),
+        ]),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
           child: Row(
@@ -67,35 +81,10 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                    ),
-                    child: const Icon(Icons.edit),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
-        appBar: AppBar(title: Text(controller.shoppingListName), centerTitle: true, actions: [
-          IconButton(
-              icon: const Icon(Icons.amp_stories),
-              tooltip: 'Carousel',
-              onPressed: () {
-                Get.to(
-                  CarouselPage(),
-                  binding: CarouselBinding(),
-                  arguments: {
-                    "Items": controller.rxItemList,
-                  },
-                );
-              }),
-        ]),
+
         body: Obx(
           () => ListView.builder(
             itemCount: controller.rxItemList.value.length,
