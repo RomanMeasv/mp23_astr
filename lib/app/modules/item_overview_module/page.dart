@@ -72,33 +72,26 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
           () => ListView.builder(
             itemCount: controller.rxItemList.value.length,
             itemBuilder: (context, int index) {
-              return ListTile(
-                title: Text(controller.rxItemList.value[index].text),
+              return GestureDetector(
                 onTap: () {
-                  print(
-                      "Value of bought: ${controller.rxItemList.value[index].bought}");
+                  //go to item picture in caroussel
                 },
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.camera_alt_outlined,
-                      ),
-                      onPressed: () {
-                        Get.to(CameraPage(),
-                            binding: CameraBinding(),
-                            arguments: {
-                              "ShoppingListId": controller.shoppingListId,
-                              "Item": controller.itemByIndex(index),
-                            });
-                      },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
                     ),
-                    Visibility(
-                      visible:
-                          controller.rxItemList.value[index].bought == false,
-                      child: IconButton(
-                        icon: const Icon(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          controller.rxItemList.value[index].bought ?
+                          Icons.check_box_outlined :
                           Icons.check_box_outline_blank_rounded,
                         ),
                         onPressed: () {
@@ -108,48 +101,89 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                               controller.rxItemList.value[index]);
                         },
                       ),
-                    ),
-                    Visibility(
-                      visible:
-                          controller.rxItemList.value[index].bought == true,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.check_box_outlined,
-                        ),
-                        onPressed: () {
-                          controller.buyItem(
-                              shoppingListMenuController
-                                  .selectedShoppingList.uid,
-                              controller.rxItemList.value[index]);
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                      ),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return showBottomSheet(context, true,
-                                controller.rxItemList.value[index]);
-                          },
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.delete_outline,
-                      ),
-                      onPressed: () {
-                        showDeleteAlertDialog(
-                            context, controller.rxItemList.value[index]);
-                      },
-                    ),
-                  ],
+                      Text("wow")
+                    ],
+                  ),
                 ),
               );
+              // return ListTile(
+              //   title: Text(controller.rxItemList.value[index].text),
+              //   onTap: () {
+              //     print(
+              //         "Value of bought: ${controller.rxItemList.value[index].bought}");
+              //   },
+              //   trailing: Row(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       IconButton(
+              //         icon: const Icon(
+              //           Icons.camera_alt_outlined,
+              //         ),
+              //         onPressed: () {
+              //           Get.to(CameraPage(),
+              //               binding: CameraBinding(),
+              //               arguments: {
+              //                 "ShoppingListId": controller.shoppingListId,
+              //                 "Item": controller.itemByIndex(index),
+              //               });
+              //         },
+              //       ),
+              //       Visibility(
+              //         visible:
+              //             controller.rxItemList.value[index].bought == false,
+              //         child: IconButton(
+              //           icon: const Icon(
+              //             Icons.check_box_outline_blank_rounded,
+              //           ),
+              //           onPressed: () {
+              //             controller.buyItem(
+              //                 shoppingListMenuController
+              //                     .selectedShoppingList.uid,
+              //                 controller.rxItemList.value[index]);
+              //           },
+              //         ),
+              //       ),
+              //       Visibility(
+              //         visible:
+              //             controller.rxItemList.value[index].bought == true,
+              //         child: IconButton(
+              //           icon: const Icon(
+              //             Icons.check_box_outlined,
+              //           ),
+              //           onPressed: () {
+              //             controller.buyItem(
+              //                 shoppingListMenuController
+              //                     .selectedShoppingList.uid,
+              //                 controller.rxItemList.value[index]);
+              //           },
+              //         ),
+              //       ),
+              //       IconButton(
+              //         icon: const Icon(
+              //           Icons.edit,
+              //         ),
+              //         onPressed: () {
+              //           showModalBottomSheet(
+              //             context: context,
+              //             builder: (context) {
+              //               return showBottomSheet(context, true,
+              //                   controller.rxItemList.value[index]);
+              //             },
+              //           );
+              //         },
+              //       ),
+              //       IconButton(
+              //         icon: const Icon(
+              //           Icons.delete_outline,
+              //         ),
+              //         onPressed: () {
+              //           showDeleteAlertDialog(
+              //               context, controller.rxItemList.value[index]);
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // );
             },
           ),
         ));
