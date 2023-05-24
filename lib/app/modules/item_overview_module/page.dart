@@ -74,7 +74,12 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
             itemBuilder: (context, int index) {
               return GestureDetector(
                 onTap: () {
-                  //go to item picture in caroussel
+                  Get.to(CameraPage(),
+                      binding: CameraBinding(),
+                      arguments: {
+                        "ShoppingListId": controller.shoppingListId,
+                        "Item": controller.itemByIndex(index),
+                      });
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
@@ -101,21 +106,42 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                               controller.rxItemList.value[index]);
                         },
                       ),
-                      Text(controller.rxItemList.value[index].text,
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: (){
-
-                              }, child: const Icon(
-                              Icons.more_horiz
+                      Expanded(
+                        child: Text(controller.rxItemList.value[index].text,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.zero,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.delete_outline,
+                              ),
+                              onPressed: () {
+                                showDeleteAlertDialog(
+                                    context, controller.rxItemList.value[index]);
+                              },
                             ),
-                            )
-                          ],
-                        ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.zero,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.edit,
+                              ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return showBottomSheet(context, true,
+                                        controller.rxItemList.value[index]);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
