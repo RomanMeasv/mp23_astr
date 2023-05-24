@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/data/model/user.dart';
-import 'package:mp23_astr/app/modules/item_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
 import '../../data/model/shopping_list_menu.dart';
-import '../item_module/page.dart';
 import '../item_overview_module/binding.dart';
 import '../item_overview_module/page.dart';
 import '../shopping_list_menu_module/controller.dart';

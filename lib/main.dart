@@ -5,16 +5,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:mp23_astr/app/modules/item_module/binding.dart';
-import 'package:mp23_astr/app/modules/item_module/page.dart';
-import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:get/get.dart';
 
-import 'app/modules/shopping_list_menu_module/page.dart';
 import 'app/routes/pages.dart';
-import 'app/routes/routes.dart';
 import 'core/theme/theme.dart';
 import 'firebase_options.dart';
 
