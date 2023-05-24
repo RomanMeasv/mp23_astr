@@ -1,9 +1,14 @@
+<div style="display: flex; justify-content: center;">
+  <img src="https://images-ext-2.discordapp.net/external/hrpFrk16sFgItzrEA6jXqeX0tLHKWG89-liZMjAy9eA/https/cdn-icons-png.flaticon.com/512/1261/1261163.png" alt="Unpacked logo" width="200" height="200">
+</div>
 
-# **Mobile Programming 4th semester exam project**
+# **Unpacked**
 
+This project was developed during the 4th semester of EASV's Computer Science program as a final exam project for the Mobile Programming and Fullstack Development course.
 
+## Description
 
-This Application is a modern Shopping Cart List with Images
+Unpacked is a modern shopping list application that enables users to share and collaborate on their lists. The application is built for mobile devices using Flutter, while utilizing Firebase tools for persistence.
 
 
 ## Authors
@@ -44,4 +49,5 @@ Start the application
 ```bash
   flutter run
 ```
+
 
