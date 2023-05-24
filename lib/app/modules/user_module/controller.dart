@@ -4,7 +4,6 @@ import 'package:mp23_astr/app/modules/user_module/auth_repository.dart';
 import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
-import 'package:mp23_astr/app/modules/user_module/widgets/register_widget.dart';
 
 import '../../data/model/user.dart';
 import '../shopping_list_menu_module/binding.dart';
@@ -99,8 +98,6 @@ class UserController extends GetxController {
     //Navigate to the ShoppingListPage, if the user is logged in
   }
 
-  // Methods below are not used in the page respective to this module but are used in other modules
-
   void signOut() async {
     await authRepository.signOut();
   }
@@ -108,6 +105,12 @@ class UserController extends GetxController {
   void signInWithGoogle() async {
     await authRepository.signInWithGoogle();
   }
+
+  void changeToRegisterWidget() {
+    isLogging(false);
+  }
+
+  // Methods below are not used in the page respective to this module but are used in other modules
 
   void assignShoppingList(String shoppingListId) async {
     await repository.assignShoppingList(user.uid, shoppingListId);
@@ -117,9 +120,5 @@ class UserController extends GetxController {
   void deAssignShoppingList(String shoppingListId) async {
     await repository.deAssignShoppingList(user.uid, shoppingListId);
     rxUserModel.shoppingListIds.remove(shoppingListId);
-  }
-
-  void changeToRegisterWidget() {
-    isLogging(false);
   }
 }
