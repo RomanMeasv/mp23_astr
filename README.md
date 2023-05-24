@@ -1,4 +1,4 @@
-<img align="right" src="https://images-ext-2.discordapp.net/external/hrpFrk16sFgItzrEA6jXqeX0tLHKWG89-liZMjAy9eA/https/cdn-icons-png.flaticon.com/512/1261/1261163.png" alt="Unpacked logo" width="200" height="200">
+<img align="right" src="https://images-ext-2.discordapp.net/external/hrpFrk16sFgItzrEA6jXqeX0tLHKWG89-liZMjAy9eA/https/cdn-icons-png.flaticon.com/512/1261/1261163.png" alt="Unpacked logo" width="160" height="160">
 
 # Unpacked
 
