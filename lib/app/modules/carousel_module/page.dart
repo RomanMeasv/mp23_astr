@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/carousel_module/controller.dart';
-import 'package:mp23_astr/app/modules/item_module/widgets/carousel_card.dart';
+import 'package:mp23_astr/app/modules/carousel_module/widgets/carousel_card.dart';
 
 class CarouselPage extends GetView<CarouselController> {
   @override

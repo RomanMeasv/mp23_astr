@@ -2,11 +2,9 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mp23_astr/app/modules/item_module/widgets/carousel_card.dart';
+import 'package:mp23_astr/app/modules/carousel_module/widgets/carousel_card.dart';
 
 import 'controller.dart';
-import 'widgets/photo_remover.dart';
-import 'widgets/photo_taker.dart';
 
 class ItemPage extends GetView<ItemController> {
   const ItemPage({super.key});
