@@ -1,8 +1,6 @@
-<div style="display: flex; justify-content: center;">
-  <img src="https://images-ext-2.discordapp.net/external/hrpFrk16sFgItzrEA6jXqeX0tLHKWG89-liZMjAy9eA/https/cdn-icons-png.flaticon.com/512/1261/1261163.png" alt="Unpacked logo" width="200" height="200">
-</div>
+# Unpacked
 
-# **Unpacked**
+<img align="left" src="https://images-ext-2.discordapp.net/external/hrpFrk16sFgItzrEA6jXqeX0tLHKWG89-liZMjAy9eA/https/cdn-icons-png.flaticon.com/512/1261/1261163.png" alt="Unpacked logo" width="200" height="200">
 
 This project was developed during the 4th semester of EASV's Computer Science program as a final exam project for the Mobile Programming and Fullstack Development course.
 
