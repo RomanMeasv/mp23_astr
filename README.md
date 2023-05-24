@@ -48,4 +48,7 @@ Start the application
   flutter run
 ```
 
+## Known issues & fixes
 
+#### Google Sign-in does not work with Firebase Auth emulator
+As the Firebase Auth Emulator does not support Google sign in, this feature is unavailable while using the emulators. This can be circumvented via taking out the Firebase Auth emulator from the used suite. (Emulators for the Firestore and Cloud Functions are still required as they are utilized in the sign up/sign in process)
