@@ -74,12 +74,10 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
             itemBuilder: (context, int index) {
               return GestureDetector(
                 onTap: () {
-                  Get.to(CameraPage(),
-                      binding: CameraBinding(),
-                      arguments: {
-                        "ShoppingListId": controller.shoppingListId,
-                        "Item": controller.itemByIndex(index),
-                      });
+                  Get.to(CameraPage(), binding: CameraBinding(), arguments: {
+                    "ShoppingListId": controller.shoppingListId,
+                    "Item": controller.itemByIndex(index),
+                  });
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
@@ -119,8 +117,8 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                                 Icons.delete_outline,
                               ),
                               onPressed: () {
-                                showDeleteAlertDialog(
-                                    context, controller.rxItemList.value[index]);
+                                showDeleteAlertDialog(context,
+                                    controller.rxItemList.value[index]);
                               },
                             ),
                           ),
@@ -160,6 +158,15 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
       padding: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
+          Text(
+            isUpdate ? "Introduce a new name" : "Item name",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 20)),
+
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
@@ -174,35 +181,42 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
               },
             ),
           ),
-          TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.lightBlueAccent),
-              ),
-              onPressed: () {
-                // Check to see if isUpdate is true then update the value else add the value
-                if (isUpdate) {
-                  item.text = value!;
-                  controller.updateItem(
-                      controller
-                          .shoppingListMenuController.selectedShoppingList.uid,
-                      item);
-                } else {
-                  if (value != null) {
-                    controller.addItem(
-                        shoppingListMenuController.selectedShoppingList.uid,
-                        value!);
-                  }
-                }
-                Navigator.pop(context);
-              },
-              child: isUpdate
-                  ? const Text(
-                      'UPDATE Item',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : const Text('ADD Item',
-                      style: TextStyle(color: Colors.white))),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 50,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.primary),
+                  ),
+                  onPressed: () {
+                    // Check to see if isUpdate is true then update the value else add the value
+                    if (isUpdate) {
+                      item.text = value!;
+                      controller.updateItem(
+                          controller.shoppingListMenuController
+                              .selectedShoppingList.uid,
+                          item);
+                    } else {
+                      if (value != null) {
+                        controller.addItem(
+                            shoppingListMenuController.selectedShoppingList.uid,
+                            value!);
+                      }
+                    }
+                    Navigator.pop(context);
+                  },
+                  child: isUpdate
+                      ? const Text(
+                          'Update',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      : const Text('Add',
+                          style: TextStyle(color: Colors.white))),
+            ),
+          ),
         ],
       ),
     );
@@ -217,11 +231,11 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
     required ButtonCallback continueButtonCallback,
   }) {
     // set up the buttons
-    Widget cancelButton = TextButton(
+    Widget cancelButton = ElevatedButton(
       onPressed: cancelButtonCallback,
       child: const Text("Cancel"),
     );
-    Widget continueButton = TextButton(
+    Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
       child: Text(
           type == DialogType.User ? "Add Shopping List to User" : "Continue"),
@@ -229,12 +243,18 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(title),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+      ),
       content: content,
       actions: [
         cancelButton,
         continueButton,
       ],
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
     );
 
     // show the dialog
