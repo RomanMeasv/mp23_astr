@@ -91,10 +91,6 @@ As the Firebase Auth Emulator does not support Google sign in, this feature is u
 
 ## Authors
 
-<a href="https://github.com/RomanMeasv/mp23_astr/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=RomanMeasv/mp23_astr" />
-</a>
-
 - [@Ladam0203](https://github.com/Ladam0203)
 - [@SergioMM0](https://github.com/SergioMM0)
 - [@TawfikAzza](https://github.com/TawfikAzza)
