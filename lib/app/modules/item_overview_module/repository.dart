@@ -1,6 +1,6 @@
 import 'package:mp23_astr/app/data/provider/item_provider.dart';
 
-import '../../data/model/item.dart';
+import 'package:mp23_astr/app/data/model/item.dart';
 
 class ItemOverviewRepository {
   final ItemProvider api;
@@ -11,15 +11,6 @@ class ItemOverviewRepository {
     return api.getAllItems(shoppingListId);
   }
 
-// getId(id){
-//   return api.getId(id);
-// }
-// delete(id){
-//   return api.delete(id);
-// }
-// edit(obj){
-//   return api.edit( obj );
-// }
   addItem(String shoppingListId, ItemModel item) {
     return api.addItemOverview(shoppingListId, item);
   }

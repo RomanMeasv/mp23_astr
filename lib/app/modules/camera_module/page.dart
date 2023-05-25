@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:mp23_astr/app/modules/camera_module/controller.dart';
 
 class CameraPage extends GetView<CameraPageController> {
+  const CameraPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

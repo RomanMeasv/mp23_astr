@@ -39,11 +39,9 @@ class ItemOverviewController extends GetxController {
     // update item list in shopping list menu and item list in item overview 
     shoppingListMenuController.getAll();
     getAll();
-    print("RXITEMS LIST LENGTH ${rxItemList.value.length}");
   }
 
   getAll() async {
-    print("IN GETALL CONTROLLER");
     rxItemList.value.clear();
     List<ItemModel> itemList = await repository
         .getAll(shoppingListMenuController.selectedShoppingList.uid);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller.dart';
+import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
 class RegisterWidget extends StatefulWidget {
+  const RegisterWidget({super.key});
+
   @override
   State<RegisterWidget> createState() => _RegisterWidgetState();
 }
@@ -12,7 +14,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   final _validationFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _repeatPasswordController = TextEditingController();
+  final TextEditingController _repeatPasswordController =
+      TextEditingController();
   bool _obscureTextRepPass = true;
   bool _obscureTextPass = true;
   final UserController controller = Get.find();
@@ -26,12 +29,14 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         children: [
           const Padding(padding: EdgeInsets.only(top: 50)),
           Image.asset('lib/app/assets/images/grocery.png', scale: 3),
-          Text('Register',
+          Text(
+            'Register',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontSize: 60,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),),
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+          ),
           const Padding(padding: EdgeInsets.only(top: 30)),
           Container(
             margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -71,7 +76,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: '••••••••',
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureTextPass
@@ -117,7 +122,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   decoration: InputDecoration(
                     labelText: 'Repeat password',
                     hintText: '••••••••',
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureTextRepPass
@@ -145,10 +150,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ),
                   obscureText: _obscureTextRepPass,
                   validator: (value) {
-                    if (value == null || value.isEmpty || value.length <=5) {
+                    if (value == null || value.isEmpty || value.length <= 5) {
                       return "Please repeat the previously introduced password";
                     }
-                    if(value != _passwordController.value.text){
+                    if (value != _passwordController.value.text) {
                       return "Password doesn't match";
                     }
                     return null;
@@ -187,7 +192,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
+                  Expanded(
+                      child: Divider(color: Colors.grey[400], thickness: 1)),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text("or"),
@@ -223,7 +229,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: Divider(color: Colors.grey[400], thickness: 1)),
+                  Expanded(
+                      child: Divider(color: Colors.grey[400], thickness: 1)),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Text("or maybe..."),
@@ -233,27 +240,28 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 ],
               )),
           Container(
-              height: 60,
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    //implement google log in
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+            height: 60,
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
+            child: SizedBox(
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.signInWithGoogle();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text('Use your google account',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary)),
                 ),
-              )),
+                child: Text('Use your google account',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary)),
+              ),
+            ),
+          ),
         ],
       ),
     );

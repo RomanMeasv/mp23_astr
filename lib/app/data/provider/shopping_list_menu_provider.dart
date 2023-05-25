@@ -1,10 +1,6 @@
 import 'package:get/get_connect/connect.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mp23_astr/app/data/model/shopping_list_menu.dart';
-
-import '../model/user.dart';
 
 const baseUrl = 'http://gerador-nomes.herokuapp.com/nomes/10';
 
@@ -23,14 +19,13 @@ class ShoppingListMenuProvider extends GetConnect {
       shoppingList.uid = newDocRef.id;
       return shoppingList;
     } catch (e) {
-      print("Provider error (addItem): $e");
       rethrow;
     }
   }
 
   Future<ShoppingListMenuModel> updateShoppingList(
       String shoppingListID, ShoppingListMenuModel shoppingList) async {
-    final collectionRef = _firestore
+    _firestore
         .collection("ShoppingLists")
         .doc(shoppingListID)
         .set(shoppingList.toJson());
@@ -72,8 +67,9 @@ class ShoppingListMenuProvider extends GetConnect {
             .collection("ShoppingLists")
             .doc(shoppingListID)
             .get();
-        if (snapshot.data() == null || snapshot.data()!['name'] == null)
+        if (snapshot.data() == null || snapshot.data()!['name'] == null) {
           continue;
+        }
         ShoppingListMenuModel shoppingList =
             ShoppingListMenuModel.fromDocumentSnapshot(snapshot);
         CollectionReference itemsCollection = _firestore
@@ -87,7 +83,6 @@ class ShoppingListMenuProvider extends GetConnect {
       }
       return shoppingLists;
     } catch (e) {
-      print("Provider error (getAll): $e");
       rethrow;
     }
   }

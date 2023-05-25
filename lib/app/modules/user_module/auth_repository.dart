@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../data/provider/auth_provider.dart';
+import 'package:mp23_astr/app/data/provider/auth_provider.dart';
 
 class AuthRepository {
   final AuthProvider api;

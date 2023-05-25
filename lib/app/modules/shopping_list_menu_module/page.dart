@@ -3,21 +3,23 @@ import 'package:get/get.dart';
 import 'package:mp23_astr/app/data/model/user.dart';
 import 'package:mp23_astr/app/modules/user_module/controller.dart';
 
-import '../../data/model/shopping_list_menu.dart';
-import '../item_overview_module/binding.dart';
-import '../item_overview_module/page.dart';
-import '../shopping_list_menu_module/controller.dart';
+import 'package:mp23_astr/app/data/model/shopping_list_menu.dart';
+import 'package:mp23_astr/app/modules/item_overview_module/binding.dart';
+import 'package:mp23_astr/app/modules/item_overview_module/page.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/controller.dart';
 
 typedef ButtonCallback = void Function();
 
 enum DialogType {
-  Delete,
-  Leave,
-  User,
+  delete,
+  leave,
+  user,
 }
 
 class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
   UserController userController = Get.find<UserController>();
+
+  ShoppingListMenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -236,75 +238,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
   }
 
-  // return ListTile(
-  //   title: Text(controller.rxShoppingLists.value[index].name),
-  //   onTap: () {
-  //     controller.selectedShoppingList =
-  //         controller.rxShoppingLists.value[index];
-  //     Get.to(() => ItemPage(), binding: ItemBinding());
-  //   },
-  // trailing: Row(
-  //   mainAxisSize: MainAxisSize.min,
-  //   children: [
-  //     IconButton(
-  //       icon: const Icon(
-  //         Icons.contact_mail,
-  //       ),
-  //       onPressed: () {
-  //         // controller.deleteShoppingList(
-  //         //     controller.rxShoppingLists.value[index]);
-  //         showUserAlertDialog(
-  //             context, controller.rxShoppingLists.value[index]);
-  //       },
-  //     ),
-  //     IconButton(
-  //       icon: const Icon(
-  //         Icons.edit,
-  //       ),
-  //       onPressed: () {
-  //         showModalBottomSheet(
-  //           context: context,
-  //           builder: (context) {
-  //             return showBottomSheet(context, true,
-  //                 controller.rxShoppingLists.value[index]);
-  //           },
-  //         );
-  //       },
-  //     ),
-  //     Visibility(
-  //       visible: controller.rxShoppingLists.value[index].owner ==
-  //           userController.rxUserModel.uid,
-  //       child: IconButton(
-  //         icon: const Icon(
-  //           Icons.delete_outline,
-  //         ),
-  //         onPressed: () {
-  //           // controller.deleteShoppingList(
-  //           //     controller.rxShoppingLists.value[index]);
-  //           showAlertDialog(
-  //               context, controller.rxShoppingLists.value[index]);
-  //         },
-  //       ),
-  //     ),
-  //     Visibility(
-  //       visible: controller.rxShoppingLists.value[index].owner !=
-  //           userController.rxUserModel.uid,
-  //       child: IconButton(
-  //         icon: const Icon(
-  //           Icons.directions_run_rounded,
-  //         ),
-  //         onPressed: () {
-  //           // controller.deleteShoppingList(
-  //           //     controller.rxShoppingLists.value[index]);
-  //           showLeaveListAlertDialog(
-  //               context, controller.rxShoppingLists.value[index]);
-  //         },
-  //       ),
-  //     ),
-  //   ],
-  // ),
-  // );
-
   String? value;
 
   Widget showBottomSheet(
@@ -334,8 +267,8 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
                         : 'Enter a Shopping List name'),
                     hintText: 'New name for the shopping list',
                   ),
-                  onChanged: (String _val) {
-                    value = _val;
+                  onChanged: (String val) {
+                    value = val;
                   },
                 ),
               ),
@@ -393,7 +326,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
     );
     Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
-      child: Text(type == DialogType.User ? "Add user" : "Continue"),
+      child: Text(type == DialogType.user ? "Add user" : "Continue"),
     );
 
     // set up the AlertDialog
@@ -428,7 +361,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       BuildContext context, ShoppingListMenuModel shoppingList) {
     showConfirmationDialog(
       context: context,
-      type: DialogType.Delete,
+      type: DialogType.delete,
       title: "Confirm deletion",
       content: Text(
         "Are you sure you want to delete ${shoppingList.name} ?",
@@ -448,7 +381,7 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       BuildContext context, ShoppingListMenuModel shoppingList) {
     showConfirmationDialog(
       context: context,
-      type: DialogType.Leave,
+      type: DialogType.leave,
       title: "Confirm leaving the list",
       content: Text("Are you sure you want to leave ${shoppingList.name} ?"),
       cancelButtonCallback: () {
@@ -465,13 +398,12 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
       BuildContext context, ShoppingListMenuModel shoppingList) {
     UserModel? selectedUser = UserModel();
     controller.getAllUsers();
-    print("List User size : ${controller.listUsers.length}");
 
     showConfirmationDialog(
       context: context,
-      type: DialogType.User,
+      type: DialogType.user,
       title: "Input a mail:",
-      content: Container(
+      content: SizedBox(
         width: Get.width * 0.9,
         height: Get.height * 0.2,
         child: Column(
@@ -489,7 +421,6 @@ class ShoppingListMenuPage extends GetView<ShoppingListMenuController> {
               },
               onSelected: (value) {
                 selectedUser = value;
-                print("it works ${value.email} ID : ${value.uid}");
               },
               displayStringForOption: (option) => option.email,
             ),

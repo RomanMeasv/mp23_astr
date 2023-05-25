@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/connect.dart';
@@ -27,10 +25,8 @@ class UserProvider extends GetConnect {
         documentSnapshot.data() != null &&
         documentSnapshot.data()!['shoppingListIds'] != null &&
         documentSnapshot.data()!['shoppingListIds'].contains(shoppingListId)) {
-      print("Already in the db");
       return;
-      //Yeah, this part of the code is courtesy of the one and only CHATGPT
-    } 
+    }
     //if the user doesn't have the shoppingList we add it.
     return firestore.collection('Users').doc(uid).update({
       'shoppingListIds': FieldValue.arrayUnion([shoppingListId])
@@ -38,10 +34,9 @@ class UserProvider extends GetConnect {
   }
 
   Future<void> deAssignShoppingList(String uid, String shoppingListId) {
-   return firestore
-        .collection('Users')
-        .doc(uid)
-        .update({'shoppingListIds': FieldValue.arrayRemove([shoppingListId])});
+    return firestore.collection('Users').doc(uid).update({
+      'shoppingListIds': FieldValue.arrayRemove([shoppingListId])
+    });
   }
 
   Future<List<UserModel>> getAll() async {
@@ -50,19 +45,11 @@ class UserProvider extends GetConnect {
 
       final QuerySnapshot<Map<String, dynamic>> collection =
           await firestore.collection("Users").get();
-      
-      //I don't know why the collection.map does not parse throughthe collection 
-      //at all, I kept receiving an empty list, I was forced to use a for loop in
-      //order to make it work.
-
-      // collection.docs
-      //     .map((doc) => userList.add(UserModel.fromDocumentSnapshot(doc)));
       for (int i = 0; i < collection.docs.length; i++) {
         userList.add(UserModel.fromDocumentSnapshot(collection.docs[i]));
       }
       return userList;
     } catch (e) {
-      print("Provider error (getAllUsers): $e");
       rethrow;
     }
   }

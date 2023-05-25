@@ -60,7 +60,6 @@ Future<void> _setupFirebaseMessaging() async {
   if (settings.authorizationStatus == AuthorizationStatus.denied) {
     print('User has denied notification permissions.');
   } else if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('User granted permission: ${settings.authorizationStatus}');
     await _setupNotifications(messaging);
   }
 }
@@ -89,7 +88,7 @@ Future<void> _setupNotifications(FirebaseMessaging messaging) async {
   const AndroidInitializationSettings initializationSettingsAndroid =
   AndroidInitializationSettings('app_icon');
 
-  final InitializationSettings initializationSettings =
+  const InitializationSettings initializationSettings =
   InitializationSettings(android: initializationSettingsAndroid);
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -104,27 +103,20 @@ Future<void> _setupNotifications(FirebaseMessaging messaging) async {
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  //Background
-  FirebaseMessaging.onBackgroundMessage(_handleIncomingMessageInBackground);
-
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     _handleIncomingMessage(message, flutterLocalNotificationsPlugin);
   });
 }
 
 void _handleIncomingMessage(RemoteMessage message, FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
-  print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data}');
-
   if (message.notification != null) {
-    print('Message also contained a notification: ${message.notification}');
     var notification = message.notification!;
 
     flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
-        NotificationDetails(
+        const NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
             'High Importance Notifications',
@@ -133,8 +125,4 @@ void _handleIncomingMessage(RemoteMessage message, FlutterLocalNotificationsPlug
         )
     );
   }
-}
-
-Future<void> _handleIncomingMessageInBackground(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
 }

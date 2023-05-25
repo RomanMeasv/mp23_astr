@@ -48,7 +48,7 @@ class CameraPageController extends GetxController {
       // return to the previous page
       Get.back();
     } catch (e) {
-      print('Error capturing image (captureImage): $e');
+      //handle error
     }
   }
 
@@ -69,8 +69,4 @@ class CameraPageController extends GetxController {
     _cameraController.dispose();
     super.dispose();
   }
-
-  // final _obj = ''.obs;
-  // set obj(value) => this._obj.value = value;
-  // get obj => this._obj.value;
 }

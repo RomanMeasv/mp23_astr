@@ -1,6 +1,6 @@
 
-import '../../data/model/user.dart';
-import '../../data/provider/user_provider.dart';
+import 'package:mp23_astr/app/data/model/user.dart';
+import 'package:mp23_astr/app/data/provider/user_provider.dart';
 
 class UserRepository {
   final UserProvider api;

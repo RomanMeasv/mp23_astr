@@ -5,9 +5,9 @@ import 'package:mp23_astr/app/modules/user_module/binding.dart';
 import 'package:mp23_astr/app/modules/user_module/page.dart';
 import 'package:mp23_astr/app/modules/user_module/repository.dart';
 
-import '../../data/model/user.dart';
-import '../shopping_list_menu_module/binding.dart';
-import '../shopping_list_menu_module/page.dart';
+import 'package:mp23_astr/app/data/model/user.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/binding.dart';
+import 'package:mp23_astr/app/modules/shopping_list_menu_module/page.dart';
 
 class UserController extends GetxController {
   final UserRepository repository;
@@ -26,9 +26,7 @@ class UserController extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   _syncAppWithAuthState(user) async {
-    print("AuthState: $user");
     if (user != null) {
-      print("Syncing rxUserModel");
       // Fetch the UserModel from the UserRepository
       UserModel? userModel = await _fetchUser(user);
 
@@ -36,7 +34,7 @@ class UserController extends GetxController {
         return;
       }
 
-      //Add the FCM token to the user, TODO: Only add if permission is granted
+      //Add the FCM token to the user
       String? token = await messaging.getToken();
       if (token != null) {
         await repository.addFcmToken(userModel.uid, token);
@@ -52,7 +50,6 @@ class UserController extends GetxController {
           binding: ShoppingListMenuBinding());
     } else {
       // Reset the rxUserModel
-      print("Resetting rxUserModel");
       rxUserModel.reset();
 
       // Navigate to the UserPage, if the user is logged out
@@ -65,12 +62,10 @@ class UserController extends GetxController {
     num attempts = 0;
     bool userFetched = false; // Flag variable to indicate if a valid user is fetched
 
-    print("Fetching user with UID: ${user.uid}");
     do {
       try {
         userModel = await repository.getUser(user.uid);
       } catch (e) {
-        print("Error: $e -> Waiting for Cloud Function to execute. Try: ${++attempts}");
         await Future.delayed(const Duration(seconds: 1));
       }
 
@@ -81,7 +76,6 @@ class UserController extends GetxController {
     } while (!userFetched && attempts < 20);
 
     if (!userFetched) {
-      print("Could not fetch user.");
       return null;
     }
 
@@ -90,12 +84,10 @@ class UserController extends GetxController {
 
   void signUp(String email, String password) async {
     await authRepository.signUp(email, password);
-    //Navigate to the ShoppingListPage, if the user is logged in
   }
 
   void signIn(String email, String password) async {
     await authRepository.signIn(email, password);
-    //Navigate to the ShoppingListPage, if the user is logged in
   }
 
   void signOut() async {
@@ -109,6 +101,8 @@ class UserController extends GetxController {
   void changeToRegisterWidget() {
     isLogging(false);
   }
+
+
 
   // Methods below are not used in the page respective to this module but are used in other modules
 

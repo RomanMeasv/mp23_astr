@@ -13,9 +13,9 @@ import 'package:mp23_astr/app/data/model/item.dart';
 typedef ButtonCallback = void Function();
 
 enum DialogType {
-  Delete,
-  Leave,
-  User,
+  delete,
+  leave,
+  user,
 }
 
 class ItemOverviewPage extends GetView<ItemOverviewController> {
@@ -28,126 +28,126 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(controller.shoppingListName),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.amp_stories),
-                  tooltip: 'Carousel',
-                  onPressed: () {
-                    Get.to(
-                      CarouselPage(),
-                      binding: CarouselBinding(),
-                      arguments: {
-                        "Items": controller.rxItemList,
-                      },
-                    );
-                  }),
-            ]),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
-          child: Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return showBottomSheet(
-                          context, false, ItemModel(text: ""));
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                ),
-                child: const Icon(Icons.add),
+      appBar: AppBar(
+        title: Text(controller.shoppingListName),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.amp_stories),
+              tooltip: 'Carousel',
+              onPressed: () {
+                Get.to(
+                  CarouselPage(),
+                  binding: CarouselBinding(),
+                  arguments: {
+                    "Items": controller.rxItemList,
+                  },
+                );
+              }),
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+        child: Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(left: 10, right: 10),
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return showBottomSheet(context, false, ItemModel(text: ""));
+                  },
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
+              child: const Icon(Icons.add),
             ),
           ),
         ),
-        body: Obx(
-          () => ListView.builder(
-            itemCount: controller.rxItemList.value.length,
-            itemBuilder: (context, int index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.to(CameraPage(), binding: CameraBinding(), arguments: {
-                    "ShoppingListId": controller.shoppingListId,
-                    "Item": controller.itemByIndex(index),
-                  });
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Theme.of(context).colorScheme.tertiary,
+      ),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.rxItemList.value.length,
+          itemBuilder: (context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Get.to(CameraPage(), binding: CameraBinding(), arguments: {
+                  "ShoppingListId": controller.shoppingListId,
+                  "Item": controller.itemByIndex(index),
+                });
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
                   ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          controller.rxItemList.value[index].bought
-                              ? Icons.check_box_outlined
-                              : Icons.check_box_outline_blank_rounded,
-                        ),
-                        onPressed: () {
-                          controller.buyItem(
-                              shoppingListMenuController
-                                  .selectedShoppingList.uid,
-                              controller.rxItemList.value[index]);
-                        },
-                      ),
-                      Expanded(
-                        child: Text(controller.rxItemList.value[index].text,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.zero,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.delete_outline,
-                              ),
-                              onPressed: () {
-                                showDeleteAlertDialog(context,
-                                    controller.rxItemList.value[index]);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.zero,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.edit,
-                              ),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return showBottomSheet(context, true,
-                                        controller.rxItemList.value[index]);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
-              );
-            },
-          ),
-        ));
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        controller.rxItemList.value[index].bought
+                            ? Icons.check_box_outlined
+                            : Icons.check_box_outline_blank_rounded,
+                      ),
+                      onPressed: () {
+                        controller.buyItem(
+                            shoppingListMenuController.selectedShoppingList.uid,
+                            controller.rxItemList.value[index]);
+                      },
+                    ),
+                    Expanded(
+                      child: Text(controller.rxItemList.value[index].text,
+                          style: Theme.of(context).textTheme.bodyLarge),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.zero,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.delete_outline,
+                            ),
+                            onPressed: () {
+                              showDeleteAlertDialog(
+                                  context, controller.rxItemList.value[index]);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.zero,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return showBottomSheet(context, true,
+                                      controller.rxItemList.value[index]);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 
   String? value;
@@ -166,7 +166,6 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                 ?.copyWith(color: Theme.of(context).colorScheme.primary),
           ),
           const Padding(padding: EdgeInsets.only(top: 20)),
-
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
@@ -175,9 +174,9 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
                 // Used a ternary operator to check if isUpdate is true then display
                 label: Text(isUpdate ? item.text : 'Enter an Item'),
               ),
-              onChanged: (String _val) {
+              onChanged: (String val) {
                 // Storing the value of the text entered in the variable value.
-                value = _val;
+                value = val;
               },
             ),
           ),
@@ -238,7 +237,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
     Widget continueButton = ElevatedButton(
       onPressed: continueButtonCallback,
       child: Text(
-          type == DialogType.User ? "Add Shopping List to User" : "Continue"),
+          type == DialogType.user ? "Add Shopping List to User" : "Continue"),
     );
 
     // set up the AlertDialog
@@ -269,7 +268,7 @@ class ItemOverviewPage extends GetView<ItemOverviewController> {
   showDeleteAlertDialog(BuildContext context, ItemModel item) {
     showConfirmationDialog(
       context: context,
-      type: DialogType.Delete,
+      type: DialogType.delete,
       title: "Confirm deletion",
       content: Text("Are you sure you want to delete ${item.text} ?"),
       cancelButtonCallback: () {

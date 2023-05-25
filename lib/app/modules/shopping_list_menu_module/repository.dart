@@ -1,8 +1,6 @@
 import 'package:mp23_astr/app/data/model/shopping_list_menu.dart';
 import 'package:mp23_astr/app/data/provider/shopping_list_menu_provider.dart';
 
-import '../../data/model/user.dart';
-
 class ShoppingListMenuRepository {
   final ShoppingListMenuProvider shoppingListMenuProvider;
 
@@ -25,7 +23,6 @@ class ShoppingListMenuRepository {
 
   Future<ShoppingListMenuModel> edit(
       String ID, ShoppingListMenuModel shoppingList) async {
-    print("IN REPO ${shoppingList.name}");
     final updatedShoppingList =
         await shoppingListMenuProvider.updateShoppingList(ID, shoppingList);
     return updatedShoppingList;

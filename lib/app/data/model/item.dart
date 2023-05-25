@@ -13,7 +13,6 @@ class ItemModel {
     id = itemId;
     text = json['text'];
     imageUrl = json['imageUrl'];
-    // image = json['imageUrl'];
     bought = json['bought'];
   }
 

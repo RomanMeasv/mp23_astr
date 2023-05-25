@@ -37,8 +37,7 @@ class CarouselCard extends StatelessWidget {
               left: 0,
               right: 0,
               child: Padding(
-                padding: EdgeInsets.all(16.0),
-                // TODO: add some kind of shadow so the text is visible at all times
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   item.text,
                   textAlign: TextAlign.center,

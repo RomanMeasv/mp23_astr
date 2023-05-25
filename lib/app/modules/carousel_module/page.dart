@@ -4,6 +4,8 @@ import 'package:mp23_astr/app/modules/carousel_module/controller.dart';
 import 'package:mp23_astr/app/modules/carousel_module/widgets/carousel_card.dart';
 
 class CarouselPage extends GetView<CarouselController> {
+  const CarouselPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

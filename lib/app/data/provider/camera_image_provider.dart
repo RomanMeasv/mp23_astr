@@ -23,7 +23,6 @@ class CameraImageProvider extends GetConnect {
     // Wait for the upload to complete and return the download URL
     final snapshot = await uploadTask;
     final downloadURL = await snapshot.ref.getDownloadURL();
-    print("Uplodaded image (uploadImage): ${downloadURL}");
     return downloadURL;
   }
 
@@ -37,9 +36,7 @@ class CameraImageProvider extends GetConnect {
           .collection(itemsCollection)
           .doc(item.id)
           .update(item.toJson());
-      print("Updated item (addImageUrlToItem): $item");
     } catch (e) {
-      print("Provider error (addImageUrlToItem): $e");
       rethrow;
     }
   }

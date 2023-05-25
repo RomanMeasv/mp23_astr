@@ -7,6 +7,11 @@ class CameraBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CameraPageController>(
-        () => CameraPageController(CameraRepository(CameraImageProvider())));
+      () => CameraPageController(
+        CameraRepository(
+          CameraImageProvider(),
+        ),
+      ),
+    );
   }
 }
