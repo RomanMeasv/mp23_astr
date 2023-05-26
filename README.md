@@ -79,10 +79,13 @@ Start the application
   flutter run
 ```
 
-## Known issues & fixes
+## Known issues
 
 #### Google Sign-in does not work with Firebase Auth emulator
-As the Firebase Auth Emulator does not support Google sign in, this feature is unavailable while using the emulators. This can be circumvented via taking out the Firebase Auth emulator from the used suite. (Emulators for the Firestore and Cloud Functions are still required as they are utilized in the sign up/sign in process)
+As the Firebase Auth Emulator does not support Google sign in, this feature is unavailable while using the emulators. The application has to be deployed for this feature to work.
+
+#### Invalid refresh token upon emulator restart
+If the application is relaunched after an emulator restart, the user will be logged out and the refresh token will be invalidated. This is due to the fact that the emulator does not persist the refresh token. To resolve this issue, the user has to log out and log in again.
 
 
 ## Additional Documentation
