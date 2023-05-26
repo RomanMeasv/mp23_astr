@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "46392923635",
+    "firebase_url": "https://mp23-astr-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mp23-astr",
+    "storage_bucket": "mp23-astr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46392923635:android:659e0989e0f4d2e5d86e86",
+        "android_client_info": {
+          "package_name": "com.example.mp23_astr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46392923635-op5ahak5d6pkuhudhnrvag5e7r2epsdh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mp23_astr",
+            "certificate_hash": "14caff2b2155514c0804f1d7bff5eacbab4b9cfa"
+          }
+        },
+        {
+          "client_id": "46392923635-72tvh4qaid1ct6bc1qo8an1d9o99ou7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFPb3yOfkUI1eDwJXYp3Pvpa_UuTXYS_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46392923635-72tvh4qaid1ct6bc1qo8an1d9o99ou7n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "46392923635-delts31a0m4tji8gr2ei2rduem5qud0e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mp23Astr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

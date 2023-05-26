@@ -7,8 +7,19 @@ environment:
   sdk: '>=2.19.4 <3.0.0'
 
 dependencies:
+  camera: ^0.10.5
+  cloud_firestore: ^4.5.3
+  firebase_auth: ^4.4.2
+  firebase_core: ^2.10.0
+  firebase_database: ^10.1.1
+  firebase_storage: ^11.1.2
   flutter:
     sdk: flutter
+  get: ^4.6.5
+  mockito: ^5.4.0
+  google_sign_in: ^6.1.0
+  firebase_messaging: ^14.6.0
+  flutter_local_notifications: ^14.0.0+2
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +28,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: lib/app/assets/fonts/Nunito-VariableFont_wght.ttf
+  assets: 
+    - lib/app/assets/images/
